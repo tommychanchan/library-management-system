@@ -1,0 +1,1 @@
+gradlew --configure-on-demand -x check clean build

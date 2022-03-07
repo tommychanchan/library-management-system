@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+run.standardInput = System.in
+mainClassName = 'lms.Main'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation     'junit:junit:4.13'
+}
+
+jar {
+    archiveName = 'lms.jar'
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    from('src/main/resources') {
+        include '**/*'
+    }
+}
