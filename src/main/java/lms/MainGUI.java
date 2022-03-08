@@ -26,7 +26,7 @@ public class MainGUI extends JFrame {
                 searchResult();
             }
             public void searchResult() {
-                String isbn = newBookPageISBNInput.getText();
+                String isbn = newBookPageISBNInput.getText().trim();
                 if (!Utils.isValidISBN(isbn)) {
                     // invalid ISBN
                     return;
@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
                 ArrayList<String> authors = new ArrayList<>();
                 try{
                     stmt = Main.conn.createStatement();
-                    String sql = "select * from bookinfo BI inner join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='9789863475705'";
+                    String sql = "select * from bookinfo BI inner join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
                     ResultSet rs = stmt.executeQuery(sql);
                     String title = null, publisher = null, author = null;
                     int edition = 0, quantity = 0;
@@ -61,9 +61,9 @@ public class MainGUI extends JFrame {
                         newBookPageTitleInput.setText(title);
                         newBookPageAuthorInput.setText(book.joinAuthors(", "));
                         newBookPagePublisherInput.getEditor().setItem(publisher);
-                        
-                        // TODO: 
-                    
+                        newBookPageEditionInput.setText(Integer.toString(edition));
+                        newBookPageCostInput.setText(Double.toString(cost));
+                        newBookPageQuantityInput.setText(Integer.toString(quantity));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -104,6 +104,13 @@ public class MainGUI extends JFrame {
         newBookPageTitleInput = new javax.swing.JTextField();
         newBookPageAuthorInput = new javax.swing.JTextField();
         newBookPagePublisherInput = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        newBookPageEditionInput = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        newBookPageCostInput = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        newBookPageQuantityInput = new javax.swing.JTextField();
+        newBookPageSubmitBt = new javax.swing.JButton();
         newCustomerPage = new javax.swing.JPanel();
         reportPage = new javax.swing.JPanel();
         settingPage = new javax.swing.JPanel();
@@ -231,9 +238,58 @@ public class MainGUI extends JFrame {
 
         jLabel3.setText("作者 (用逗號分隔):");
 
-        jLabel4.setText("出版社");
+        jLabel4.setText("出版社:");
+
+        newBookPageISBNInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageISBNInputKeyPressed(evt);
+            }
+        });
+
+        newBookPageTitleInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageTitleInputKeyPressed(evt);
+            }
+        });
+
+        newBookPageAuthorInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageAuthorInputKeyPressed(evt);
+            }
+        });
 
         newBookPagePublisherInput.setEditable(true);
+
+        jLabel5.setText("版本:");
+
+        newBookPageEditionInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageEditionInputKeyPressed(evt);
+            }
+        });
+
+        jLabel6.setText("成本價 (HKD):");
+
+        newBookPageCostInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageCostInputKeyPressed(evt);
+            }
+        });
+
+        jLabel7.setText("存貨數量:");
+
+        newBookPageQuantityInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newBookPageQuantityInputKeyPressed(evt);
+            }
+        });
+
+        newBookPageSubmitBt.setText("確定");
+        newBookPageSubmitBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newBookPageSubmitBtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout newBookPageLayout = new javax.swing.GroupLayout(newBookPage);
         newBookPage.setLayout(newBookPageLayout);
@@ -242,17 +298,27 @@ public class MainGUI extends JFrame {
             .addGroup(newBookPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newBookPageAuthorInput)
                     .addComponent(newBookPageTitleInput)
                     .addComponent(newBookPageISBNInput)
-                    .addComponent(newBookPagePublisherInput, 0, 850, Short.MAX_VALUE))
+                    .addComponent(newBookPagePublisherInput, 0, 850, Short.MAX_VALUE)
+                    .addComponent(newBookPageEditionInput)
+                    .addComponent(newBookPageCostInput)
+                    .addComponent(newBookPageQuantityInput))
                 .addContainerGap())
+            .addGroup(newBookPageLayout.createSequentialGroup()
+                .addGap(464, 464, 464)
+                .addComponent(newBookPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         newBookPageLayout.setVerticalGroup(
             newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +339,21 @@ public class MainGUI extends JFrame {
                 .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(newBookPagePublisherInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(400, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(newBookPageEditionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(newBookPageCostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(newBookPageQuantityInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(newBookPageSubmitBt)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         pageTab.addTab("新圖書/修改", newBookPage);
@@ -372,10 +452,58 @@ public class MainGUI extends JFrame {
     private void pageTabStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pageTabStateChanged
         if (pageTab.getSelectedComponent() == newBookPage) {
             newBookPageISBNInput.requestFocus();
-
-            // TODO: update newBookPagePublisherInput choices
         }
     }//GEN-LAST:event_pageTabStateChanged
+
+    private void newBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageISBNInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            String isbn = newBookPageISBNInput.getText();
+            if (Utils.isValidISBN(isbn)) {
+                newBookPageTitleInput.requestFocus();
+            } else if (!isbn.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的ISBN。");
+            }
+        }
+    }//GEN-LAST:event_newBookPageISBNInputKeyPressed
+
+    private void newBookPageTitleInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageTitleInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newBookPageAuthorInput.requestFocus();
+        }
+    }//GEN-LAST:event_newBookPageTitleInputKeyPressed
+
+    private void newBookPageAuthorInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageAuthorInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newBookPagePublisherInput.requestFocus();
+        }
+    }//GEN-LAST:event_newBookPageAuthorInputKeyPressed
+
+    private void newBookPageEditionInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageEditionInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newBookPageCostInput.requestFocus();
+        }
+    }//GEN-LAST:event_newBookPageEditionInputKeyPressed
+
+    private void newBookPageCostInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageCostInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newBookPageQuantityInput.requestFocus();
+        }
+    }//GEN-LAST:event_newBookPageCostInputKeyPressed
+
+    private void newBookPageQuantityInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageQuantityInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newBookPageAddBook();
+        }
+    }//GEN-LAST:event_newBookPageQuantityInputKeyPressed
+
+    private void newBookPageSubmitBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBookPageSubmitBtActionPerformed
+        newBookPageAddBook();
+    }//GEN-LAST:event_newBookPageSubmitBtActionPerformed
+    
+    public void init() {
+        allBooksRefresh();
+        pageTab.setSelectedIndex(0);
+    }
     
     public void allBooksRefresh() {
         allBooksTable.setDefaultEditor(Object.class, null);
@@ -427,12 +555,153 @@ public class MainGUI extends JFrame {
             for (int i = 0, n = books.size(); i < n; i++) {
                 allBooksTableModel.addRow(books.get(i).getRow());
             }
+            
+            // update newBookPagePublisherInput choices
+            newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try{
                 if (stmt != null) stmt.close();
             }catch(SQLException se2){}
+        }
+    }
+    
+    private void newBookPageAddBook() {
+        String isbn = newBookPageISBNInput.getText().trim();
+        String title = newBookPageTitleInput.getText().trim();
+        String authorStr = newBookPageAuthorInput.getText().trim();
+        String publisher = newBookPagePublisherInput.getEditor().getItem().toString().trim();
+        int edition, quantity;
+        double cost;
+        
+        
+        if (!Utils.isValidISBN(isbn)) {
+            // invalid ISBN
+            JOptionPane.showMessageDialog(null, "無效的ISBN。");
+            return;
+        }
+        if (title.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入書名。");
+            return;
+        }
+        if (authorStr.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入作者。");
+            return;
+        }
+        if (newBookPageEditionInput.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入版本。");
+            return;
+        }
+        if (!Utils.isInt(newBookPageEditionInput.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "版本必須是整數。");
+            return;
+        }
+        if (newBookPageCostInput.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入成本價。");
+            return;
+        }
+        if (!Utils.isDouble(newBookPageCostInput.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "成本價必須是數字。");
+            return;
+        }
+        if (newBookPageQuantityInput.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入存貨數量。");
+            return;
+        }
+        if (!Utils.isInt(newBookPageQuantityInput.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "存貨數量必須是整數。");
+            return;
+        }
+        
+        // valid data
+        edition = Integer.parseInt(newBookPageEditionInput.getText().trim());
+        cost = Double.parseDouble(newBookPageCostInput.getText().trim());
+        quantity = Integer.parseInt(newBookPageQuantityInput.getText().trim());
+        
+        String[] authors = authorStr.split(",|, |，");
+        for (int i = 0, n = authors.length; i < n; i++) {
+            authors[i] = authors[i].trim();
+        }
+        
+        Statement stmt = null;
+        boolean ISBNExist = false;
+        // check if isbn already exists in table
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select isbn from bookinfo where isbn='" + isbn + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                ISBNExist = true;
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        
+        if (ISBNExist) {
+            // existing book
+            try{
+                stmt = Main.conn.createStatement();
+                String sql = "update bookinfo set title = '" + title + "', publisher = '" + publisher + "', edition = " + edition + ", cost = " + cost + ", quantity = " + quantity + " where isbn = '" + isbn + "'";
+                stmt.executeUpdate(sql);
+                sql = "delete from bookauthor where isbn = '" + isbn + "'";
+                stmt.executeUpdate(sql);
+                for (int i = 0, n = authors.length; i < n; i++) {
+                    sql = "insert into bookauthor values ('" + isbn + "', '" + authors[i] + "')";
+                    stmt.executeUpdate(sql);
+                }
+                stmt.close();
+
+                // clear the input box
+                newBookPageISBNInput.setText("");
+                newBookPageTitleInput.setText("");
+                newBookPageAuthorInput.setText("");
+                newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
+                newBookPagePublisherInput.getEditor().setItem("");
+                newBookPageEditionInput.setText("");
+                newBookPageCostInput.setText("");
+                newBookPageQuantityInput.setText("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) stmt.close();
+                }catch(SQLException se2){}
+            }
+        } else {
+            // new book
+            try{
+                stmt = Main.conn.createStatement();
+                String sql = "insert into bookinfo values ('" + isbn + "', '" + title + "', '" + publisher + "', " + edition + ", " + cost + ", " + quantity + ")";
+                stmt.executeUpdate(sql);
+                for (int i = 0, n = authors.length; i < n; i++) {
+                    sql = "insert into bookauthor values ('" + isbn + "', '" + authors[i] + "')";
+                    stmt.executeUpdate(sql);
+                }
+                stmt.close();
+
+                // clear the input box
+                newBookPageISBNInput.setText("");
+                newBookPageTitleInput.setText("");
+                newBookPageAuthorInput.setText("");
+                newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
+                newBookPagePublisherInput.getEditor().setItem("");
+                newBookPageEditionInput.setText("");
+                newBookPageCostInput.setText("");
+                newBookPageQuantityInput.setText("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) stmt.close();
+                }catch(SQLException se2){}
+            }
         }
     }
 
@@ -445,12 +714,19 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutBt;
     private javax.swing.JPanel newBookPage;
     private javax.swing.JTextField newBookPageAuthorInput;
+    private javax.swing.JTextField newBookPageCostInput;
+    private javax.swing.JTextField newBookPageEditionInput;
     private javax.swing.JTextField newBookPageISBNInput;
     private javax.swing.JComboBox<String> newBookPagePublisherInput;
+    private javax.swing.JTextField newBookPageQuantityInput;
+    private javax.swing.JButton newBookPageSubmitBt;
     private javax.swing.JTextField newBookPageTitleInput;
     private javax.swing.JPanel newCustomerPage;
     private javax.swing.JTabbedPane pageTab;
@@ -460,4 +736,5 @@ public class MainGUI extends JFrame {
     private javax.swing.JPanel searchCustomerPage;
     private javax.swing.JPanel settingPage;
     // End of variables declaration//GEN-END:variables
+
 }

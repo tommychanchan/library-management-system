@@ -1,63 +1,55 @@
 package lms;
 
-import java.io.*;
+import java.sql.*;
 import java.util.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
 public class Utils {
-    public static ArrayList<Book> importBooks(File file) {
-        ArrayList<Book> wrongBooks = new ArrayList<>();
-        try {
-            String isbn;
-            String title;
-            String publisher;
-            int edition;
-            double cost;
-            int quantity;
-            
-            Node nNode;
-            Node jNode;
-            Element eElement;
-            Element element;
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.parse(file);
-            document.getDocumentElement().normalize();
-            NodeList nList = document.getElementsByTagName("book");
-            for (int i = 0, n = nList.getLength(); i < n; i++) {
-                nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    ArrayList<String> authors = new ArrayList<>();
-                    eElement = (Element) nNode;
-                    isbn = eElement.getElementsByTagName("isbn").item(0).getTextContent();
-                    title = eElement.getElementsByTagName("title").item(0).getTextContent();
-                    publisher = eElement.getElementsByTagName("publisher").item(0).getTextContent();
-                    edition = Integer.valueOf(eElement.getElementsByTagName("edition").item(0).getTextContent());
-                    cost = Double.valueOf(eElement.getElementsByTagName("cost").item(0).getTextContent());
-                    quantity = Integer.valueOf(eElement.getElementsByTagName("quantity").item(0).getTextContent());
-                    element = (Element) eElement.getElementsByTagName("authors").item(0);
-                    NodeList authorList = element.getElementsByTagName("author");
-                    for (int j = 0, len = authorList.getLength(); j < len; j++) {
-                        jNode = authorList.item(j);
-                        authors.add(jNode.getTextContent());
-                    }
-                    Book book = new Book(isbn, title, publisher, edition, cost, quantity, authors);
-                    if (isValidISBN(isbn)) {
-                        // TODO: add to database, check if book already exist in database using isbn
-                        // if already exist, then just add quantity
-                    } else {
-                        // invalid ISBN
-                        wrongBooks.add(book);
-                    }
-                }
+    public static String[] publisherChoices() {
+        Statement stmt = null;
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("");
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select distinct publisher from bookinfo order by publisher";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                choices.add(rs.getString("publisher"));
             }
-        } catch (IOException | SAXException | ParserConfigurationException e) {
-            System.out.println(e);
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
         }
-        
-        return wrongBooks;
+        return choices.toArray(new String[0]);
+    }
+    
+    
+    public static boolean isDouble(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isInt(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
     
     public static boolean isValidHKID(String id) {

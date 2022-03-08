@@ -232,10 +232,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jLabel7" max="32767" attributes="0"/>
+                          <Component id="jLabel6" max="32767" attributes="0"/>
                           <Component id="jLabel4" max="32767" attributes="0"/>
                           <Component id="jLabel1" max="32767" attributes="0"/>
                           <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel5" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -243,8 +246,16 @@
                           <Component id="newBookPageTitleInput" max="32767" attributes="0"/>
                           <Component id="newBookPageISBNInput" alignment="0" max="32767" attributes="0"/>
                           <Component id="newBookPagePublisherInput" alignment="0" pref="850" max="32767" attributes="0"/>
+                          <Component id="newBookPageEditionInput" alignment="0" max="32767" attributes="0"/>
+                          <Component id="newBookPageCostInput" alignment="0" max="32767" attributes="0"/>
+                          <Component id="newBookPageQuantityInput" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="464" max="-2" attributes="0"/>
+                      <Component id="newBookPageSubmitBt" min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -271,7 +282,24 @@
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="newBookPagePublisherInput" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="400" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newBookPageEditionInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newBookPageCostInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newBookPageQuantityInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="newBookPageSubmitBt" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="201" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -294,14 +322,23 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x51fa;&#x7248;&#x793e;"/>
+                <Property name="text" type="java.lang.String" value="&#x51fa;&#x7248;&#x793e;:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="newBookPageISBNInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageISBNInputKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="newBookPageTitleInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageTitleInputKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="newBookPageAuthorInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageAuthorInputKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="newBookPagePublisherInput">
               <Properties>
@@ -313,6 +350,44 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x7248;&#x672c;:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newBookPageEditionInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageEditionInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x6210;&#x672c;&#x50f9; (HKD):"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newBookPageCostInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageCostInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x5b58;&#x8ca8;&#x6578;&#x91cf;:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newBookPageQuantityInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newBookPageQuantityInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="newBookPageSubmitBt">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x78ba;&#x5b9a;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newBookPageSubmitBtActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

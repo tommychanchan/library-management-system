@@ -168,7 +168,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
             Main.conn = DriverManager.getConnection(Main.DB_URL, usernameInput.getText(), passwordInput.getText());
             
             
-            Main.mainGUI.allBooksRefresh();
+            Main.mainGUI.init();
             
             // show mainGUI
             Main.preSettingGUI.setVisible(false);
