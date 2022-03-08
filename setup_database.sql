@@ -1,24 +1,21 @@
 -- database name: lms
-use lms;
 
-drop user david@localhost;
-drop user s207885@localhost;
-drop user s207886@localhost;
-drop user s207898@localhost;
-drop user s208153@localhost;
 flush privileges;
 
-CREATE USER david@localhost IDENTIFIED BY '123';
-CREATE USER s207885@localhost IDENTIFIED BY '123';
-CREATE USER s207886@localhost IDENTIFIED BY '123';
-CREATE USER s207898@localhost IDENTIFIED BY '123';
-CREATE USER s208153@localhost IDENTIFIED BY '123';
+CREATE USER IF NOT EXISTS david@localhost IDENTIFIED BY '123';
+CREATE USER IF NOT EXISTS s207885@localhost IDENTIFIED BY '123';
+CREATE USER IF NOT EXISTS s207886@localhost IDENTIFIED BY '123';
+CREATE USER IF NOT EXISTS s207898@localhost IDENTIFIED BY '123';
+CREATE USER IF NOT EXISTS s208153@localhost IDENTIFIED BY '123';
 
 GRANT ALL PRIVILEGES ON lms.* TO david@localhost;
 GRANT ALL PRIVILEGES ON lms.* TO s207885@localhost;
 GRANT ALL PRIVILEGES ON lms.* TO s207886@localhost;
 GRANT ALL PRIVILEGES ON lms.* TO s207898@localhost;
 GRANT ALL PRIVILEGES ON lms.* TO s208153@localhost;
+
+
+use lms;
 
 -- Table: BookInfo
 CREATE TABLE bookinfo (
@@ -73,6 +70,7 @@ CREATE TABLE transactiondetail (
     FOREIGN KEY (transaction_id) REFERENCES transaction(transaction_id),
     PRIMARY KEY (detail_id)
 );
+
 
 
 -- Initial data: BookInfo

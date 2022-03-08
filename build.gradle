@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     testImplementation     'junit:junit:4.13'
+    implementation fileTree(dir: 'libs', include: '*.jar')
 }
 
 jar {
@@ -22,6 +23,7 @@ jar {
 
     manifest {
         attributes 'Main-Class': mainClassName
+        attributes 'Class-Path': 'mysql-connector-java-8.0.28.jar'
     }
 
     from('src/main/resources') {
