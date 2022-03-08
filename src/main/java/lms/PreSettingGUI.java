@@ -153,6 +153,8 @@ public class PreSettingGUI extends javax.swing.JFrame {
     public void resetInputBox() {
         usernameInput.setText("");
         passwordInput.setText("");
+        
+        usernameInput.requestFocus();
     }
     
     private void login() {
@@ -161,21 +163,12 @@ public class PreSettingGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "請勿使用root帳號。");
             return;
         }
-        Statement stmt = null;
         try{
             Class.forName(Main.JDBC_DRIVER);
             Main.conn = DriverManager.getConnection(Main.DB_URL, usernameInput.getText(), passwordInput.getText());
-            stmt = Main.conn.createStatement();
-            String sql = "select * from bookinfo";
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                String isbn = rs.getString("ISBN");
-                String title = rs.getString("title");
-                System.out.print("ISBN: " + isbn + "\n");
-                System.out.print("Title: " + title + "\n");
-            }
-            rs.close();
-            stmt.close();
+            
+            
+            Main.mainGUI.allBooksRefresh();
             
             // show mainGUI
             Main.preSettingGUI.setVisible(false);
@@ -183,12 +176,13 @@ public class PreSettingGUI extends javax.swing.JFrame {
         }catch(SQLException se){
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "無法連接資料庫。可能是用戶/密碼錯誤！");
+            try{
+                if (Main.conn != null) Main.conn.close();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
         }catch(Exception e){
             e.printStackTrace();
-        }finally{
-            try{
-                if (stmt != null) stmt.close();
-            }catch(SQLException se2){}
             try{
                 if (Main.conn != null) Main.conn.close();
             }catch(SQLException se){

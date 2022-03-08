@@ -51,6 +51,10 @@ public class Book {
         return authors;
     }
     
+    public String[] getRow() {
+        return new String[] {isbn, title, publisher, joinAuthors(", "), Integer.toString(edition), Double.toString(cost), Integer.toString(quantity)};
+    }
+    
     public String joinAuthors(String separator) {
         String temp = "";
         for (int i = 0, n = authors.size(); i < n; i++) {
