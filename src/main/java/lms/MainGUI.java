@@ -1,5 +1,7 @@
 package lms;
 
+import java.sql.*;
+
 public class MainGUI extends javax.swing.JFrame {
 
     public MainGUI() {
@@ -15,28 +17,63 @@ public class MainGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        logoutBt = new javax.swing.JButton();
+        pageTab = new javax.swing.JTabbedPane();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Main.PROGRAM_NAME);
         setMaximumSize(new java.awt.Dimension(1000, 650));
         setName("mainFrame"); // NOI18N
         setResizable(false);
 
+        logoutBt.setText("登出");
+        logoutBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 927, Short.MAX_VALUE)
+                .addComponent(logoutBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(pageTab)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(logoutBt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pageTab, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void logoutBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtActionPerformed
+        try {
+            if (Main.conn != null) Main.conn.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        Main.mainGUI.setVisible(false);
+        
+        // clear preSettingGUI's input box
+        Main.preSettingGUI.resetInputBox();
+        
+        Main.preSettingGUI.setVisible(true);
+    }//GEN-LAST:event_logoutBtActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton logoutBt;
+    private javax.swing.JTabbedPane pageTab;
     // End of variables declaration//GEN-END:variables
 }

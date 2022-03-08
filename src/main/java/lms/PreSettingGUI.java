@@ -1,5 +1,8 @@
 package lms;
 
+import java.sql.*;
+import javax.swing.*;
+
 public class PreSettingGUI extends javax.swing.JFrame {
 
     public PreSettingGUI() {
@@ -147,12 +150,51 @@ public class PreSettingGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_usernameInputKeyPressed
 
+    public void resetInputBox() {
+        usernameInput.setText("");
+        passwordInput.setText("");
+    }
+    
     private void login() {
-        // TODO: try to login mysql
-        
-        
-        Main.preSettingGUI.setVisible(false);
-        Main.mainGUI.setVisible(true);
+        // try to login mysql
+        if (usernameInput.getText().equals("root")) {
+            JOptionPane.showMessageDialog(null, "請勿使用root帳號。");
+            return;
+        }
+        Statement stmt = null;
+        try{
+            Class.forName(Main.JDBC_DRIVER);
+            Main.conn = DriverManager.getConnection(Main.DB_URL, usernameInput.getText(), passwordInput.getText());
+            stmt = Main.conn.createStatement();
+            String sql = "select * from bookinfo";
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String isbn = rs.getString("ISBN");
+                String title = rs.getString("title");
+                System.out.print("ISBN: " + isbn + "\n");
+                System.out.print("Title: " + title + "\n");
+            }
+            rs.close();
+            stmt.close();
+            
+            // show mainGUI
+            Main.preSettingGUI.setVisible(false);
+            Main.mainGUI.setVisible(true);
+        }catch(SQLException se){
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "無法連接資料庫。可能是用戶/密碼錯誤！");
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+            try{
+                if (Main.conn != null) Main.conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
