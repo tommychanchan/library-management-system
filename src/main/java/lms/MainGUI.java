@@ -93,15 +93,36 @@ public class MainGUI extends JFrame {
 
         logoutBt = new javax.swing.JButton();
         pageTab = new javax.swing.JTabbedPane();
-        allBooksPage = new javax.swing.JPanel();
+        allBooksTab = new javax.swing.JPanel();
         allBooksRefreshBt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         allBooksTable = new javax.swing.JTable();
+        searchBookTab = new javax.swing.JPanel();
         searchBookPage = new javax.swing.JPanel();
-        searchCustomerPage = new javax.swing.JPanel();
-        borrowPage = new javax.swing.JPanel();
-        returnPage = new javax.swing.JPanel();
-        newBookPage = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        searchBookPageSearchBt = new javax.swing.JButton();
+        searchBookPageRecordBt = new javax.swing.JButton();
+        searchBookPageISBNInput = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        searchBookPageTitleLabel = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        searchBookPageAuthorLabel = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        searchBookPagePublisherLabel = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        searchBookPageEditionLabel = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        searchBookPageCostLabel = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        searchBookPageQuantityLabel = new javax.swing.JLabel();
+        bookBorrowRecordPage = new javax.swing.JPanel();
+        bookBorrowRecordPageBackBt = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        bookBorrowRecordTable = new javax.swing.JTable();
+        searchCustomerTab = new javax.swing.JPanel();
+        borrowTab = new javax.swing.JPanel();
+        returnTab = new javax.swing.JPanel();
+        newBookTab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -117,9 +138,9 @@ public class MainGUI extends JFrame {
         jLabel7 = new javax.swing.JLabel();
         newBookPageQuantityInput = new javax.swing.JTextField();
         newBookPageSubmitBt = new javax.swing.JButton();
-        newCustomerPage = new javax.swing.JPanel();
-        reportPage = new javax.swing.JPanel();
-        settingPage = new javax.swing.JPanel();
+        newCustomerTab = new javax.swing.JPanel();
+        reportTab = new javax.swing.JPanel();
+        settingTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Main.PROGRAM_NAME);
@@ -167,76 +188,233 @@ public class MainGUI extends JFrame {
         });
         jScrollPane1.setViewportView(allBooksTable);
 
-        javax.swing.GroupLayout allBooksPageLayout = new javax.swing.GroupLayout(allBooksPage);
-        allBooksPage.setLayout(allBooksPageLayout);
-        allBooksPageLayout.setHorizontalGroup(
-            allBooksPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(allBooksPageLayout.createSequentialGroup()
+        javax.swing.GroupLayout allBooksTabLayout = new javax.swing.GroupLayout(allBooksTab);
+        allBooksTab.setLayout(allBooksTabLayout);
+        allBooksTabLayout.setHorizontalGroup(
+            allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(allBooksTabLayout.createSequentialGroup()
                 .addComponent(allBooksRefreshBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
-        allBooksPageLayout.setVerticalGroup(
-            allBooksPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(allBooksPageLayout.createSequentialGroup()
+        allBooksTabLayout.setVerticalGroup(
+            allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(allBooksTabLayout.createSequentialGroup()
                 .addComponent(allBooksRefreshBt)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("所有圖書", allBooksPage);
+        pageTab.addTab("所有圖書", allBooksTab);
+
+        searchBookTab.setLayout(new java.awt.CardLayout());
+
+        jLabel8.setText("ISBN:");
+
+        searchBookPageSearchBt.setText("搜尋");
+        searchBookPageSearchBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBookPageSearchBtActionPerformed(evt);
+            }
+        });
+
+        searchBookPageRecordBt.setText("外借記錄");
+        searchBookPageRecordBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBookPageRecordBtActionPerformed(evt);
+            }
+        });
+
+        searchBookPageISBNInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchBookPageISBNInputKeyPressed(evt);
+            }
+        });
+
+        jLabel9.setText("書名:");
+
+        searchBookPageTitleLabel.setText("title");
+
+        jLabel11.setText("作者:");
+
+        searchBookPageAuthorLabel.setText("authors");
+
+        jLabel13.setText("出版社:");
+
+        searchBookPagePublisherLabel.setText("publisher");
+
+        jLabel15.setText("版本:");
+
+        searchBookPageEditionLabel.setText("edition");
+
+        jLabel17.setText("成本價 (HKD):");
+
+        searchBookPageCostLabel.setText("cost");
+
+        jLabel19.setText("存貨:");
+
+        searchBookPageQuantityLabel.setText("quantity");
 
         javax.swing.GroupLayout searchBookPageLayout = new javax.swing.GroupLayout(searchBookPage);
         searchBookPage.setLayout(searchBookPageLayout);
         searchBookPageLayout.setHorizontalGroup(
             searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(searchBookPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(searchBookPageLayout.createSequentialGroup()
+                        .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchBookPageISBNInput)
+                            .addGroup(searchBookPageLayout.createSequentialGroup()
+                                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchBookPageTitleLabel)
+                                    .addComponent(searchBookPageAuthorLabel)
+                                    .addComponent(searchBookPagePublisherLabel)
+                                    .addComponent(searchBookPageEditionLabel)
+                                    .addComponent(searchBookPageCostLabel))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(searchBookPageLayout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(searchBookPageQuantityLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchBookPageLayout.createSequentialGroup()
+                .addContainerGap(399, Short.MAX_VALUE)
+                .addComponent(searchBookPageSearchBt, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(searchBookPageRecordBt)
+                .addGap(414, 414, 414))
         );
         searchBookPageLayout.setVerticalGroup(
             searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+            .addGroup(searchBookPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(searchBookPageISBNInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(searchBookPageTitleLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(searchBookPageAuthorLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(searchBookPagePublisherLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(searchBookPageEditionLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(searchBookPageCostLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(searchBookPageQuantityLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchBookPageRecordBt)
+                    .addComponent(searchBookPageSearchBt))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("圖書搜尋", searchBookPage);
+        searchBookTab.add(searchBookPage, "searchBookPage");
 
-        javax.swing.GroupLayout searchCustomerPageLayout = new javax.swing.GroupLayout(searchCustomerPage);
-        searchCustomerPage.setLayout(searchCustomerPageLayout);
-        searchCustomerPageLayout.setHorizontalGroup(
-            searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        bookBorrowRecordPageBackBt.setText("返回");
+        bookBorrowRecordPageBackBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bookBorrowRecordPageBackBtActionPerformed(evt);
+            }
+        });
+
+        bookBorrowRecordTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        bookBorrowRecordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        bookBorrowRecordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane2.setViewportView(bookBorrowRecordTable);
+
+        javax.swing.GroupLayout bookBorrowRecordPageLayout = new javax.swing.GroupLayout(bookBorrowRecordPage);
+        bookBorrowRecordPage.setLayout(bookBorrowRecordPageLayout);
+        bookBorrowRecordPageLayout.setHorizontalGroup(
+            bookBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bookBorrowRecordPageLayout.createSequentialGroup()
+                .addComponent(bookBorrowRecordPageBackBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+        );
+        bookBorrowRecordPageLayout.setVerticalGroup(
+            bookBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bookBorrowRecordPageLayout.createSequentialGroup()
+                .addComponent(bookBorrowRecordPageBackBt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
+        );
+
+        searchBookTab.add(bookBorrowRecordPage, "bookBorrowRecordPage");
+
+        pageTab.addTab("圖書搜尋", searchBookTab);
+
+        javax.swing.GroupLayout searchCustomerTabLayout = new javax.swing.GroupLayout(searchCustomerTab);
+        searchCustomerTab.setLayout(searchCustomerTabLayout);
+        searchCustomerTabLayout.setHorizontalGroup(
+            searchCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        searchCustomerPageLayout.setVerticalGroup(
-            searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        searchCustomerTabLayout.setVerticalGroup(
+            searchCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("客戶搜尋", searchCustomerPage);
+        pageTab.addTab("客戶搜尋", searchCustomerTab);
 
-        javax.swing.GroupLayout borrowPageLayout = new javax.swing.GroupLayout(borrowPage);
-        borrowPage.setLayout(borrowPageLayout);
-        borrowPageLayout.setHorizontalGroup(
-            borrowPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout borrowTabLayout = new javax.swing.GroupLayout(borrowTab);
+        borrowTab.setLayout(borrowTabLayout);
+        borrowTabLayout.setHorizontalGroup(
+            borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        borrowPageLayout.setVerticalGroup(
-            borrowPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        borrowTabLayout.setVerticalGroup(
+            borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("借書", borrowPage);
+        pageTab.addTab("借書", borrowTab);
 
-        javax.swing.GroupLayout returnPageLayout = new javax.swing.GroupLayout(returnPage);
-        returnPage.setLayout(returnPageLayout);
-        returnPageLayout.setHorizontalGroup(
-            returnPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout returnTabLayout = new javax.swing.GroupLayout(returnTab);
+        returnTab.setLayout(returnTabLayout);
+        returnTabLayout.setHorizontalGroup(
+            returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        returnPageLayout.setVerticalGroup(
-            returnPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        returnTabLayout.setVerticalGroup(
+            returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("還書", returnPage);
+        pageTab.addTab("還書", returnTab);
 
         jLabel1.setText("ISBN:");
 
@@ -297,13 +475,13 @@ public class MainGUI extends JFrame {
             }
         });
 
-        javax.swing.GroupLayout newBookPageLayout = new javax.swing.GroupLayout(newBookPage);
-        newBookPage.setLayout(newBookPageLayout);
-        newBookPageLayout.setHorizontalGroup(
-            newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newBookPageLayout.createSequentialGroup()
+        javax.swing.GroupLayout newBookTabLayout = new javax.swing.GroupLayout(newBookTab);
+        newBookTab.setLayout(newBookTabLayout);
+        newBookTabLayout.setHorizontalGroup(
+            newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newBookTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,7 +490,7 @@ public class MainGUI extends JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newBookPageAuthorInput)
                     .addComponent(newBookPageTitleInput)
                     .addComponent(newBookPageISBNInput)
@@ -321,87 +499,87 @@ public class MainGUI extends JFrame {
                     .addComponent(newBookPageCostInput)
                     .addComponent(newBookPageQuantityInput))
                 .addContainerGap())
-            .addGroup(newBookPageLayout.createSequentialGroup()
+            .addGroup(newBookTabLayout.createSequentialGroup()
                 .addGap(464, 464, 464)
                 .addComponent(newBookPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        newBookPageLayout.setVerticalGroup(
-            newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newBookPageLayout.createSequentialGroup()
+        newBookTabLayout.setVerticalGroup(
+            newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newBookTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(newBookPageISBNInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(newBookPageTitleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(newBookPageAuthorInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(newBookPagePublisherInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(newBookPageEditionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(newBookPageCostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(newBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(newBookPageQuantityInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(newBookPageSubmitBt)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("新圖書/修改", newBookPage);
+        pageTab.addTab("新圖書/修改", newBookTab);
 
-        javax.swing.GroupLayout newCustomerPageLayout = new javax.swing.GroupLayout(newCustomerPage);
-        newCustomerPage.setLayout(newCustomerPageLayout);
-        newCustomerPageLayout.setHorizontalGroup(
-            newCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout newCustomerTabLayout = new javax.swing.GroupLayout(newCustomerTab);
+        newCustomerTab.setLayout(newCustomerTabLayout);
+        newCustomerTabLayout.setHorizontalGroup(
+            newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        newCustomerPageLayout.setVerticalGroup(
-            newCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        newCustomerTabLayout.setVerticalGroup(
+            newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("客戶登記", newCustomerPage);
+        pageTab.addTab("客戶登記", newCustomerTab);
 
-        javax.swing.GroupLayout reportPageLayout = new javax.swing.GroupLayout(reportPage);
-        reportPage.setLayout(reportPageLayout);
-        reportPageLayout.setHorizontalGroup(
-            reportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout reportTabLayout = new javax.swing.GroupLayout(reportTab);
+        reportTab.setLayout(reportTabLayout);
+        reportTabLayout.setHorizontalGroup(
+            reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        reportPageLayout.setVerticalGroup(
-            reportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        reportTabLayout.setVerticalGroup(
+            reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("Report", reportPage);
+        pageTab.addTab("Report", reportTab);
 
-        javax.swing.GroupLayout settingPageLayout = new javax.swing.GroupLayout(settingPage);
-        settingPage.setLayout(settingPageLayout);
-        settingPageLayout.setHorizontalGroup(
-            settingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout settingTabLayout = new javax.swing.GroupLayout(settingTab);
+        settingTab.setLayout(settingTabLayout);
+        settingTabLayout.setHorizontalGroup(
+            settingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        settingPageLayout.setVerticalGroup(
-            settingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+        settingTabLayout.setVerticalGroup(
+            settingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        pageTab.addTab("設定", settingPage);
+        pageTab.addTab("設定", settingTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -451,19 +629,22 @@ public class MainGUI extends JFrame {
         if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
             String isbn = table.getValueAt(row, 0).toString();
             
-            // TODO: change page to searchBookPage and show search result of isbn
+            // change page to searchBookPage and show search result of isbn
+            searchBookPageISBNInput.setText(isbn);
+            searchBookPageShowRecord();
+            pageTab.setSelectedIndex(1);
         }
     }//GEN-LAST:event_allBooksTableMousePressed
 
     private void pageTabStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pageTabStateChanged
-        if (pageTab.getSelectedComponent() == newBookPage) {
+        if (pageTab.getSelectedComponent() == newBookTab) {
             newBookPageISBNInput.requestFocus();
         }
     }//GEN-LAST:event_pageTabStateChanged
 
     private void newBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = newBookPageISBNInput.getText();
+            String isbn = newBookPageISBNInput.getText().trim();
             if (Utils.isValidISBN(isbn)) {
                 newBookPageTitleInput.requestFocus();
             } else if (!isbn.equals("")) {
@@ -505,15 +686,47 @@ public class MainGUI extends JFrame {
     private void newBookPageSubmitBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBookPageSubmitBtActionPerformed
         newBookPageAddBook();
     }//GEN-LAST:event_newBookPageSubmitBtActionPerformed
+
+    private void searchBookPageRecordBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBookPageRecordBtActionPerformed
+        searchBookPageShowRecord();
+    }//GEN-LAST:event_searchBookPageRecordBtActionPerformed
+
+    private void bookBorrowRecordPageBackBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookBorrowRecordPageBackBtActionPerformed
+        CardLayout card = (CardLayout)searchBookTab.getLayout();
+		card.show(searchBookTab, "searchBookPage");
+    }//GEN-LAST:event_bookBorrowRecordPageBackBtActionPerformed
+
+    private void searchBookPageSearchBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBookPageSearchBtActionPerformed
+        searchBookPageSearch();
+    }//GEN-LAST:event_searchBookPageSearchBtActionPerformed
+
+    private void searchBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBookPageISBNInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            searchBookPageSearch();
+        }
+    }//GEN-LAST:event_searchBookPageISBNInputKeyPressed
     
     public void init() {
+        // remove useless label text
+        searchBookPageTitleLabel.setText("");
+        searchBookPageAuthorLabel.setText("");
+        searchBookPagePublisherLabel.setText("");
+        searchBookPageEditionLabel.setText("");
+        searchBookPageCostLabel.setText("");
+        searchBookPageQuantityLabel.setText("");
+        
+        // show book info on allBooksTable
         allBooksRefresh();
+        
+        // set editable false to tables
+        allBooksTable.setDefaultEditor(Object.class, null);
+        bookBorrowRecordTable.setDefaultEditor(Object.class, null);
+        
+        // select first tab
         pageTab.setSelectedIndex(0);
     }
     
     public void allBooksRefresh() {
-        allBooksTable.setDefaultEditor(Object.class, null);
-        
         // clear table
         DefaultTableModel allBooksTableModel = (DefaultTableModel) allBooksTable.getModel();
         allBooksTableModel.setColumnCount(0);
@@ -579,6 +792,79 @@ public class MainGUI extends JFrame {
                 if (stmt != null) stmt.close();
             }catch(SQLException se2){}
         }
+    }
+    
+    private void searchBookPageShowRecord() {
+        if (!searchBookPageSearch()) {
+            return;
+        }
+        
+        String isbn = searchBookPageISBNInput.getText().trim();
+        // TODO: show record according to ISBN
+        
+        CardLayout card = (CardLayout)searchBookTab.getLayout();
+		card.show(searchBookTab, "bookBorrowRecordPage");
+    }
+    
+    private boolean searchBookPageSearch() {
+        String isbn = searchBookPageISBNInput.getText().trim();
+        if (!Utils.isValidISBN(isbn)) {
+            // invalid ISBN
+            if (!isbn.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的ISBN。");
+            }
+            return false;
+        }
+        
+        Statement stmt = null;
+        ArrayList<String> authors = new ArrayList<>();
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            String title = null, publisher = null, author = null;
+            int edition = 0, quantity = 0;
+            double cost = 0;
+            while (rs.next()) {
+                isbn = rs.getString("BI.ISBN");
+                title = rs.getString("title");
+                publisher = rs.getString("publisher");
+                author = rs.getString("author");
+                if (rs.wasNull()) {
+                    // no author in this row
+                    author = null;
+                }
+                edition = rs.getInt("edition");
+                cost = rs.getDouble("cost");
+                quantity = rs.getInt("quantity");
+                if (author != null) {
+                    authors.add(author);
+                }
+            }
+            rs.close();
+            stmt.close();
+            Book book = new Book(isbn, title, publisher, edition, cost, quantity, authors);
+
+            if (title == null) {
+                JOptionPane.showMessageDialog(null, "找不到此書。");
+                return false;
+            }
+            // update info label
+            searchBookPageTitleLabel.setText(title);
+            searchBookPageAuthorLabel.setText(book.joinAuthors(", "));
+            searchBookPagePublisherLabel.setText(publisher);
+            searchBookPageEditionLabel.setText(Integer.toString(edition));
+            searchBookPageCostLabel.setText(Double.toString(cost));
+            searchBookPageQuantityLabel.setText(Integer.toString(quantity));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        return true;
     }
     
     private void newBookPageAddBook() {
@@ -720,20 +1006,30 @@ public class MainGUI extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel allBooksPage;
     private javax.swing.JButton allBooksRefreshBt;
+    private javax.swing.JPanel allBooksTab;
     private javax.swing.JTable allBooksTable;
-    private javax.swing.JPanel borrowPage;
+    private javax.swing.JPanel bookBorrowRecordPage;
+    private javax.swing.JButton bookBorrowRecordPageBackBt;
+    private javax.swing.JTable bookBorrowRecordTable;
+    private javax.swing.JPanel borrowTab;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutBt;
-    private javax.swing.JPanel newBookPage;
     private javax.swing.JTextField newBookPageAuthorInput;
     private javax.swing.JTextField newBookPageCostInput;
     private javax.swing.JTextField newBookPageEditionInput;
@@ -742,13 +1038,24 @@ public class MainGUI extends JFrame {
     private javax.swing.JTextField newBookPageQuantityInput;
     private javax.swing.JButton newBookPageSubmitBt;
     private javax.swing.JTextField newBookPageTitleInput;
-    private javax.swing.JPanel newCustomerPage;
+    private javax.swing.JPanel newBookTab;
+    private javax.swing.JPanel newCustomerTab;
     private javax.swing.JTabbedPane pageTab;
-    private javax.swing.JPanel reportPage;
-    private javax.swing.JPanel returnPage;
+    private javax.swing.JPanel reportTab;
+    private javax.swing.JPanel returnTab;
     private javax.swing.JPanel searchBookPage;
-    private javax.swing.JPanel searchCustomerPage;
-    private javax.swing.JPanel settingPage;
+    private javax.swing.JLabel searchBookPageAuthorLabel;
+    private javax.swing.JLabel searchBookPageCostLabel;
+    private javax.swing.JLabel searchBookPageEditionLabel;
+    private javax.swing.JTextField searchBookPageISBNInput;
+    private javax.swing.JLabel searchBookPagePublisherLabel;
+    private javax.swing.JLabel searchBookPageQuantityLabel;
+    private javax.swing.JButton searchBookPageRecordBt;
+    private javax.swing.JButton searchBookPageSearchBt;
+    private javax.swing.JLabel searchBookPageTitleLabel;
+    private javax.swing.JPanel searchBookTab;
+    private javax.swing.JPanel searchCustomerTab;
+    private javax.swing.JPanel settingTab;
     // End of variables declaration//GEN-END:variables
 
 }
