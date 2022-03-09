@@ -3,6 +3,7 @@ package lms;
 import java.awt.*;
 import java.sql.*;
 import java.util.*;
+import java.util.regex.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -26,7 +27,7 @@ public class MainGUI extends JFrame {
                 searchResult();
             }
             public void searchResult() {
-                String isbn = newBookPageISBNInput.getText().trim();
+                String isbn = newBookPageISBNInput.getText().trim().toUpperCase();
                 if (!Utils.isValidISBN(isbn)) {
                     // invalid ISBN
                     return;
@@ -80,6 +81,71 @@ public class MainGUI extends JFrame {
                 }
             }
         });
+        
+        newCustomerPageHKIDInput.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent evt) {
+                searchResult();
+            }
+            @Override
+            public void removeUpdate(DocumentEvent evt) {
+                searchResult();
+            }
+            @Override
+            public void insertUpdate(DocumentEvent evt) {
+                searchResult();
+            }
+            public void searchResult() {
+                String hkid = newCustomerPageHKIDInput.getText().trim().toUpperCase();
+                if (!Utils.isValidHKID(hkid)) {
+                    // invalid HKID
+                    return;
+                }
+                
+                // valid HKID
+                Statement stmt = null;
+                try{
+                    stmt = Main.conn.createStatement();
+                    String sql = "select * from userinfo where hkid='" + hkid + "'";
+                    ResultSet rs = stmt.executeQuery(sql);
+                    String name = null, email = null, phone = null, gender = null, address = null;
+                    while (rs.next()) {
+                        hkid = rs.getString("HKID");
+                        name = rs.getString("name");
+                        email = rs.getString("email");
+                        if (rs.wasNull()) {
+                            // no phone in this row
+                            email = "";
+                        }
+                        phone = rs.getString("phone");
+                        if (rs.wasNull()) {
+                            // no phone in this row
+                            phone = "";
+                        }
+                        gender = rs.getString("gender");
+                        address = rs.getString("address");
+                    }
+                    rs.close();
+                    stmt.close();
+                    
+                    if (name != null) {
+                        // update other fields
+                        newCustomerPageNameInput.setText(name);
+                        newCustomerPageEmailInput.setText(email);
+                        newCustomerPagePhoneInput.setText(phone);
+                        newCustomerPageMaleRadio.setSelected("M".equals(gender));
+                        newCustomerPageFemaleRadio.setSelected("F".equals(gender));
+                        newCustomerPageAddressInput.setText(address);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try{
+                        if (stmt != null) stmt.close();
+                    }catch(SQLException se2){}
+                }
+            }
+        });
     }
 
     /**
@@ -91,6 +157,7 @@ public class MainGUI extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        newCustomerPageGenderBtGp = new javax.swing.ButtonGroup();
         logoutBt = new javax.swing.JButton();
         pageTab = new javax.swing.JTabbedPane();
         allBooksTab = new javax.swing.JPanel();
@@ -139,8 +206,25 @@ public class MainGUI extends JFrame {
         newBookPageQuantityInput = new javax.swing.JTextField();
         newBookPageSubmitBt = new javax.swing.JButton();
         newCustomerTab = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        newCustomerPageHKIDInput = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        newCustomerPageNameInput = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        newCustomerPageEmailInput = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        newCustomerPagePhoneInput = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        newCustomerPageAddressInput = new javax.swing.JTextField();
+        newCustomerPageMaleRadio = new javax.swing.JRadioButton();
+        newCustomerPageFemaleRadio = new javax.swing.JRadioButton();
+        newCustomerPageSubmitBt = new javax.swing.JButton();
         reportTab = new javax.swing.JPanel();
         settingTab = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        settingPageDateInput = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Main.PROGRAM_NAME);
@@ -502,7 +586,7 @@ public class MainGUI extends JFrame {
             .addGroup(newBookTabLayout.createSequentialGroup()
                 .addGap(464, 464, 464)
                 .addComponent(newBookPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(463, Short.MAX_VALUE))
         );
         newBookTabLayout.setVerticalGroup(
             newBookTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -542,18 +626,126 @@ public class MainGUI extends JFrame {
 
         pageTab.addTab("新圖書/修改", newBookTab);
 
+        jLabel12.setText("HKID:");
+
+        newCustomerPageHKIDInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newCustomerPageHKIDInputKeyPressed(evt);
+            }
+        });
+
+        jLabel14.setText("姓名:");
+
+        newCustomerPageNameInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newCustomerPageNameInputKeyPressed(evt);
+            }
+        });
+
+        jLabel16.setText("Email:");
+
+        newCustomerPageEmailInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newCustomerPageEmailInputKeyPressed(evt);
+            }
+        });
+
+        jLabel18.setText("電話號碼:");
+
+        newCustomerPagePhoneInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newCustomerPagePhoneInputKeyPressed(evt);
+            }
+        });
+
+        jLabel20.setText("性別:");
+
+        jLabel21.setText("住址:");
+
+        newCustomerPageAddressInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newCustomerPageAddressInputKeyPressed(evt);
+            }
+        });
+
+        newCustomerPageGenderBtGp.add(newCustomerPageMaleRadio);
+        newCustomerPageMaleRadio.setText("男");
+
+        newCustomerPageGenderBtGp.add(newCustomerPageFemaleRadio);
+        newCustomerPageFemaleRadio.setText("女");
+
+        newCustomerPageSubmitBt.setText("確定");
+        newCustomerPageSubmitBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newCustomerPageSubmitBtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout newCustomerTabLayout = new javax.swing.GroupLayout(newCustomerTab);
         newCustomerTab.setLayout(newCustomerTabLayout);
         newCustomerTabLayout.setHorizontalGroup(
             newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(newCustomerTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newCustomerPageHKIDInput)
+                    .addComponent(newCustomerPageNameInput)
+                    .addComponent(newCustomerPageEmailInput)
+                    .addComponent(newCustomerPagePhoneInput)
+                    .addGroup(newCustomerTabLayout.createSequentialGroup()
+                        .addComponent(newCustomerPageMaleRadio)
+                        .addGap(18, 18, 18)
+                        .addComponent(newCustomerPageFemaleRadio)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(newCustomerPageAddressInput))
+                .addContainerGap())
+            .addGroup(newCustomerTabLayout.createSequentialGroup()
+                .addGap(461, 461, 461)
+                .addComponent(newCustomerPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(466, Short.MAX_VALUE))
         );
         newCustomerTabLayout.setVerticalGroup(
             newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGroup(newCustomerTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(newCustomerPageHKIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(newCustomerPageNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(newCustomerPageEmailInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(newCustomerPagePhoneInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(newCustomerPageMaleRadio)
+                    .addComponent(newCustomerPageFemaleRadio))
+                .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(newCustomerPageAddressInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(newCustomerPageSubmitBt)
+                .addContainerGap(261, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("客戶登記", newCustomerTab);
+        pageTab.addTab("客戶登記/修改", newCustomerTab);
 
         javax.swing.GroupLayout reportTabLayout = new javax.swing.GroupLayout(reportTab);
         reportTab.setLayout(reportTabLayout);
@@ -568,15 +760,43 @@ public class MainGUI extends JFrame {
 
         pageTab.addTab("Report", reportTab);
 
+        jLabel10.setText("系統日期 (yyyy-MM-dd):");
+
+        settingPageDateInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                settingPageDateInputKeyPressed(evt);
+            }
+        });
+
+        jButton1.setText("完成");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingTabLayout = new javax.swing.GroupLayout(settingTab);
         settingTab.setLayout(settingTabLayout);
         settingTabLayout.setHorizontalGroup(
             settingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(settingTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(settingPageDateInput, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         settingTabLayout.setVerticalGroup(
             settingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGroup(settingTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(settingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(settingPageDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(547, Short.MAX_VALUE))
         );
 
         pageTab.addTab("設定", settingTab);
@@ -639,12 +859,15 @@ public class MainGUI extends JFrame {
     private void pageTabStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pageTabStateChanged
         if (pageTab.getSelectedComponent() == newBookTab) {
             newBookPageISBNInput.requestFocus();
+        } else if (pageTab.getSelectedComponent() == settingTab) {
+            // update date
+            settingPageDateInput.setText(Main.fakeTime.formatDate());
         }
     }//GEN-LAST:event_pageTabStateChanged
 
     private void newBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = newBookPageISBNInput.getText().trim();
+            String isbn = newBookPageISBNInput.getText().trim().toUpperCase();
             if (Utils.isValidISBN(isbn)) {
                 newBookPageTitleInput.requestFocus();
             } else if (!isbn.equals("")) {
@@ -705,6 +928,55 @@ public class MainGUI extends JFrame {
             searchBookPageSearch();
         }
     }//GEN-LAST:event_searchBookPageISBNInputKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        changeFakeTime();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void settingPageDateInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_settingPageDateInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            changeFakeTime();
+        }
+    }//GEN-LAST:event_settingPageDateInputKeyPressed
+
+    private void newCustomerPageSubmitBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCustomerPageSubmitBtActionPerformed
+        newCustomerPageAddCustomer();
+    }//GEN-LAST:event_newCustomerPageSubmitBtActionPerformed
+
+    private void newCustomerPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPageHKIDInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            String hkid = newCustomerPageHKIDInput.getText().trim().toUpperCase();
+            if (Utils.isValidHKID(hkid)) {
+                newCustomerPageNameInput.requestFocus();
+            } else if (!hkid.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的HKID。");
+            }
+        }
+    }//GEN-LAST:event_newCustomerPageHKIDInputKeyPressed
+
+    private void newCustomerPageNameInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPageNameInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newCustomerPageEmailInput.requestFocus();
+        }
+    }//GEN-LAST:event_newCustomerPageNameInputKeyPressed
+
+    private void newCustomerPageEmailInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPageEmailInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newCustomerPagePhoneInput.requestFocus();
+        }
+    }//GEN-LAST:event_newCustomerPageEmailInputKeyPressed
+
+    private void newCustomerPageAddressInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPageAddressInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newCustomerPageAddCustomer();
+        }
+    }//GEN-LAST:event_newCustomerPageAddressInputKeyPressed
+
+    private void newCustomerPagePhoneInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPagePhoneInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            newCustomerPageAddressInput.requestFocus();
+        }
+    }//GEN-LAST:event_newCustomerPagePhoneInputKeyPressed
     
     public void init() {
         // remove useless label text
@@ -794,12 +1066,19 @@ public class MainGUI extends JFrame {
         }
     }
     
+    private void changeFakeTime() {
+        if (!Main.fakeTime.setFakeTime(settingPageDateInput.getText().trim())) {
+            // invalid format
+            JOptionPane.showMessageDialog(null, "格式錯誤。");
+        }
+    }
+    
     private void searchBookPageShowRecord() {
         if (!searchBookPageSearch()) {
             return;
         }
         
-        String isbn = searchBookPageISBNInput.getText().trim();
+        String isbn = searchBookPageISBNInput.getText().trim().toUpperCase();
         // TODO: show record according to ISBN
         
         CardLayout card = (CardLayout)searchBookTab.getLayout();
@@ -807,7 +1086,7 @@ public class MainGUI extends JFrame {
     }
     
     private boolean searchBookPageSearch() {
-        String isbn = searchBookPageISBNInput.getText().trim();
+        String isbn = searchBookPageISBNInput.getText().trim().toUpperCase();
         if (!Utils.isValidISBN(isbn)) {
             // invalid ISBN
             if (!isbn.equals("")) {
@@ -867,8 +1146,118 @@ public class MainGUI extends JFrame {
         return true;
     }
     
+    private void newCustomerPageAddCustomer() {
+        String hkid = newCustomerPageHKIDInput.getText().trim().toUpperCase();
+        String name = newCustomerPageNameInput.getText().trim();
+        String email = newCustomerPageEmailInput.getText().trim();
+        String phone = newCustomerPagePhoneInput.getText().trim();
+        boolean m = newCustomerPageMaleRadio.isSelected();
+        boolean f = newCustomerPageFemaleRadio.isSelected();
+        String address = newCustomerPageAddressInput.getText().trim();
+        
+        
+        if (!Utils.isValidHKID(hkid)) {
+            // invalid HKID
+            JOptionPane.showMessageDialog(null, "無效的HKID。");
+            return;
+        }
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入姓名。");
+            return;
+        }
+        if (!email.equals("") && !Pattern.matches("^(.+)@(.+)$", email)) {
+            JOptionPane.showMessageDialog(null, "Email格式錯誤。");
+            return;
+        }
+        if (!phone.equals("") && !Pattern.matches("^\\d{8}$", phone)) {
+            JOptionPane.showMessageDialog(null, "電話號碼格式錯誤。");
+            return;
+        }
+        if (!m && !f) {
+            JOptionPane.showMessageDialog(null, "請選擇性別。");
+            return;
+        }
+        if (address.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入住址。");
+            return;
+        }
+
+
+        // valid data
+        String gender = (m ? "M" : "F");
+        
+        email = (email.equals("") ? "NULL" : "'" + email + "'");
+        phone = (phone.equals("") ? "NULL" : "'" + phone + "'");
+        
+        Statement stmt = null;
+        boolean HKIDExist = false;
+        // check if HKID already exists in table
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select hkid from userinfo where hkid='" + hkid + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                HKIDExist = true;
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        
+        if (HKIDExist) {
+            // existing customer
+            try{
+                stmt = Main.conn.createStatement();
+                String sql = "update userinfo set name = '" + name + "', email = " + email + ", phone = " + phone + ", gender = '" + gender + "', address = '" + address + "' where hkid = '" + hkid + "'";
+                stmt.executeUpdate(sql);
+                stmt.close();
+
+                // clear the input box
+                newCustomerPageHKIDInput.setText("");
+                newCustomerPageNameInput.setText("");
+                newCustomerPageEmailInput.setText("");
+                newCustomerPagePhoneInput.setText("");
+                newCustomerPageGenderBtGp.clearSelection();
+                newCustomerPageAddressInput.setText("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) stmt.close();
+                }catch(SQLException se2){}
+            }
+        } else {
+            // new customer
+            try{
+                stmt = Main.conn.createStatement();
+                String sql = "insert into userinfo values ('" + hkid + "', '" + name + "', " + email + ", " + phone + ", '" + gender + "', '" + address + "')";
+                stmt.executeUpdate(sql);
+                stmt.close();
+
+                // clear the input box
+                newCustomerPageHKIDInput.setText("");
+                newCustomerPageNameInput.setText("");
+                newCustomerPageEmailInput.setText("");
+                newCustomerPagePhoneInput.setText("");
+                newCustomerPageGenderBtGp.clearSelection();
+                newCustomerPageAddressInput.setText("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) stmt.close();
+                }catch(SQLException se2){}
+            }
+        }
+    }
+    
     private void newBookPageAddBook() {
-        String isbn = newBookPageISBNInput.getText().trim();
+        String isbn = newBookPageISBNInput.getText().trim().toUpperCase();
         String title = newBookPageTitleInput.getText().trim();
         String authorStr = newBookPageAuthorInput.getText().trim();
         String publisher = newBookPagePublisherInput.getEditor().getItem().toString().trim();
@@ -883,10 +1272,6 @@ public class MainGUI extends JFrame {
         }
         if (title.equals("")) {
             JOptionPane.showMessageDialog(null, "請輸入書名。");
-            return;
-        }
-        if (authorStr.equals("")) {
-            JOptionPane.showMessageDialog(null, "請輸入作者。");
             return;
         }
         if (newBookPageEditionInput.getText().trim().equals("")) {
@@ -919,14 +1304,14 @@ public class MainGUI extends JFrame {
         cost = Double.parseDouble(newBookPageCostInput.getText().trim());
         quantity = Integer.parseInt(newBookPageQuantityInput.getText().trim());
         
-        String[] authors = authorStr.split(",|, |，");
+        String[] authors = (authorStr.equals("") ? new String[] {} : authorStr.split(",|, |，"));
         for (int i = 0, n = authors.length; i < n; i++) {
             authors[i] = authors[i].trim();
         }
         
         Statement stmt = null;
         boolean ISBNExist = false;
-        // check if isbn already exists in table
+        // check if ISBN already exists in table
         try{
             stmt = Main.conn.createStatement();
             String sql = "select isbn from bookinfo where isbn='" + isbn + "'";
@@ -1013,13 +1398,21 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton bookBorrowRecordPageBackBt;
     private javax.swing.JTable bookBorrowRecordTable;
     private javax.swing.JPanel borrowTab;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1039,6 +1432,15 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton newBookPageSubmitBt;
     private javax.swing.JTextField newBookPageTitleInput;
     private javax.swing.JPanel newBookTab;
+    private javax.swing.JTextField newCustomerPageAddressInput;
+    private javax.swing.JTextField newCustomerPageEmailInput;
+    private javax.swing.JRadioButton newCustomerPageFemaleRadio;
+    private javax.swing.ButtonGroup newCustomerPageGenderBtGp;
+    private javax.swing.JTextField newCustomerPageHKIDInput;
+    private javax.swing.JRadioButton newCustomerPageMaleRadio;
+    private javax.swing.JTextField newCustomerPageNameInput;
+    private javax.swing.JTextField newCustomerPagePhoneInput;
+    private javax.swing.JButton newCustomerPageSubmitBt;
     private javax.swing.JPanel newCustomerTab;
     private javax.swing.JTabbedPane pageTab;
     private javax.swing.JPanel reportTab;
@@ -1055,6 +1457,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel searchBookPageTitleLabel;
     private javax.swing.JPanel searchBookTab;
     private javax.swing.JPanel searchCustomerTab;
+    private javax.swing.JTextField settingPageDateInput;
     private javax.swing.JPanel settingTab;
     // End of variables declaration//GEN-END:variables
 

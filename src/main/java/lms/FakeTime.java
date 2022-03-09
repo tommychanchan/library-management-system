@@ -1,28 +1,44 @@
 package lms;
 
-import java.time.format.*;
-import java.time.*;
+import java.text.*;
+import java.util.*;
 
 public class FakeTime {
-    private DateTimeFormatter dtf; // e.g. yyyy/MM/dd HH:mm:ss
-    private LocalDateTime fakeDatetime;
+    private SimpleDateFormat dtf; // e.g. yyyy-MM-dd HH:mm:ss
+    private java.sql.Date fakeDatetime;
     
     public FakeTime() {
         fakeDatetime = null;
     }
     
-    public String getDate() {
-        dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        return (fakeDatetime == null ? dtf.format(LocalDateTime.now()) : dtf.format(fakeDatetime));
+    public java.sql.Date getDateTime() {
+        if (fakeDatetime == null) {
+            return new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        } else {
+            return fakeDatetime;
+        }
     }
     
-    public String getTime() {
-        dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return dtf.format(LocalDateTime.now());
+    public String formatDate() {
+        dtf = new SimpleDateFormat("yyyy-MM-dd");
+        return (fakeDatetime == null ? dtf.format(new java.sql.Date(Calendar.getInstance().getTime().getTime())) : dtf.format(fakeDatetime));
     }
     
-    public String getDateTime() {
-        dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        return (fakeDatetime == null ? dtf.format(LocalDateTime.now()) : dtf.format(fakeDatetime));
+    public String formatTime() {
+        dtf = new SimpleDateFormat("HH:mm:ss");
+        return dtf.format(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+    }
+    
+    public String formatDateTime() {
+        return formatDate() + " " + formatTime();
+    }
+    
+    public boolean setFakeTime(String date) {
+        try {
+            fakeDatetime = java.sql.Date.valueOf(date);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

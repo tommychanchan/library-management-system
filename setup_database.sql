@@ -39,10 +39,9 @@ CREATE TABLE bookauthor (
 -- Table: UserInfo
 CREATE TABLE userinfo (
     HKID VARCHAR(9) NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(80),
+    phone CHAR(8),
     gender CHAR(1) NOT NULL,
     address VARCHAR(300) NOT NULL,
     PRIMARY KEY (HKID)
@@ -51,7 +50,7 @@ CREATE TABLE userinfo (
 -- Table: Transaction
 CREATE TABLE transaction (
     transaction_id INT NOT NULL AUTO_INCREMENT,
-    date DATE NOT NULL,
+    borrow_date DATE NOT NULL,
     HKID VARCHAR(9) NOT NULL,
     FOREIGN KEY (HKID) REFERENCES userinfo(HKID),
     PRIMARY KEY (transaction_id)
@@ -133,3 +132,9 @@ INSERT INTO bookauthor VALUES ('9789882398085', 'K.C. Chan');
 INSERT INTO bookauthor VALUES ('9789882398085', 'F.C. Tong');
 INSERT INTO bookauthor VALUES ('9789882398085', 'M.K. Lui');
 INSERT INTO bookauthor VALUES ('9789882398085', 'M.N. Wong');
+
+-- Initial data: UserInfo
+INSERT INTO userinfo VALUES ('A1234563', 'Tommy Chan', 's207885@hsu.edu.hk', '98765432', 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
+INSERT INTO userinfo VALUES ('E3620003', '陳大文', 'chantaiman@gmail.com', NULL, 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
+INSERT INTO userinfo VALUES ('N1016774', '林子祥', NULL, NULL, 'M', '花街70號');
+INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');

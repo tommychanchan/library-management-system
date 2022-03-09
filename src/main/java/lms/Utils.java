@@ -2,6 +2,7 @@ package lms;
 
 import java.sql.*;
 import java.util.*;
+import java.util.regex.*;
 
 public class Utils {
     public static String[] publisherChoices() {
@@ -55,6 +56,12 @@ public class Utils {
     public static boolean isValidHKID(String id) {
         String hkid = id.toUpperCase();
         int n = hkid.length();
+        if (n == 8 && !Pattern.matches("^.\\d{7}$", id)) {
+            return false;
+        }
+        if (n == 9 && !Pattern.matches("^..\\d{7}$", id)) {
+            return false;
+        }
         return (n == 8 || n == 9) && (hkid.equals(generateHKID(hkid.substring(0, n-1))));
     }
     
