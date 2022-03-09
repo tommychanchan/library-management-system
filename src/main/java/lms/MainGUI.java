@@ -1224,6 +1224,7 @@ public class MainGUI extends JFrame {
                 newCustomerPagePhoneInput.setText("");
                 newCustomerPageGenderBtGp.clearSelection();
                 newCustomerPageAddressInput.setText("");
+                newCustomerPageHKIDInput.requestFocus();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -1246,6 +1247,7 @@ public class MainGUI extends JFrame {
                 newCustomerPagePhoneInput.setText("");
                 newCustomerPageGenderBtGp.clearSelection();
                 newCustomerPageAddressInput.setText("");
+                newCustomerPageHKIDInput.requestFocus();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -1352,6 +1354,7 @@ public class MainGUI extends JFrame {
                 newBookPageEditionInput.setText("");
                 newBookPageCostInput.setText("");
                 newBookPageQuantityInput.setText("");
+                newBookPageISBNInput.requestFocus();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -1380,6 +1383,7 @@ public class MainGUI extends JFrame {
                 newBookPageEditionInput.setText("");
                 newBookPageCostInput.setText("");
                 newBookPageQuantityInput.setText("");
+                newBookPageISBNInput.requestFocus();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
