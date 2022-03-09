@@ -74,9 +74,22 @@ CREATE TABLE transactiondetail (
 
 
 -- Initial data: BookInfo
-INSERT INTO bookinfo VALUES ('9789865024338', 'A Tour of C++ 中文版', '碁峰資訊股份有限公司', 2, 160, 1);
-INSERT INTO bookinfo VALUES ('9789863475705', 'Java SE 8與Android 5.x程式設計範例教本（附Java和Android範例專案/附光碟）', '碁峰資訊股份有限公司', 1, 180, 1);
+INSERT INTO bookinfo VALUES ('9789865024338', 'A Tour of C++ 中文版', '碁峰資訊股份有限公司', 2, 160, 3);
+INSERT INTO bookinfo VALUES ('9789863475705', 'Java SE 8與Android 5.x程式設計範例教本（附Java和Android範例專案/附光碟）', '碁峰資訊股份有限公司', 1, 180, 2);
 INSERT INTO bookinfo VALUES ('9789888242931', 'HKDSE CHEMISTRY A Modern View 4A', 'Aristo Educational Press Ltd.', 2, 258.5, 1);
+INSERT INTO bookinfo VALUES ('9789888540129', 'HKDSE CHEMISTRY A Modern View 5 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 4);
+INSERT INTO bookinfo VALUES ('9789888540143', 'HKDSE CHEMISTRY A Modern View 7 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 5);
+INSERT INTO bookinfo VALUES ('9780195489576', '牛津進階英漢雙解詞典 Oxford Intermediate Learner\'s English-Chinese Dictionary', 'Oxford University Press', 4, 268, 3);
+INSERT INTO bookinfo VALUES ('9789622880184', '承教小記', '華漢文化事業公司', 1, 42, 4);
+INSERT INTO bookinfo VALUES ('9781401398033', 'Five People You Meet in Heaven (US)', 'Warner Book Incorporation', 1, 144, 3);
+INSERT INTO bookinfo VALUES ('962070133X', '商務新詞典(縮印本)', '商務印書館(香港)有限公司', 1, 112, 2);
+INSERT INTO bookinfo VALUES ('9789882054226', 'Handy Guide for HKDSE English (Papers 1, 2, 3 & 4)', 'Pilot Publishing Co. Ltd.', 1, 113, 2);
+INSERT INTO bookinfo VALUES ('9789882119437', '目送', '天地圖書有限公司', 1, 128, 5);
+INSERT INTO bookinfo VALUES ('9789620703973', 'The Little Prince 小王子', '商務印書館(香港)有限公司', 1, 78, 2);
+INSERT INTO bookinfo VALUES ('9789888467464', 'HKDSE Exam Series Mathematics (Extended Part) Mock Exam Papers M2 (18/19)', 'Pan Lloyds Publishers Ltd.', 1, 100, 0);
+INSERT INTO bookinfo VALUES ('9789882364523', 'New Horizon Liberal Studies Energy Technology and the Environment', '香港教育圖書有限公司', 3, 271, 1);
+INSERT INTO bookinfo VALUES ('9789881250919', '透視文言文 練習', 'HK Joint-Us Press', 1, 106, 23);
+INSERT INTO bookinfo VALUES ('9789882398085', 'Junior Secondary Mathematics in Action 2A (Modular)', 'Pearson Education Limited', 1, 248, 12);
 
 -- Initial data: BookAuthor
 INSERT INTO bookauthor VALUES ('9789865024338', 'Bjarne Stroustrup');
@@ -87,3 +100,36 @@ INSERT INTO bookauthor VALUES ('9789888242931', 'Y.F. Chow');
 INSERT INTO bookauthor VALUES ('9789888242931', 'A. Kai');
 INSERT INTO bookauthor VALUES ('9789888242931', 'S.L. Lee');
 INSERT INTO bookauthor VALUES ('9789888242931', 'W.H. Wong');
+INSERT INTO bookauthor VALUES ('9789888540129', 'E. Cheng');
+INSERT INTO bookauthor VALUES ('9789888540129', 'J. Chow');
+INSERT INTO bookauthor VALUES ('9789888540129', 'Y.F. Chow');
+INSERT INTO bookauthor VALUES ('9789888540129', 'A. Kai');
+INSERT INTO bookauthor VALUES ('9789888540129', 'S.L. Lee');
+INSERT INTO bookauthor VALUES ('9789888540129', 'W.H. Wong');
+INSERT INTO bookauthor VALUES ('9789888540143', 'E. Cheng');
+INSERT INTO bookauthor VALUES ('9789888540143', 'J. Chow');
+INSERT INTO bookauthor VALUES ('9789888540143', 'Y.F. Chow');
+INSERT INTO bookauthor VALUES ('9789888540143', 'A. Kai');
+INSERT INTO bookauthor VALUES ('9789888540143', 'S.L. Lee');
+INSERT INTO bookauthor VALUES ('9789888540143', 'W.H. Wong');
+INSERT INTO bookauthor VALUES ('9780195489576', 'Joanna Turnbull');
+INSERT INTO bookauthor VALUES ('9780195489576', 'Alison Waters');
+INSERT INTO bookauthor VALUES ('9789622880184', '小思');
+INSERT INTO bookauthor VALUES ('9781401398033', 'Mitch Albom');
+INSERT INTO bookauthor VALUES ('962070133X', '黃港生');
+INSERT INTO bookauthor VALUES ('9789882119437', '龍應台');
+INSERT INTO bookauthor VALUES ('9789620703973', 'Antoine De Saint Exupery');
+INSERT INTO bookauthor VALUES ('9789888467464', 'W.S. Yeung');
+INSERT INTO bookauthor VALUES ('9789882364523', 'Victor Yeung');
+INSERT INTO bookauthor VALUES ('9789882364523', 'Wong Chi Fai');
+INSERT INTO bookauthor VALUES ('9789881250919', '吳田各');
+INSERT INTO bookauthor VALUES ('9789881250919', '袁思惠');
+INSERT INTO bookauthor VALUES ('9789881250919', '黃澤榕');
+INSERT INTO bookauthor VALUES ('9789881250919', '葉安沂');
+INSERT INTO bookauthor VALUES ('9789882398085', 'C.M. Yeung');
+INSERT INTO bookauthor VALUES ('9789882398085', 'K.H. Yeung');
+INSERT INTO bookauthor VALUES ('9789882398085', 'K.Y. Tsui');
+INSERT INTO bookauthor VALUES ('9789882398085', 'K.C. Chan');
+INSERT INTO bookauthor VALUES ('9789882398085', 'F.C. Tong');
+INSERT INTO bookauthor VALUES ('9789882398085', 'M.K. Lui');
+INSERT INTO bookauthor VALUES ('9789882398085', 'M.N. Wong');
