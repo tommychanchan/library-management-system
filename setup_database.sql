@@ -138,3 +138,4 @@ INSERT INTO userinfo VALUES ('A1234563', 'Tommy Chan', 's207885@hsu.edu.hk', '98
 INSERT INTO userinfo VALUES ('E3620003', '陳大文', 'chantaiman@gmail.com', NULL, 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
 INSERT INTO userinfo VALUES ('N1016774', '林子祥', NULL, NULL, 'M', '花街70號');
 INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');
+INSERT INTO userinfo VALUES ('G8333881', 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
