@@ -162,6 +162,7 @@ public class MainGUI extends JFrame {
         pageTab = new javax.swing.JTabbedPane();
         allBooksTab = new javax.swing.JPanel();
         allBooksRefreshBt = new javax.swing.JButton();
+        allBooksExportBt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         allBooksTable = new javax.swing.JTable();
         searchBookTab = new javax.swing.JPanel();
@@ -252,6 +253,13 @@ public class MainGUI extends JFrame {
             }
         });
 
+        allBooksExportBt.setText("導出CSV");
+        allBooksExportBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allBooksExportBtActionPerformed(evt);
+            }
+        });
+
         allBooksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -278,15 +286,19 @@ public class MainGUI extends JFrame {
             allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(allBooksTabLayout.createSequentialGroup()
                 .addComponent(allBooksRefreshBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(allBooksExportBt)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
         );
         allBooksTabLayout.setVerticalGroup(
             allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(allBooksTabLayout.createSequentialGroup()
-                .addComponent(allBooksRefreshBt)
+                .addGroup(allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(allBooksRefreshBt)
+                    .addComponent(allBooksExportBt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
         );
 
         pageTab.addTab("所有圖書", allBooksTab);
@@ -977,6 +989,11 @@ public class MainGUI extends JFrame {
             newCustomerPageAddressInput.requestFocus();
         }
     }//GEN-LAST:event_newCustomerPagePhoneInputKeyPressed
+
+    private void allBooksExportBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allBooksExportBtActionPerformed
+        String filename = Utils.exportCSV("all_books", allBooksTable);
+        JOptionPane.showMessageDialog(null, (filename == null ? "無法導出CSV。" : "已導出CSV: " + filename));
+    }//GEN-LAST:event_allBooksExportBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1395,6 +1412,7 @@ public class MainGUI extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton allBooksExportBt;
     private javax.swing.JButton allBooksRefreshBt;
     private javax.swing.JPanel allBooksTab;
     private javax.swing.JTable allBooksTable;

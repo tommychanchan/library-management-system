@@ -33,6 +33,10 @@ public class FakeTime {
         return formatDate() + " " + formatTime();
     }
     
+    public String formatDateTimeForFile() {
+        return formatDate() + "_" + formatTime().replaceAll(":", "");
+    }
+    
     public boolean setFakeTime(String date) {
         try {
             fakeDatetime = java.sql.Date.valueOf(date);

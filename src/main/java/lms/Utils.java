@@ -1,10 +1,57 @@
 package lms;
 
+import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.*;
+import javax.swing.*;
+import javax.swing.table.*;
 
 public class Utils {
+    public static String exportCSV(String fn, JTable table) {
+        OutputStreamWriter writer = null;
+        String filename = fn + "_" + Main.fakeTime.formatDateTimeForFile() + ".csv";
+        try {
+            File file = new File(filename);
+            writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+            for (int j = 0, nn = tableModel.getColumnCount(); j < nn; j++) {
+                writer.write((j == 0 ? "" : ",") + formatCSV(table.getColumnName(j)));
+            }
+            writer.write("\r\n");
+            for (int i = 0, n = tableModel.getRowCount(); i < n; i++) {
+                for (int j = 0, nn = tableModel.getColumnCount(); j < nn; j++) {
+                    writer.write((j == 0 ? "" : ",") + formatCSV(table.getValueAt(i, j).toString()));
+                }
+                writer.write("\r\n");
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            return null;
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+            return null;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        } finally {
+            try {
+                writer.flush();
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
+        return filename;
+    }
+    
+    private static String formatCSV(String s) {
+        return (s.contains(",") || s.contains("\"") ? "\"" + s.replaceAll("\"", "\"\"").trim() + "\"" : s.trim());
+    }
+    
     public static String[] publisherChoices() {
         Statement stmt = null;
         ArrayList<String> choices = new ArrayList<>();
