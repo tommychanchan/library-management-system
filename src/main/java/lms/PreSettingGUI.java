@@ -3,7 +3,7 @@ package lms;
 import java.sql.*;
 import javax.swing.*;
 
-public class PreSettingGUI extends javax.swing.JFrame {
+public class PreSettingGUI extends JFrame {
 
     public PreSettingGUI() {
         initComponents();
@@ -22,7 +22,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
 
         loginPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        ipInput = new javax.swing.JTextField();
+        hostInput = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         passwordInput = new javax.swing.JPasswordField();
         loginBt = new javax.swing.JButton();
@@ -35,12 +35,12 @@ public class PreSettingGUI extends javax.swing.JFrame {
 
         loginPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "登入", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 1, 18))); // NOI18N
 
-        jLabel1.setText("IP：");
+        jLabel1.setText("Host：");
 
-        ipInput.setText("localhost");
-        ipInput.addKeyListener(new java.awt.event.KeyAdapter() {
+        hostInput.setText("localhost:3306");
+        hostInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                ipInputKeyPressed(evt);
+                hostInputKeyPressed(evt);
             }
         });
 
@@ -81,7 +81,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(passwordInput)
                     .addComponent(usernameInput)
-                    .addComponent(ipInput))
+                    .addComponent(hostInput))
                 .addContainerGap())
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(144, 144, 144)
@@ -94,7 +94,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(ipInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -138,11 +138,11 @@ public class PreSettingGUI extends javax.swing.JFrame {
         login();
     }//GEN-LAST:event_loginBtActionPerformed
 
-    private void ipInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipInputKeyPressed
+    private void hostInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hostInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             usernameInput.requestFocus();
         }
-    }//GEN-LAST:event_ipInputKeyPressed
+    }//GEN-LAST:event_hostInputKeyPressed
 
     private void usernameInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -165,8 +165,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
         }
         try{
             Class.forName(Main.JDBC_DRIVER);
-            Main.conn = DriverManager.getConnection(Main.DB_URL, usernameInput.getText(), passwordInput.getText());
-            
+            Main.conn = DriverManager.getConnection(Main.DB_URL.replaceAll("\\{host\\}", hostInput.getText()), usernameInput.getText(), passwordInput.getText());
             
             Main.mainGUI.init();
             
@@ -192,7 +191,7 @@ public class PreSettingGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ipInput;
+    private javax.swing.JTextField hostInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

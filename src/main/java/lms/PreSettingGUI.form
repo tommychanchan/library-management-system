@@ -70,7 +70,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="passwordInput" max="32767" attributes="0"/>
                       <Component id="usernameInput" max="32767" attributes="0"/>
-                      <Component id="ipInput" max="32767" attributes="0"/>
+                      <Component id="hostInput" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -87,7 +87,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ipInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="hostInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -109,15 +109,15 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="IP&#xff1a;"/>
+            <Property name="text" type="java.lang.String" value="Host&#xff1a;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="ipInput">
+        <Component class="javax.swing.JTextField" name="hostInput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="localhost"/>
+            <Property name="text" type="java.lang.String" value="localhost:3306"/>
           </Properties>
           <Events>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ipInputKeyPressed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="hostInputKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
                 ArrayList<String> authors = new ArrayList<>();
                 try{
                     stmt = Main.conn.createStatement();
-                    String sql = "select * from bookinfo BI inner join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
+                    String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
                     ResultSet rs = stmt.executeQuery(sql);
                     String title = null, publisher = null, author = null;
                     int edition = 0, quantity = 0;
@@ -47,10 +47,16 @@ public class MainGUI extends JFrame {
                         title = rs.getString("title");
                         publisher = rs.getString("publisher");
                         author = rs.getString("author");
+                        if (rs.wasNull()) {
+                            // no author in this row
+                            author = null;
+                        }
                         edition = rs.getInt("edition");
                         cost = rs.getDouble("cost");
                         quantity = rs.getInt("quantity");
-                        authors.add(author);
+                        if (author != null) {
+                            authors.add(author);
+                        }
                     }
                     rs.close();
                     stmt.close();
@@ -525,7 +531,7 @@ public class MainGUI extends JFrame {
         Hashtable<String, ArrayList<String>> tempAuthors = new Hashtable<>();
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from bookinfo BI inner join bookauthor BA on BI.isbn=BA.isbn order by BI.title";
+            String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn order by BI.title";
             ResultSet rs = stmt.executeQuery(sql);
             String isbn, title, publisher, author;
             int edition, quantity;
@@ -535,16 +541,24 @@ public class MainGUI extends JFrame {
                 title = rs.getString("title");
                 publisher = rs.getString("publisher");
                 author = rs.getString("author");
+                if (rs.wasNull()) {
+                    // no author in this row
+                    author = null;
+                }
                 edition = rs.getInt("edition");
                 cost = rs.getDouble("cost");
                 quantity = rs.getInt("quantity");
                 if (tempAuthors.containsKey(isbn)) {
                     // old record, only author is new
-                    tempAuthors.get(isbn).add(author);
+                    if (author != null) {
+                        tempAuthors.get(isbn).add(author);
+                    }
                 } else {
                     // new record
                     tempAuthors.put(isbn, new ArrayList<>());
-                    tempAuthors.get(isbn).add(author);
+                    if (author != null) {
+                        tempAuthors.get(isbn).add(author);
+                    }
                     books.add(new Book(isbn, title, publisher, edition, cost, quantity, tempAuthors.get(isbn)));
                 }
             }
