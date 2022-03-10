@@ -13,6 +13,9 @@ public class MainGUI extends JFrame {
     public MainGUI() {
         initComponents();
         
+        // set form to screen center
+        this.setLocationRelativeTo(null);
+        
         newBookPageISBNInput.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent evt) {
@@ -530,6 +533,11 @@ public class MainGUI extends JFrame {
         });
 
         searchCustomerPageRecordBt.setText("借書記錄");
+        searchCustomerPageRecordBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCustomerPageRecordBtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchCustomerPageLayout = new javax.swing.GroupLayout(searchCustomerPage);
         searchCustomerPage.setLayout(searchCustomerPageLayout);
@@ -627,18 +635,16 @@ public class MainGUI extends JFrame {
         customerBorrowRecordPageLayout.setHorizontalGroup(
             customerBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(customerBorrowRecordPageLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(customerBorrowRecordPageBackBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         customerBorrowRecordPageLayout.setVerticalGroup(
             customerBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(customerBorrowRecordPageLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(customerBorrowRecordPageBackBt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE))
         );
 
         searchCustomerTab.add(customerBorrowRecordPage, "customerBorrowRecordPage");
@@ -749,7 +755,7 @@ public class MainGUI extends JFrame {
                     .addComponent(newBookPageAuthorInput)
                     .addComponent(newBookPageTitleInput)
                     .addComponent(newBookPageISBNInput)
-                    .addComponent(newBookPagePublisherInput, 0, 883, Short.MAX_VALUE)
+                    .addComponent(newBookPagePublisherInput, 0, 850, Short.MAX_VALUE)
                     .addComponent(newBookPageEditionInput)
                     .addComponent(newBookPageCostInput)
                     .addComponent(newBookPageQuantityInput))
@@ -954,7 +960,7 @@ public class MainGUI extends JFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
-                .addComponent(settingPageDateInput, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                .addComponent(settingPageDateInput, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -1168,6 +1174,10 @@ public class MainGUI extends JFrame {
     private void searchCustomerPageSearchBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerPageSearchBtActionPerformed
         searchCustomerPageSearch();
     }//GEN-LAST:event_searchCustomerPageSearchBtActionPerformed
+
+    private void searchCustomerPageRecordBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerPageRecordBtActionPerformed
+        searchCustomerPageShowRecord();
+    }//GEN-LAST:event_searchCustomerPageRecordBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1268,6 +1278,18 @@ public class MainGUI extends JFrame {
             // invalid format
             JOptionPane.showMessageDialog(null, "格式錯誤。");
         }
+    }
+    
+    private void searchCustomerPageShowRecord() {
+        if (!searchCustomerPageSearch()) {
+            return;
+        }
+        
+        String hkid = searchCustomerPageHKIDInput.getText().trim().toUpperCase();
+        // TODO: show record according to HKID
+        
+        CardLayout card = (CardLayout)searchCustomerTab.getLayout();
+		card.show(searchCustomerTab, "customerBorrowRecordPage");
     }
     
     private void searchBookPageShowRecord() {

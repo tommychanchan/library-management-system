@@ -8,6 +8,9 @@ public class PreSettingGUI extends JFrame {
     public PreSettingGUI() {
         initComponents();
         
+        // set form to screen center
+        this.setLocationRelativeTo(null);
+        
         usernameInput.requestFocus();
     }
 
@@ -105,7 +108,7 @@ public class PreSettingGUI extends JFrame {
                     .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(loginBt)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
