@@ -114,7 +114,7 @@ public class MainGUI extends JFrame {
                         name = rs.getString("name");
                         email = rs.getString("email");
                         if (rs.wasNull()) {
-                            // no phone in this row
+                            // no email in this row
                             email = "";
                         }
                         phone = rs.getString("phone");
@@ -188,6 +188,25 @@ public class MainGUI extends JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         bookBorrowRecordTable = new javax.swing.JTable();
         searchCustomerTab = new javax.swing.JPanel();
+        searchCustomerPage = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        searchCustomerPageHKIDInput = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        searchCustomerPageNameLabel = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        searchCustomerPageEmailLabel = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        searchCustomerPagePhoneLabel = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        searchCustomerPageGenderLabel = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        searchCustomerPageAddressLabel = new javax.swing.JLabel();
+        searchCustomerPageSearchBt = new javax.swing.JButton();
+        searchCustomerPageRecordBt = new javax.swing.JButton();
+        customerBorrowRecordPage = new javax.swing.JPanel();
+        customerBorrowRecordPageBackBt = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        customerBorrowRecordTable = new javax.swing.JTable();
         borrowTab = new javax.swing.JPanel();
         returnTab = new javax.swing.JPanel();
         newBookTab = new javax.swing.JPanel();
@@ -289,7 +308,7 @@ public class MainGUI extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(allBooksExportBt)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         allBooksTabLayout.setVerticalGroup(
             allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -425,7 +444,7 @@ public class MainGUI extends JFrame {
                 .addGroup(searchBookPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchBookPageRecordBt)
                     .addComponent(searchBookPageSearchBt))
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
 
         searchBookTab.add(searchBookPage, "searchBookPage");
@@ -473,16 +492,156 @@ public class MainGUI extends JFrame {
 
         pageTab.addTab("圖書搜尋", searchBookTab);
 
-        javax.swing.GroupLayout searchCustomerTabLayout = new javax.swing.GroupLayout(searchCustomerTab);
-        searchCustomerTab.setLayout(searchCustomerTabLayout);
-        searchCustomerTabLayout.setHorizontalGroup(
-            searchCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+        searchCustomerTab.setLayout(new java.awt.CardLayout());
+
+        jLabel22.setText("HKID:");
+
+        searchCustomerPageHKIDInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchCustomerPageHKIDInputKeyPressed(evt);
+            }
+        });
+
+        jLabel23.setText("姓名:");
+
+        searchCustomerPageNameLabel.setText("name");
+
+        jLabel25.setText("Email:");
+
+        searchCustomerPageEmailLabel.setText("email");
+
+        jLabel27.setText("電話號碼:");
+
+        searchCustomerPagePhoneLabel.setText("phone");
+
+        jLabel29.setText("性別:");
+
+        searchCustomerPageGenderLabel.setText("gender");
+
+        jLabel31.setText("住址:");
+
+        searchCustomerPageAddressLabel.setText("address");
+
+        searchCustomerPageSearchBt.setText("搜尋");
+        searchCustomerPageSearchBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCustomerPageSearchBtActionPerformed(evt);
+            }
+        });
+
+        searchCustomerPageRecordBt.setText("借書記錄");
+
+        javax.swing.GroupLayout searchCustomerPageLayout = new javax.swing.GroupLayout(searchCustomerPage);
+        searchCustomerPage.setLayout(searchCustomerPageLayout);
+        searchCustomerPageLayout.setHorizontalGroup(
+            searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(searchCustomerPageHKIDInput)
+                    .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                        .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchCustomerPageNameLabel)
+                            .addComponent(searchCustomerPageEmailLabel)
+                            .addComponent(searchCustomerPagePhoneLabel)
+                            .addComponent(searchCustomerPageGenderLabel)
+                            .addComponent(searchCustomerPageAddressLabel))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                .addGap(412, 412, 412)
+                .addComponent(searchCustomerPageSearchBt, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(searchCustomerPageRecordBt)
+                .addContainerGap(386, Short.MAX_VALUE))
         );
-        searchCustomerTabLayout.setVerticalGroup(
-            searchCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+        searchCustomerPageLayout.setVerticalGroup(
+            searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(searchCustomerPageHKIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(searchCustomerPageNameLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(searchCustomerPageEmailLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(searchCustomerPagePhoneLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(searchCustomerPageGenderLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(searchCustomerPageAddressLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchCustomerPageRecordBt)
+                    .addComponent(searchCustomerPageSearchBt))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
+
+        searchCustomerTab.add(searchCustomerPage, "searchCustomerPage");
+        searchCustomerPage.getAccessibleContext().setAccessibleName("");
+
+        customerBorrowRecordPageBackBt.setText("返回");
+        customerBorrowRecordPageBackBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerBorrowRecordPageBackBtActionPerformed(evt);
+            }
+        });
+
+        customerBorrowRecordTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        customerBorrowRecordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        customerBorrowRecordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane3.setViewportView(customerBorrowRecordTable);
+
+        javax.swing.GroupLayout customerBorrowRecordPageLayout = new javax.swing.GroupLayout(customerBorrowRecordPage);
+        customerBorrowRecordPage.setLayout(customerBorrowRecordPageLayout);
+        customerBorrowRecordPageLayout.setHorizontalGroup(
+            customerBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(customerBorrowRecordPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(customerBorrowRecordPageBackBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+        );
+        customerBorrowRecordPageLayout.setVerticalGroup(
+            customerBorrowRecordPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(customerBorrowRecordPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(customerBorrowRecordPageBackBt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
+        );
+
+        searchCustomerTab.add(customerBorrowRecordPage, "customerBorrowRecordPage");
 
         pageTab.addTab("客戶搜尋", searchCustomerTab);
 
@@ -590,7 +749,7 @@ public class MainGUI extends JFrame {
                     .addComponent(newBookPageAuthorInput)
                     .addComponent(newBookPageTitleInput)
                     .addComponent(newBookPageISBNInput)
-                    .addComponent(newBookPagePublisherInput, 0, 850, Short.MAX_VALUE)
+                    .addComponent(newBookPagePublisherInput, 0, 883, Short.MAX_VALUE)
                     .addComponent(newBookPageEditionInput)
                     .addComponent(newBookPageCostInput)
                     .addComponent(newBookPageQuantityInput))
@@ -994,6 +1153,21 @@ public class MainGUI extends JFrame {
         String filename = Utils.exportCSV("all_books", allBooksTable);
         JOptionPane.showMessageDialog(null, (filename == null ? "無法導出CSV。" : "已導出CSV: " + filename));
     }//GEN-LAST:event_allBooksExportBtActionPerformed
+
+    private void customerBorrowRecordPageBackBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerBorrowRecordPageBackBtActionPerformed
+        CardLayout card = (CardLayout)searchCustomerTab.getLayout();
+		card.show(searchCustomerTab, "searchCustomerPage");
+    }//GEN-LAST:event_customerBorrowRecordPageBackBtActionPerformed
+
+    private void searchCustomerPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCustomerPageHKIDInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            searchCustomerPageSearch();
+        }
+    }//GEN-LAST:event_searchCustomerPageHKIDInputKeyPressed
+
+    private void searchCustomerPageSearchBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerPageSearchBtActionPerformed
+        searchCustomerPageSearch();
+    }//GEN-LAST:event_searchCustomerPageSearchBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1003,6 +1177,11 @@ public class MainGUI extends JFrame {
         searchBookPageEditionLabel.setText("");
         searchBookPageCostLabel.setText("");
         searchBookPageQuantityLabel.setText("");
+        searchCustomerPageNameLabel.setText("");
+        searchCustomerPageEmailLabel.setText("");
+        searchCustomerPagePhoneLabel.setText("");
+        searchCustomerPageGenderLabel.setText("");
+        searchCustomerPageAddressLabel.setText("");
         
         // show book info on allBooksTable
         allBooksRefresh();
@@ -1010,6 +1189,7 @@ public class MainGUI extends JFrame {
         // set editable false to tables
         allBooksTable.setDefaultEditor(Object.class, null);
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
+        customerBorrowRecordTable.setDefaultEditor(Object.class, null);
         
         // select first tab
         pageTab.setSelectedIndex(0);
@@ -1100,6 +1280,62 @@ public class MainGUI extends JFrame {
         
         CardLayout card = (CardLayout)searchBookTab.getLayout();
 		card.show(searchBookTab, "bookBorrowRecordPage");
+    }
+    
+    private boolean searchCustomerPageSearch() {
+        String hkid = searchCustomerPageHKIDInput.getText().trim().toUpperCase();
+        if (!Utils.isValidHKID(hkid)) {
+            // invalid HKID
+            if (!hkid.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的HKID。");
+            }
+            return false;
+        }
+        
+        Statement stmt = null;
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select * from userinfo where hkid='" + hkid + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            String name = null, email = null, phone = null, gender = null, address = null;
+            while (rs.next()) {
+                hkid = rs.getString("HKID");
+                name = rs.getString("name");
+                email = rs.getString("email");
+                if (rs.wasNull()) {
+                    // no email in this row
+                    email = "";
+                }
+                phone = rs.getString("phone");
+                if (rs.wasNull()) {
+                    // no phone in this row
+                    phone = "";
+                }
+                gender = rs.getString("gender");
+                address = rs.getString("address");
+            }
+            rs.close();
+            stmt.close();
+            
+            if (name == null) {
+                JOptionPane.showMessageDialog(null, "找不到此客戶。");
+                return false;
+            }
+            // update info label
+            searchCustomerPageNameLabel.setText(name);
+            searchCustomerPageEmailLabel.setText(email);
+            searchCustomerPagePhoneLabel.setText(phone);
+            searchCustomerPageGenderLabel.setText((gender.equals("M") ? "男" : "女"));
+            searchCustomerPageAddressLabel.setText(address);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        return true;
     }
     
     private boolean searchBookPageSearch() {
@@ -1420,6 +1656,9 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton bookBorrowRecordPageBackBt;
     private javax.swing.JTable bookBorrowRecordTable;
     private javax.swing.JPanel borrowTab;
+    private javax.swing.JPanel customerBorrowRecordPage;
+    private javax.swing.JButton customerBorrowRecordPageBackBt;
+    private javax.swing.JTable customerBorrowRecordTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1435,7 +1674,13 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1444,6 +1689,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton logoutBt;
     private javax.swing.JTextField newBookPageAuthorInput;
     private javax.swing.JTextField newBookPageCostInput;
@@ -1478,6 +1724,15 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton searchBookPageSearchBt;
     private javax.swing.JLabel searchBookPageTitleLabel;
     private javax.swing.JPanel searchBookTab;
+    private javax.swing.JPanel searchCustomerPage;
+    private javax.swing.JLabel searchCustomerPageAddressLabel;
+    private javax.swing.JLabel searchCustomerPageEmailLabel;
+    private javax.swing.JLabel searchCustomerPageGenderLabel;
+    private javax.swing.JTextField searchCustomerPageHKIDInput;
+    private javax.swing.JLabel searchCustomerPageNameLabel;
+    private javax.swing.JLabel searchCustomerPagePhoneLabel;
+    private javax.swing.JButton searchCustomerPageRecordBt;
+    private javax.swing.JButton searchCustomerPageSearchBt;
     private javax.swing.JPanel searchCustomerTab;
     private javax.swing.JTextField settingPageDateInput;
     private javax.swing.JPanel settingTab;

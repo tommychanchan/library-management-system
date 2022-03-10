@@ -3,8 +3,6 @@ package lms;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -103,10 +101,10 @@ public class Utils {
     public static boolean isValidHKID(String id) {
         String hkid = id.toUpperCase();
         int n = hkid.length();
-        if (n == 8 && !Pattern.matches("^.\\d{7}$", id)) {
+        if (n == 8 && !Pattern.matches("^.\\d{6}.$", id)) {
             return false;
         }
-        if (n == 9 && !Pattern.matches("^..\\d{7}$", id)) {
+        if (n == 9 && !Pattern.matches("^..\\d{6}.$", id)) {
             return false;
         }
         return (n == 8 || n == 9) && (hkid.equals(generateHKID(hkid.substring(0, n-1))));
@@ -136,8 +134,15 @@ public class Utils {
         return hkid + digit;
     }
     
-    public static boolean isValidISBN(String isbn) {
+    public static boolean isValidISBN(String s) {
+        String isbn = s.toUpperCase();
         int n = isbn.length();
+        if (n == 10 && !Pattern.matches("^\\d{9}.$", isbn)) {
+            return false;
+        }
+        if (n == 13 && !Pattern.matches("^\\d{13}$", isbn)) {
+            return false;
+        }
         return (n == 10 || n == 13) && (isbn.equals(generateISBN(isbn.substring(0, n-1))));
     }
 

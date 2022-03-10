@@ -11,12 +11,8 @@ public class FakeTime {
         fakeDatetime = null;
     }
     
-    public java.sql.Date getDateTime() {
-        if (fakeDatetime == null) {
-            return new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        } else {
-            return fakeDatetime;
-        }
+    public java.sql.Date getDate() {
+        return java.sql.Date.valueOf(formatDate());
     }
     
     public String formatDate() {
