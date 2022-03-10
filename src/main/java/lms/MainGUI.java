@@ -190,6 +190,11 @@ public class MainGUI extends JFrame {
         bookBorrowRecordPageBackBt = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         bookBorrowRecordTable = new javax.swing.JTable();
+        allCustomersTab = new javax.swing.JPanel();
+        allCustomersRefreshBt = new javax.swing.JButton();
+        allCustomersExportBt = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        allCustomersTable = new javax.swing.JTable();
         searchCustomerTab = new javax.swing.JPanel();
         searchCustomerPage = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
@@ -494,6 +499,63 @@ public class MainGUI extends JFrame {
         searchBookTab.add(bookBorrowRecordPage, "bookBorrowRecordPage");
 
         pageTab.addTab("圖書搜尋", searchBookTab);
+
+        allCustomersRefreshBt.setText("更新");
+        allCustomersRefreshBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allCustomersRefreshBtActionPerformed(evt);
+            }
+        });
+
+        allCustomersExportBt.setText("導出CSV");
+        allCustomersExportBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allCustomersExportBtActionPerformed(evt);
+            }
+        });
+
+        allCustomersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        allCustomersTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        allCustomersTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        allCustomersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                allCustomersTableMousePressed(evt);
+            }
+        });
+        jScrollPane4.setViewportView(allCustomersTable);
+
+        javax.swing.GroupLayout allCustomersTabLayout = new javax.swing.GroupLayout(allCustomersTab);
+        allCustomersTab.setLayout(allCustomersTabLayout);
+        allCustomersTabLayout.setHorizontalGroup(
+            allCustomersTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(allCustomersTabLayout.createSequentialGroup()
+                .addComponent(allCustomersRefreshBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(allCustomersExportBt)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+        );
+        allCustomersTabLayout.setVerticalGroup(
+            allCustomersTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(allCustomersTabLayout.createSequentialGroup()
+                .addGroup(allCustomersTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(allCustomersRefreshBt)
+                    .addComponent(allCustomersExportBt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
+        );
+
+        pageTab.addTab("所有客戶", allCustomersTab);
 
         searchCustomerTab.setLayout(new java.awt.CardLayout());
 
@@ -1178,6 +1240,29 @@ public class MainGUI extends JFrame {
     private void searchCustomerPageRecordBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerPageRecordBtActionPerformed
         searchCustomerPageShowRecord();
     }//GEN-LAST:event_searchCustomerPageRecordBtActionPerformed
+
+    private void allCustomersRefreshBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allCustomersRefreshBtActionPerformed
+        allCustomersRefresh();
+    }//GEN-LAST:event_allCustomersRefreshBtActionPerformed
+
+    private void allCustomersTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allCustomersTableMousePressed
+        JTable table =(JTable) evt.getSource();
+        Point point = evt.getPoint();
+        int row = table.rowAtPoint(point);
+        if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            String hkid = table.getValueAt(row, 0).toString();
+            
+            // change page to searchCustomerPage and show search result of hkid
+            searchCustomerPageHKIDInput.setText(hkid);
+            searchCustomerPageShowRecord();
+            pageTab.setSelectedIndex(3);
+        }
+    }//GEN-LAST:event_allCustomersTableMousePressed
+
+    private void allCustomersExportBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allCustomersExportBtActionPerformed
+        String filename = Utils.exportCSV("all_customers", allCustomersTable);
+        JOptionPane.showMessageDialog(null, (filename == null ? "無法導出CSV。" : "已導出CSV: " + filename));
+    }//GEN-LAST:event_allCustomersExportBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1196,13 +1281,65 @@ public class MainGUI extends JFrame {
         // show book info on allBooksTable
         allBooksRefresh();
         
+        // show customer info on allCustomersTable
+        allCustomersRefresh();
+        
         // set editable false to tables
         allBooksTable.setDefaultEditor(Object.class, null);
+        allCustomersTable.setDefaultEditor(Object.class, null);
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
         customerBorrowRecordTable.setDefaultEditor(Object.class, null);
         
         // select first tab
         pageTab.setSelectedIndex(0);
+    }
+    
+    public void allCustomersRefresh() {
+        // clear table
+        DefaultTableModel allCustomersTableModel = (DefaultTableModel) allCustomersTable.getModel();
+        allCustomersTableModel.setColumnCount(0);
+        allCustomersTableModel.addColumn("HKID");
+        allCustomersTableModel.addColumn("姓名");
+        allCustomersTableModel.addColumn("Email");
+        allCustomersTableModel.addColumn("電話號碼");
+        allCustomersTableModel.addColumn("性別");
+        allCustomersTableModel.addColumn("住址");
+        allCustomersTableModel.setRowCount(0);
+        
+        Statement stmt = null;
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select * from userinfo order by name";
+            ResultSet rs = stmt.executeQuery(sql);
+            String hkid = null, name = null, email = null, phone = null, gender = null, address = null;
+            while (rs.next()) {
+                hkid = rs.getString("HKID");
+                name = rs.getString("name");
+                email = rs.getString("email");
+                if (rs.wasNull()) {
+                    // no email in this row
+                    email = "";
+                }
+                phone = rs.getString("phone");
+                if (rs.wasNull()) {
+                    // no phone in this row
+                    phone = "";
+                }
+                gender = rs.getString("gender");
+                address = rs.getString("address");
+                
+                // add rows to table
+                allCustomersTableModel.addRow(new String[] {hkid, name, email, phone, (gender.equals("M") ? "男" : "女"), address});
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
     }
     
     public void allBooksRefresh() {
@@ -1674,6 +1811,10 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton allBooksRefreshBt;
     private javax.swing.JPanel allBooksTab;
     private javax.swing.JTable allBooksTable;
+    private javax.swing.JButton allCustomersExportBt;
+    private javax.swing.JButton allCustomersRefreshBt;
+    private javax.swing.JPanel allCustomersTab;
+    private javax.swing.JTable allCustomersTable;
     private javax.swing.JPanel bookBorrowRecordPage;
     private javax.swing.JButton bookBorrowRecordPageBackBt;
     private javax.swing.JTable bookBorrowRecordTable;
@@ -1712,6 +1853,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton logoutBt;
     private javax.swing.JTextField newBookPageAuthorInput;
     private javax.swing.JTextField newBookPageCostInput;
