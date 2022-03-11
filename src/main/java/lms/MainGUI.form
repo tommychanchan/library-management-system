@@ -255,7 +255,7 @@
                               <Component id="searchBookPageRecordBt" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="searchBookPageSearchBt" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="297" max="32767" attributes="0"/>
+                          <EmptySpace pref="267" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -361,6 +361,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="bookBorrowRecordPageBackBt" min="-2" pref="73" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="bookBorrowRecordExportBt" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane2" pref="1000" max="32767" attributes="0"/>
@@ -369,9 +371,12 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bookBorrowRecordPageBackBt" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="bookBorrowRecordPageBackBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="bookBorrowRecordExportBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="541" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="546" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -404,9 +409,20 @@
                           <JTableSelectionModel selectionMode="1"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bookBorrowRecordTableMousePressed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="bookBorrowRecordExportBt">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5c0e;&#x51fa;CSV"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bookBorrowRecordExportBtActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -514,37 +530,45 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel31" max="32767" attributes="0"/>
-                              <Component id="jLabel29" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel27" alignment="1" pref="122" max="32767" attributes="0"/>
-                              <Component id="jLabel25" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel23" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel22" alignment="1" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="searchCustomerPageHKIDInput" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="searchCustomerPageNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="searchCustomerPageEmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="searchCustomerPagePhoneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="searchCustomerPageGenderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="searchCustomerPageAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jLabel22" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel23" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel27" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel29" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel31" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel24" alignment="0" pref="146" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="searchCustomerPageHKIDInput" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="searchCustomerPageEmailLabel" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPageNameLabel" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPagePhoneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPageGenderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPageAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPageMoneyLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPageSearchBt" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPageRecordBt" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPagePayBt" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="326" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="412" max="-2" attributes="0"/>
-                          <Component id="searchCustomerPageSearchBt" min="-2" pref="76" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                          <Component id="searchCustomerPageRecordBt" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="386" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -583,10 +607,16 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="searchCustomerPageRecordBt" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="searchCustomerPageSearchBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchCustomerPageMoneyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="331" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="searchCustomerPageSearchBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchCustomerPageRecordBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchCustomerPagePayBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="267" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -668,6 +698,24 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCustomerPageRecordBtActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel24">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5c1a;&#x6b20;&#x6b3e;&#x9805; (HKD):"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="searchCustomerPageMoneyLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="money"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="searchCustomerPagePayBt">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x4ea4;&#x9084;&#x6240;&#x6709;&#x6b3e;&#x9805;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCustomerPagePayBtActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="customerBorrowRecordPage">
@@ -682,6 +730,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="customerBorrowRecordPageBackBt" min="-2" pref="73" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="customerBorrowRecordExportBt" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane3" alignment="0" pref="1000" max="32767" attributes="0"/>
@@ -690,7 +740,10 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="customerBorrowRecordPageBackBt" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="customerBorrowRecordPageBackBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="customerBorrowRecordExportBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane3" pref="546" max="32767" attributes="0"/>
                       </Group>
@@ -725,9 +778,20 @@
                           <JTableSelectionModel selectionMode="1"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="customerBorrowRecordTableMousePressed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="customerBorrowRecordExportBt">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5c0e;&#x51fa;CSV"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerBorrowRecordExportBtActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -1031,7 +1095,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="newCustomerPageSubmitBt" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="261" max="32767" attributes="0"/>
+                      <EmptySpace pref="258" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

@@ -49,9 +49,10 @@ CREATE TABLE userinfo (
 
 -- Table: Transaction
 CREATE TABLE transaction (
-    transaction_id INT NOT NULL AUTO_INCREMENT,
-    borrow_date DATE NOT NULL,
+    transaction_id INT AUTO_INCREMENT,
     HKID VARCHAR(9) NOT NULL,
+    borrow_date DATE NOT NULL,
+    paid BOOLEAN NOT NULL,
     FOREIGN KEY (HKID) REFERENCES userinfo(HKID),
     PRIMARY KEY (transaction_id)
 );
@@ -59,12 +60,11 @@ CREATE TABLE transaction (
 
 -- Table: TransactionDetail
 CREATE TABLE transactiondetail (
-    detail_id INT NOT NULL AUTO_INCREMENT,
+    detail_id INT AUTO_INCREMENT,
     transaction_id INT NOT NULL,
     ISBN VARCHAR(13) NOT NULL,
     due_date DATE NOT NULL,
     return_date DATE,
-    renewed_times INT NOT NULL,
     FOREIGN KEY (ISBN) REFERENCES bookinfo(ISBN),
     FOREIGN KEY (transaction_id) REFERENCES transaction(transaction_id),
     PRIMARY KEY (detail_id)
@@ -89,6 +89,9 @@ INSERT INTO bookinfo VALUES ('9789888467464', 'HKDSE Exam Series Mathematics (Ex
 INSERT INTO bookinfo VALUES ('9789882364523', 'New Horizon Liberal Studies Energy Technology and the Environment', '香港教育圖書有限公司', 3, 271, 1);
 INSERT INTO bookinfo VALUES ('9789881250919', '透視文言文 練習', 'HK Joint-Us Press', 1, 106, 23);
 INSERT INTO bookinfo VALUES ('9789882398085', 'Junior Secondary Mathematics in Action 2A (Modular)', 'Pearson Education Limited', 1, 248, 12);
+INSERT INTO bookinfo VALUES ('9789627452485', 'Integrated Music 1', 'Hong Kong Music', 2, 194, 20);
+INSERT INTO bookinfo VALUES ('9789627452492', 'Integrated Music 2', 'Hong Kong Music', 2, 194, 18);
+INSERT INTO bookinfo VALUES ('9789627452263', 'Integrated Music 3', 'Hong Kong Music', 1, 194, 0);
 
 -- Initial data: BookAuthor
 INSERT INTO bookauthor VALUES ('9789865024338', 'Bjarne Stroustrup');
@@ -139,3 +142,19 @@ INSERT INTO userinfo VALUES ('E3620003', '陳大文', 'chantaiman@gmail.com', NU
 INSERT INTO userinfo VALUES ('N1016774', '林子祥', NULL, NULL, 'M', '花街70號');
 INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');
 INSERT INTO userinfo VALUES ('G8333881', 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
+
+-- Initial data: Transaction
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-11', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-03-12', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-15', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-16', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-16', false);
+
+-- Initial data: TransactionDetail
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (1, '9789622880184', '2022-03-25');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '962070133X', '2022-03-25', '2022-03-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (2, '9789620703973', '2022-03-26');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (3, '9789865024338', '2022-03-29');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789620703973', '2022-03-30');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789865024338', '2022-03-30');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (5, '9789865024338', '2022-03-30');

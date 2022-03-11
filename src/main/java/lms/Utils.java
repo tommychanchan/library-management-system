@@ -2,12 +2,28 @@ package lms;
 
 import java.io.*;
 import java.sql.*;
+import java.text.*;
 import java.util.*;
 import java.util.regex.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class Utils {
+    private static SimpleDateFormat toStringDtf = new SimpleDateFormat("yyyy-MM-dd");
+    
+    public static String toString(java.sql.Date date) {
+        return toStringDtf.format(date);
+    }
+    
+    public static int tableColumnNameToIndex(JTable table, String name) {
+        for (int i=0, n = table.getColumnCount(); i < n; i++) {
+            if (table.getColumnName(i).equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     public static String exportCSV(String fn, JTable table) {
         OutputStreamWriter writer = null;
         String filename = fn + "_" + Main.fakeTime.formatDateTimeForFile() + ".csv";
