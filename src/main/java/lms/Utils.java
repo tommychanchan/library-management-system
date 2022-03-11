@@ -100,14 +100,7 @@ public class Utils {
     
     public static boolean isValidHKID(String id) {
         String hkid = id.toUpperCase();
-        int n = hkid.length();
-        if (n == 8 && !Pattern.matches("^.\\d{6}.$", id)) {
-            return false;
-        }
-        if (n == 9 && !Pattern.matches("^..\\d{6}.$", id)) {
-            return false;
-        }
-        return (n == 8 || n == 9) && (hkid.equals(generateHKID(hkid.substring(0, n-1))));
+        return (Pattern.matches("^.\\d{6}.$", id) || Pattern.matches("^..\\d{6}.$", id)) && (hkid.equals(generateHKID(hkid.substring(0, hkid.length()-1))));
     }
     
     public static String generateHKID(String id) {
@@ -136,14 +129,7 @@ public class Utils {
     
     public static boolean isValidISBN(String s) {
         String isbn = s.toUpperCase();
-        int n = isbn.length();
-        if (n == 10 && !Pattern.matches("^\\d{9}.$", isbn)) {
-            return false;
-        }
-        if (n == 13 && !Pattern.matches("^\\d{13}$", isbn)) {
-            return false;
-        }
-        return (n == 10 || n == 13) && (isbn.equals(generateISBN(isbn.substring(0, n-1))));
+        return (Pattern.matches("^\\d{9}.$", isbn) || Pattern.matches("^\\d{13}$", isbn)) && (isbn.equals(generateISBN(isbn.substring(0, isbn.length()-1))));
     }
 
     public static String generateISBN(String isbn) {
