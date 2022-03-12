@@ -8,7 +8,7 @@ public class Main {
     public static MainGUI mainGUI;
     public static PreSettingGUI preSettingGUI;
     public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String DB_URL = "jdbc:mysql://{host}/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    public static final String DB_URL = "jdbc:mysql://{host}/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useAffectedRows=true";
     public static Connection conn = null;
     public static FakeTime fakeTime;
     
