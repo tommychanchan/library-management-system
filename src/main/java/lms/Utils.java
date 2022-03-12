@@ -11,6 +11,13 @@ import javax.swing.table.*;
 public class Utils {
     private static SimpleDateFormat toStringDtf = new SimpleDateFormat("yyyy-MM-dd");
     
+    public static java.sql.Date addDays(java.sql.Date date, int days) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);
+        return new java.sql.Date(c.getTimeInMillis());
+    }
+    
     public static String toString(java.sql.Date date) {
         return toStringDtf.format(date);
     }

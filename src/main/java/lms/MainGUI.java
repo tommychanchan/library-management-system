@@ -1833,7 +1833,216 @@ public class MainGUI extends JFrame {
     }
     
     private void borrowPageBorrow() {
+        String hkid = borrowPageHKIDInput.getText().trim().toUpperCase();
+        if (!Utils.isValidHKID(hkid)) {
+            JOptionPane.showMessageDialog(null, (hkid.equals("") ? "請輸入HKID。" : "無效的HKID。"));
+            return;
+        }
         
+        String msg = "";
+        boolean[] needToCheck = new boolean[] {true, true, true, true, true, true, true, true};
+        String[] isbns = new String[] {
+            borrowPageISBNInput1.getText().trim().toUpperCase(),
+            borrowPageISBNInput2.getText().trim().toUpperCase(),
+            borrowPageISBNInput3.getText().trim().toUpperCase(),
+            borrowPageISBNInput4.getText().trim().toUpperCase(),
+            borrowPageISBNInput5.getText().trim().toUpperCase(),
+            borrowPageISBNInput6.getText().trim().toUpperCase(),
+            borrowPageISBNInput7.getText().trim().toUpperCase(),
+            borrowPageISBNInput8.getText().trim().toUpperCase()
+        };
+        
+        // filter all invalid ISBN
+        for (int i = 0, n = isbns.length; i < n; i++) {
+            if (isbns[i].equals("")) {
+                needToCheck[i] = false;
+            } else if (!Utils.isValidISBN(isbns[i])) {
+                needToCheck[i] = false;
+                msg += "\n無效的ISBN：" + isbns[i];
+            }
+        }
+        
+        // check if isbn exists in database
+        Statement stmt = null;
+        String sql;
+        ResultSet rs;
+        for (int i = 0, n = isbns.length; i < n; i++) {
+            if (!needToCheck[i]) {
+                continue;
+            }
+            try{
+                stmt = Main.conn.createStatement();
+                sql = "select ISBN from bookinfo where ISBN='" + isbns[i] + "'";
+                rs = stmt.executeQuery(sql);
+                needToCheck[i] = rs.next();
+                if (!needToCheck[i]) {
+                    // ISBN valid but not exists
+                    msg += "\n找不到此書：" + isbns[i];
+                }
+                rs.close();
+                stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) {
+                        stmt.close();
+                        stmt = null;
+                    }
+                }catch(SQLException se2){}
+            }
+        }
+        
+        // check if user have enough quota to borrow these books
+        int can_borrow_num = Main.MAX_BOOKS_BORROW;
+        try{
+            stmt = Main.conn.createStatement();
+            sql = "select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id=TD.transaction_id where hkid='" + hkid + "' and return_date is NULL";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                can_borrow_num = Main.MAX_BOOKS_BORROW - rs.getInt("total");
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+            }catch(SQLException se2){}
+        }
+        for (int i = 0, n = isbns.length; i < n; i++) {
+            if (needToCheck[i]) {
+                can_borrow_num--;
+            }
+        }
+        
+        if (can_borrow_num < 0) {
+            // not enough quota
+            for (int i = 0, n = isbns.length; i < n; i++) {
+                needToCheck[i] = false;
+            }
+            msg += "\n此客戶沒有足夠配額，每位客戶只可同時借" + Main.MAX_BOOKS_BORROW + "本書。";
+        }
+        
+        
+        
+        if (msg.equals("")) {
+            // so far no any problem
+            // now use transaction to remove quantity and
+            // insert borrow data to database.
+            Savepoint savePoint = null;
+            try {
+                boolean needRollBack = false;
+                int affectedRow;
+                Main.conn.setAutoCommit(false);
+                stmt = Main.conn.createStatement();
+                savePoint = Main.conn.setSavepoint();
+                
+                // remove quantity of each book
+                for (int i = 0, n = isbns.length; i < n; i++) {
+                    if (!needToCheck[i]) {
+                        continue;
+                    }
+                    sql = "update bookinfo set quantity = quantity-1 where isbn = '" + isbns[i] + "' and quantity > 0;";
+                    affectedRow = stmt.executeUpdate(sql);
+                    if (affectedRow == 0) {
+                        // quantity is 0
+                        needRollBack = true;
+                        msg += "\n沒有足夠存貨：" + isbns[i];
+                    }
+                }
+                
+                // insert to table Transaction
+                sql = "insert into transaction (HKID, borrow_date, paid) values ('" + hkid + "', '" + Main.fakeTime.formatDate() + "', false);";
+                affectedRow = stmt.executeUpdate(sql);
+                if (affectedRow == 0) {
+                    // cannot insert to table Transaction
+                    needRollBack = true;
+                    msg += "\n無法插入交易資料。";
+                }
+                
+                // retrieve transaction_id
+                int transaction_id = -1;
+                sql = "select LAST_INSERT_ID() ID;";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    transaction_id = rs.getInt("ID");
+                }
+                rs.close();
+                
+                if (transaction_id == -1) {
+                    needRollBack = true;
+                    msg += "\n無法取回交易ID。";
+                } else {
+                    // insert transaction detail of each book
+                    String dueDateStr = Utils.toString(Utils.addDays(Main.fakeTime.getDate(), Main.MAX_DAYS_BORROW));
+                    for (int i = 0, n = isbns.length; i < n; i++) {
+                        if (!needToCheck[i]) {
+                            continue;
+                        }
+                        sql = "insert into transactiondetail (transaction_id, ISBN, due_date) VALUES (" + transaction_id + ", '" + isbns[i] + "', '" + dueDateStr + "');";
+                        affectedRow = stmt.executeUpdate(sql);
+                        if (affectedRow == 0) {
+                            // cannot insert TransactionDetail
+                            needRollBack = true;
+                            msg += "\n無法插入交易詳細資料：" + isbns[i] + "。";
+                        }
+                    }
+                }
+                
+                stmt.close();
+                if (needRollBack) {
+                    Main.conn.rollback(savePoint);
+                }
+                Main.conn.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if (Main.conn != null) {
+                    try {
+                        if (savePoint != null) {
+                            Main.conn.rollback(savePoint);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                msg += "\nSQL Exception.";
+            } finally {
+                try{
+                    Main.conn.setAutoCommit(true);
+                    if (stmt != null) {
+                        stmt.close();
+                        stmt = null;
+                    }
+                }catch(SQLException se2){}
+            }
+        }
+        
+        
+        if (msg.equals("")) {
+            // success
+            // clear all input fields
+            borrowPageHKIDInput.setText("");
+            borrowPageISBNInput1.setText("");
+            borrowPageISBNInput2.setText("");
+            borrowPageISBNInput3.setText("");
+            borrowPageISBNInput4.setText("");
+            borrowPageISBNInput5.setText("");
+            borrowPageISBNInput6.setText("");
+            borrowPageISBNInput7.setText("");
+            borrowPageISBNInput8.setText("");
+            
+            // focus hkid input
+            borrowPageHKIDInput.requestFocus();
+        } else {
+            // something wrong
+            msg = "無法借書，原因如下：" + msg;
+            JOptionPane.showMessageDialog(null, msg);
+        }
     }
     
     private void searchCustomerPageShowRecord() {
