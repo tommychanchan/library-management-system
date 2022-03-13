@@ -29,6 +29,10 @@ public class FakeTime {
         return formatDate() + " " + formatTime();
     }
     
+    public String formatTimeForFile() {
+        return formatTime().replaceAll(":", "");
+    }
+    
     public String formatDateTimeForFile() {
         return formatDate() + "_" + formatTime().replaceAll(":", "");
     }

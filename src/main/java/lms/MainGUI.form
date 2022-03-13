@@ -149,8 +149,8 @@
         <Container class="javax.swing.JPanel" name="searchBookTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&#x5716;&#x66f8;&#x641c;&#x5c0b;">
-                <Property name="tabTitle" type="java.lang.String" value="&#x5716;&#x66f8;&#x641c;&#x5c0b;"/>
+              <JTabbedPaneConstraints tabName="&#x500b;&#x5225;&#x5716;&#x66f8;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x500b;&#x5225;&#x5716;&#x66f8;"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -516,8 +516,8 @@
         <Container class="javax.swing.JPanel" name="searchCustomerTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&#x5ba2;&#x6236;&#x641c;&#x5c0b;">
-                <Property name="tabTitle" type="java.lang.String" value="&#x5ba2;&#x6236;&#x641c;&#x5c0b;"/>
+              <JTabbedPaneConstraints tabName="&#x500b;&#x5225;&#x5ba2;&#x6236;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x500b;&#x5225;&#x5ba2;&#x6236;"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

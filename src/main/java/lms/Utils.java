@@ -1,6 +1,7 @@
 package lms;
 
 import java.io.*;
+import java.nio.file.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
@@ -33,7 +34,14 @@ public class Utils {
     
     public static String exportCSV(String fn, JTable table) {
         OutputStreamWriter writer = null;
-        String filename = fn + "_" + Main.fakeTime.formatDateTimeForFile() + ".csv";
+        String folder = Main.REPORT_FOLDER + "/" + Main.fakeTime.formatDate();
+        try {
+            Files.createDirectories(Paths.get(folder));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        String filename = folder + "/" + fn + "_" + Main.fakeTime.formatTimeForFile() + ".csv";
         try {
             File file = new File(filename);
             writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");

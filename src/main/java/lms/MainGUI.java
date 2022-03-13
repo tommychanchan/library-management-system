@@ -545,7 +545,7 @@ public class MainGUI extends JFrame {
 
         searchBookTab.add(bookBorrowRecordPage, "bookBorrowRecordPage");
 
-        pageTab.addTab("圖書搜尋", searchBookTab);
+        pageTab.addTab("個別圖書", searchBookTab);
 
         allCustomersRefreshBt.setText("更新");
         allCustomersRefreshBt.addActionListener(new java.awt.event.ActionListener() {
@@ -801,7 +801,7 @@ public class MainGUI extends JFrame {
 
         searchCustomerTab.add(customerBorrowRecordPage, "customerBorrowRecordPage");
 
-        pageTab.addTab("客戶搜尋", searchCustomerTab);
+        pageTab.addTab("個別客戶", searchCustomerTab);
 
         jLabel26.setText("HKID:");
 
@@ -1327,7 +1327,7 @@ public class MainGUI extends JFrame {
             searchBookPageSearch();
             CardLayout card = (CardLayout)searchBookTab.getLayout();
             card.show(searchBookTab, "searchBookPage");
-            pageTab.setSelectedIndex(1);
+            pageTab.setSelectedComponent(searchBookTab);
         }
     }//GEN-LAST:event_allBooksTableMousePressed
 
@@ -1496,7 +1496,7 @@ public class MainGUI extends JFrame {
             CardLayout card = (CardLayout)searchCustomerTab.getLayout();
             card.show(searchCustomerTab, "searchCustomerPage");
             searchCustomerPageSearch();
-            pageTab.setSelectedIndex(3);
+            pageTab.setSelectedComponent(searchCustomerTab);
         }
     }//GEN-LAST:event_allCustomersTableMousePressed
 
@@ -1516,7 +1516,7 @@ public class MainGUI extends JFrame {
             searchCustomerPageSearch();
             CardLayout card = (CardLayout)searchCustomerTab.getLayout();
             card.show(searchCustomerTab, "searchCustomerPage");
-            pageTab.setSelectedIndex(3);
+            pageTab.setSelectedComponent(searchCustomerTab);
         }
     }//GEN-LAST:event_bookBorrowRecordTableMousePressed
 
@@ -1541,7 +1541,7 @@ public class MainGUI extends JFrame {
             searchBookPageSearch();
             CardLayout card = (CardLayout)searchBookTab.getLayout();
             card.show(searchBookTab, "searchBookPage");
-            pageTab.setSelectedIndex(1);
+            pageTab.setSelectedComponent(searchBookTab);
         }
     }//GEN-LAST:event_customerBorrowRecordTableMousePressed
 
@@ -1697,6 +1697,7 @@ public class MainGUI extends JFrame {
         bookBorrowRecordTableModel.addColumn("HKID");
         bookBorrowRecordTableModel.addColumn("客戶姓名");
         bookBorrowRecordTableModel.addColumn("借書日期");
+        bookBorrowRecordTableModel.addColumn("到期日");
         bookBorrowRecordTableModel.addColumn("還書日期");
         
         // set up table columns for bookBorrowRecordTable
@@ -1705,6 +1706,7 @@ public class MainGUI extends JFrame {
         customerBorrowRecordTableModel.addColumn("ISBN");
         customerBorrowRecordTableModel.addColumn("書名");
         customerBorrowRecordTableModel.addColumn("借書日期");
+        customerBorrowRecordTableModel.addColumn("到期日");
         customerBorrowRecordTableModel.addColumn("還書日期");
         
         
@@ -1720,8 +1722,8 @@ public class MainGUI extends JFrame {
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
         customerBorrowRecordTable.setDefaultEditor(Object.class, null);
         
-        // select first tab
-        pageTab.setSelectedIndex(0);
+        // select a default tab
+        pageTab.setSelectedComponent(allBooksTab);
     }
     
     public void allCustomersRefresh() {
@@ -1865,12 +1867,12 @@ public class MainGUI extends JFrame {
         // check if isbn exists in database
         Statement stmt = null;
         String sql;
-        ResultSet rs;
-        for (int i = 0, n = isbns.length; i < n; i++) {
-            if (!needToCheck[i]) {
-                continue;
-            }
-            try{
+        ResultSet rs = null;
+        try{
+            for (int i = 0, n = isbns.length; i < n; i++) {
+                if (!needToCheck[i]) {
+                    continue;
+                }
                 stmt = Main.conn.createStatement();
                 sql = "select ISBN from bookinfo where ISBN='" + isbns[i] + "'";
                 rs = stmt.executeQuery(sql);
@@ -1879,18 +1881,19 @@ public class MainGUI extends JFrame {
                     // ISBN valid but not exists
                     msg += "\n找不到此書：" + isbns[i];
                 }
-                rs.close();
-                stmt.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try{
-                    if (stmt != null) {
-                        stmt.close();
-                        stmt = null;
-                    }
-                }catch(SQLException se2){}
             }
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+            }catch(SQLException se2){}
         }
         
         // check if user have enough quota to borrow these books
@@ -2058,19 +2061,24 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join bookinfo BI on TD.ISBN=BI.ISBN inner join userinfo UI on T.HKID=UI.HKID where T.HKID = '" + hkid + "' order by T.transaction_id desc;";
+            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join bookinfo BI on TD.ISBN=BI.ISBN right join userinfo UI on T.HKID=UI.HKID where UI.HKID = '" + hkid + "' order by T.transaction_id desc;";
             ResultSet rs = stmt.executeQuery(sql);
-            String isbn = null, name = null, title = null, borrowDate = null, returnDate = null;
+            String isbn = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
             while (rs.next()) {
                 isbn = rs.getString("TD.ISBN");
                 name = rs.getString("UI.name");
+                if (isbn == null) {
+                    // this customer did not borrow book
+                    continue;
+                }
                 title = rs.getString("BI.title");
-                borrowDate = Utils.toString(rs.getDate("borrow_date"));
-                tempReturnDate = rs.getDate("return_date");
+                borrowDate = Utils.toString(rs.getDate("T.borrow_date"));
+                dueDate = Utils.toString(rs.getDate("TD.due_date"));
+                tempReturnDate = rs.getDate("TD.return_date");
                 returnDate = (tempReturnDate == null ? "尚未還書" : Utils.toString(tempReturnDate));
                 
-                tableModel.addRow(new String[] {isbn, title, borrowDate, returnDate});
+                tableModel.addRow(new String[] {isbn, title, borrowDate, dueDate, returnDate});
             }
             customerBorrowRecordNameLabel.setText("姓名：" + name);
             rs.close();
@@ -2100,19 +2108,24 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID inner join bookinfo BI on TD.ISBN=BI.ISBN where TD.ISBN = '" + isbn + "' order by T.transaction_id desc;";
+            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID right join bookinfo BI on TD.ISBN=BI.ISBN where BI.ISBN = '" + isbn + "' order by T.transaction_id desc;";
             ResultSet rs = stmt.executeQuery(sql);
-            String hkid = null, name = null, title = null, borrowDate = null, returnDate = null;
+            String hkid = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
             while (rs.next()) {
                 hkid = rs.getString("UI.HKID");
                 name = rs.getString("UI.name");
                 title = rs.getString("BI.title");
-                borrowDate = Utils.toString(rs.getDate("borrow_date"));
-                tempReturnDate = rs.getDate("return_date");
+                if (hkid == null) {
+                    // no people borrow this book
+                    continue;
+                }
+                borrowDate = Utils.toString(rs.getDate("T.borrow_date"));
+                dueDate = Utils.toString(rs.getDate("TD.due_date"));
+                tempReturnDate = rs.getDate("TD.return_date");
                 returnDate = (tempReturnDate == null ? "尚未還書" : Utils.toString(tempReturnDate));
                 
-                tableModel.addRow(new String[] {hkid, name, borrowDate, returnDate});
+                tableModel.addRow(new String[] {hkid, name, borrowDate, dueDate, returnDate});
             }
             bookBorrowRecordTitleLabel.setText("書名：" + title);
             rs.close();
@@ -2176,6 +2189,7 @@ public class MainGUI extends JFrame {
             searchCustomerPageAddressLabel.setText(address);
         
             // TODO: calculate and show the money should pay
+            // using Main.DEBT_EACH_DAY
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -2408,7 +2422,7 @@ public class MainGUI extends JFrame {
         cost = Double.parseDouble(newBookPageCostInput.getText().trim());
         quantity = Integer.parseInt(newBookPageQuantityInput.getText().trim());
         
-        String[] authors = (authorStr.equals("") ? new String[] {} : authorStr.split(",|, |，"));
+        String[] authors = (authorStr.equals("") ? new String[] {} : authorStr.split(",|，"));
         for (int i = 0, n = authors.length; i < n; i++) {
             authors[i] = authors[i].trim();
         }
