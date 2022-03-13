@@ -40,7 +40,7 @@ CREATE TABLE bookauthor (
 CREATE TABLE userinfo (
     HKID VARCHAR(9) NOT NULL,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(80),
+    email VARCHAR(90),
     phone CHAR(8),
     gender CHAR(1) NOT NULL,
     address VARCHAR(300) NOT NULL,
@@ -144,25 +144,43 @@ INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍�
 INSERT INTO userinfo VALUES ('P2233790', '陳一心', NULL, '36288588', 'F', '九龍新蒲崗爵祿街17號');
 INSERT INTO userinfo VALUES ('G8333881', 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
 INSERT INTO userinfo VALUES ('XA1234568', 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
+INSERT INTO userinfo VALUES ('C1413161', '獨孤允行', NULL, NULL, 'M', '新界屯門蝴蝶邨蝶影樓');
 
 -- Initial data: Transaction
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-01', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-03-02', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-05', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-06', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-06', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-06', false);
-INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-06', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-07', true);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-02-09', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-02-15', true);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-02-16', true);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-16', true);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-02-18', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-19', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('Y1481892', '2022-02-19', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('E3620003', '2022-02-20', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-02-20', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('P2233790', '2022-02-21', true);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-02-23', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-02-23', false);
 
 -- Initial data: TransactionDetail
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (1, '9789622880184', '2022-03-15');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '962070133X', '2022-03-15', '2022-03-03');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (2, '9789620703973', '2022-03-16');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (3, '9789865024338', '2022-03-19', '2022-03-12');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789620703973', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789865024338', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (5, '9789865024338', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (5, '9789865024338', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (5, '9789865024338', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (6, '9789865024338', '2022-03-20');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (7, '9789865024338', '2022-03-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '9789622880184', '2022-02-21', '2022-02-18');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '962070133X', '2022-02-21', '2022-03-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (2, '9789620703973', '2022-02-23', '2022-02-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (3, '9789865024338', '2022-03-01', '2022-02-28');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (4, '9789620703973', '2022-03-02', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (4, '9789863475705', '2022-03-02', '2022-03-11');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (5, '9789865024338', '2022-03-02', '2022-03-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (5, '9789865024338', '2022-03-02', '2022-02-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (6, '9789865024338', '2022-03-04', '2022-03-06');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (7, '9789865024338', '2022-03-05', '2022-03-04');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (8, '9789882119437', '2022-03-05', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (8, '9789622880184', '2022-03-05', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (8, '9789881250919', '2022-03-05', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (9, '9789882364523', '2022-03-06', '2022-03-06');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (9, '9789888467464', '2022-03-06', '2022-03-06');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (10, '9789627452485', '2022-03-06', '2022-03-02');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (10, '9789627452492', '2022-03-06', '2022-03-02');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (11, '9789881250919', '2022-03-07', '2022-03-12');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (12, '9780195489576', '2022-03-09', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (12, '9789882054226', '2022-03-09', '2022-03-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (13, '9789888540129', '2022-03-09');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (13, '9789888540143', '2022-03-09');
