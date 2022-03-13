@@ -243,6 +243,12 @@ public class MainGUI extends JFrame {
         borrowPageISBNInput8 = new javax.swing.JTextField();
         borrowPageBorrowBt = new javax.swing.JButton();
         returnTab = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
+        returnPageHKIDInput = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        returnPageISBNInput = new javax.swing.JTextField();
+        returnPageReturnBt = new javax.swing.JButton();
+        returnPageResetBt = new javax.swing.JButton();
         newBookTab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -961,15 +967,73 @@ public class MainGUI extends JFrame {
 
         pageTab.addTab("借書", borrowTab);
 
+        jLabel38.setText("HKID:");
+
+        returnPageHKIDInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                returnPageHKIDInputKeyPressed(evt);
+            }
+        });
+
+        jLabel39.setText("ISBN:");
+
+        returnPageISBNInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                returnPageISBNInputKeyPressed(evt);
+            }
+        });
+
+        returnPageReturnBt.setText("還書");
+        returnPageReturnBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnPageReturnBtActionPerformed(evt);
+            }
+        });
+
+        returnPageResetBt.setText("清空輸入");
+        returnPageResetBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnPageResetBtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout returnTabLayout = new javax.swing.GroupLayout(returnTab);
         returnTab.setLayout(returnTabLayout);
         returnTabLayout.setHorizontalGroup(
             returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(returnTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(returnPageHKIDInput)
+                    .addComponent(returnPageISBNInput))
+                .addContainerGap())
+            .addGroup(returnTabLayout.createSequentialGroup()
+                .addGap(388, 388, 388)
+                .addComponent(returnPageReturnBt, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(returnPageResetBt)
+                .addContainerGap(376, Short.MAX_VALUE))
         );
         returnTabLayout.setVerticalGroup(
             returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGroup(returnTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(returnPageHKIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(returnPageISBNInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(returnTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(returnPageReturnBt)
+                    .addComponent(returnPageResetBt))
+                .addContainerGap(450, Short.MAX_VALUE))
         );
 
         pageTab.addTab("還書", returnTab);
@@ -1761,6 +1825,42 @@ public class MainGUI extends JFrame {
     private void borrowPageBorrowBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageBorrowBtActionPerformed
         borrowPageBorrow();
     }//GEN-LAST:event_borrowPageBorrowBtActionPerformed
+
+    private void returnPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnPageHKIDInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            String hkid = returnPageHKIDInput.getText().trim().toUpperCase();
+            if (Utils.isValidHKID(hkid)) {
+                returnPageISBNInput.requestFocus();
+            } else if (!hkid.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的HKID。");
+            }
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            returnPageHKIDInput.setText("");
+            returnPageISBNInput.setText("");
+        }
+    }//GEN-LAST:event_returnPageHKIDInputKeyPressed
+
+    private void returnPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnPageISBNInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            returnPageReturn();
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            returnPageHKIDInput.setText("");
+            returnPageISBNInput.setText("");
+            returnPageHKIDInput.requestFocus();
+        }
+    }//GEN-LAST:event_returnPageISBNInputKeyPressed
+
+    private void returnPageReturnBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnPageReturnBtActionPerformed
+        returnPageReturn();
+    }//GEN-LAST:event_returnPageReturnBtActionPerformed
+
+    private void returnPageResetBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnPageResetBtActionPerformed
+        returnPageHKIDInput.setText("");
+        returnPageISBNInput.setText("");
+        returnPageHKIDInput.requestFocus();
+    }//GEN-LAST:event_returnPageResetBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1940,6 +2040,112 @@ public class MainGUI extends JFrame {
         if (!Main.fakeTime.setFakeTime(settingPageDateInput.getText().trim())) {
             // invalid format
             JOptionPane.showMessageDialog(null, "格式錯誤。");
+        }
+    }
+    
+    private void returnPageReturn() {
+        String hkid = returnPageHKIDInput.getText().trim().toUpperCase();
+        String isbn = returnPageISBNInput.getText().trim().toUpperCase();
+        if (!Utils.isValidHKID(hkid)) {
+            JOptionPane.showMessageDialog(null, (hkid.equals("") ? "請輸入HKID。" : "無效的HKID。"));
+            return;
+        }
+        if (!Utils.isValidISBN(isbn)) {
+            JOptionPane.showMessageDialog(null, (isbn.equals("") ? "請輸入ISBN。" : "無效的ISBN。"));
+            return;
+        }
+        
+        Statement stmt = null;
+        String sql, msg = "";
+        Savepoint savePoint = null;
+        ResultSet rs;
+        try {
+            boolean needRollBack = false;
+            int affectedRow;
+            Main.conn.setAutoCommit(false);
+            stmt = Main.conn.createStatement();
+            savePoint = Main.conn.setSavepoint();
+
+            // check if customer exists
+            sql = "select hkid from userinfo where hkid='" + hkid + "';";
+            rs = stmt.executeQuery(sql);
+            if (!rs.next()) {
+                // customer does NOT exists
+                needRollBack = true;
+                msg += "\n找不到此客戶。";
+            }
+            
+            // update the quantity
+            sql = "update bookinfo set quantity = quantity+1 where isbn = '" + isbn + "';";
+            affectedRow = stmt.executeUpdate(sql);
+            if (affectedRow == 0) {
+                // cannot find the book
+                needRollBack = true;
+                msg += "\n找不到此書。";
+            }
+
+            // find which detail_id is the book from
+            sql = "select TD.detail_id from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and TD.ISBN='" + isbn + "' and return_date is NULL order by TD.due_date, TD.detail_id;";
+            rs = stmt.executeQuery(sql);
+            int detailID = -1;
+            if (rs.next()) {
+                detailID = rs.getInt("detail_id");
+            }
+            if (detailID == -1) {
+                // user does not borrow this book
+                needRollBack = true;
+                msg += "\n此客戶沒有借這本書。";
+            }
+            
+            // update TransactionDetail
+            if (msg.equals("")) {
+                sql = "update transactiondetail set return_date='" + Main.fakeTime.formatDate() + "' where detail_id=" + detailID + ";";
+                affectedRow = stmt.executeUpdate(sql);
+                if (affectedRow == 0) {
+                    needRollBack = true;
+                    msg += "\n無法更新還書資料，請再試一次。";
+                }
+            }
+            
+            rs.close();
+            stmt.close();
+            if (needRollBack) {
+                Main.conn.rollback(savePoint);
+            }
+            Main.conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (Main.conn != null) {
+                try {
+                    if (savePoint != null) {
+                        Main.conn.rollback(savePoint);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            msg += "\nSQL Exception.";
+        } finally {
+            try{
+                Main.conn.setAutoCommit(true);
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+            }catch(SQLException se2){}
+        }
+        
+        if (msg.equals("")) {
+            // success
+            // clear isbn input
+            returnPageISBNInput.setText("");
+            
+            // focus isbn input
+            returnPageISBNInput.requestFocus();
+        } else {
+            // something wrong
+            msg = "無法還書，原因如下：" + msg;
+            JOptionPane.showMessageDialog(null, msg);
         }
     }
     
@@ -2694,6 +2900,8 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2726,6 +2934,10 @@ public class MainGUI extends JFrame {
     private javax.swing.JPanel newCustomerTab;
     private javax.swing.JTabbedPane pageTab;
     private javax.swing.JPanel reportTab;
+    private javax.swing.JTextField returnPageHKIDInput;
+    private javax.swing.JTextField returnPageISBNInput;
+    private javax.swing.JButton returnPageResetBt;
+    private javax.swing.JButton returnPageReturnBt;
     private javax.swing.JPanel returnTab;
     private javax.swing.JPanel searchBookPage;
     private javax.swing.JLabel searchBookPageAuthorLabel;

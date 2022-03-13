@@ -120,7 +120,7 @@ INSERT INTO bookauthor VALUES ('9789622880184', '小思');
 INSERT INTO bookauthor VALUES ('9781401398033', 'Mitch Albom');
 INSERT INTO bookauthor VALUES ('962070133X', '黃港生');
 INSERT INTO bookauthor VALUES ('9789882119437', '龍應台');
-INSERT INTO bookauthor VALUES ('9789620703973', 'Antoine De Saint Exupery');
+INSERT INTO bookauthor VALUES ('9789620703973', 'A. de Saint-Exupéry');
 INSERT INTO bookauthor VALUES ('9789888467464', 'W.S. Yeung');
 INSERT INTO bookauthor VALUES ('9789882364523', 'Victor Yeung');
 INSERT INTO bookauthor VALUES ('9789882364523', 'Wong Chi Fai');
