@@ -141,7 +141,9 @@ INSERT INTO userinfo VALUES ('A1234563', 'Tommy Chan', 's207885@hsu.edu.hk', '98
 INSERT INTO userinfo VALUES ('E3620003', '陳大文', 'chantaiman@gmail.com', NULL, 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
 INSERT INTO userinfo VALUES ('N1016774', '林子祥', NULL, NULL, 'M', '花街70號');
 INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');
+INSERT INTO userinfo VALUES ('P2233790', '陳一心', NULL, '36288588', 'F', '九龍新蒲崗爵祿街17號');
 INSERT INTO userinfo VALUES ('G8333881', 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
+INSERT INTO userinfo VALUES ('AA1234566', 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
 
 -- Initial data: Transaction
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-01', false);
@@ -156,7 +158,7 @@ INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-0
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (1, '9789622880184', '2022-03-15');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '962070133X', '2022-03-15', '2022-03-03');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (2, '9789620703973', '2022-03-16');
-INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (3, '9789865024338', '2022-03-19');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (3, '9789865024338', '2022-03-19', '2022-03-12');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789620703973', '2022-03-20');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (4, '9789865024338', '2022-03-20');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (5, '9789865024338', '2022-03-20');

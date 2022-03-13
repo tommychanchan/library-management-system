@@ -5,12 +5,17 @@ import java.nio.file.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.regex.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class Utils {
     private static SimpleDateFormat toStringDtf = new SimpleDateFormat("yyyy-MM-dd");
+    
+    public static long daysDifference(java.sql.Date d1, java.sql.Date d2) {
+        return TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
+    }
     
     public static java.sql.Date addDays(java.sql.Date date, int days) {
         Calendar c = Calendar.getInstance();

@@ -1546,8 +1546,117 @@ public class MainGUI extends JFrame {
     }//GEN-LAST:event_customerBorrowRecordTableMousePressed
 
     private void searchCustomerPagePayBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerPagePayBtActionPerformed
-        // TODO: check if all books are returned and
-        // mark as paid for all TransactionDetail
+        String hkid = searchCustomerPageHKIDInput.getText().trim().toUpperCase();
+        if (!Utils.isValidHKID(hkid)) {
+            // invalid HKID
+            if (!hkid.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的HKID。");
+            }
+            return;
+        }
+        
+        Statement stmt = null;
+        Savepoint savePoint = null;
+        String sql, msg = "";
+        ResultSet rs;
+        try {
+            boolean needRollBack = false;
+            int affectedRow;
+            Main.conn.setAutoCommit(false);
+            stmt = Main.conn.createStatement();
+            savePoint = Main.conn.setSavepoint();
+
+            // check if HKID exists in userinfo
+            sql = "select count(HKID) total from userinfo where HKID='" + hkid + "';";
+            rs = stmt.executeQuery(sql);
+            int temp = 0;
+            while (rs.next()) {
+                temp = rs.getInt("total");
+            }
+            if (temp == 0) {
+                needRollBack = true;
+                msg += "\n找不到此客戶。";
+            }
+
+            // check if all books are returned and
+            // mark as paid for all TransactionDetail
+            if (!needRollBack) {
+                sql = "select count(*) total from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and TD.return_date is NULL;";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    temp = rs.getInt("total");
+                }
+                if (temp > 0) {
+                    needRollBack = true;
+                    msg += "\n此客戶尚未交還所有圖書。";
+                }
+            }
+            
+            // calculate debt
+            // check if debt greater than 0
+            double debt = 0;
+            java.sql.Date dueDate, returnDate;
+            if (!needRollBack) {
+                sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid;";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    dueDate = rs.getDate("TD.due_date");
+                    returnDate = rs.getDate("TD.return_date");
+                    returnDate = (returnDate == null ? Main.fakeTime.getDate() : returnDate);
+                    if (returnDate.after(dueDate)) {
+                        debt += Utils.daysDifference(dueDate, returnDate) * Main.DEBT_EACH_DAY;
+                    }
+                }
+                if (debt == 0) {
+                    // no any debt need to pay
+                    needRollBack = true;
+                    msg += "\n此客戶沒有任何未還款項。";
+                }
+            }
+            
+            if (!needRollBack) {
+                // clear the debt
+                sql = "update transaction set paid=true where HKID='" + hkid + "';";
+                stmt.executeUpdate(sql);
+            }
+            
+            rs.close();
+            stmt.close();
+            if (needRollBack) {
+                Main.conn.rollback(savePoint);
+            }
+            Main.conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (Main.conn != null) {
+                try {
+                    if (savePoint != null) {
+                        Main.conn.rollback(savePoint);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            msg += "\nSQL Exception.";
+        } finally {
+            try{
+                Main.conn.setAutoCommit(true);
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+            }catch(SQLException se2){}
+        }
+        
+        if (msg.equals("")) {
+            // success
+            // search again to update the page
+            searchCustomerPageSearch();
+        } else {
+            // something wrong
+            msg = "無法交還款項，原因如下：" + msg;
+            JOptionPane.showMessageDialog(null, msg);
+        }
     }//GEN-LAST:event_searchCustomerPagePayBtActionPerformed
 
     private void borrowPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageHKIDInputKeyPressed
@@ -2174,6 +2283,21 @@ public class MainGUI extends JFrame {
                 gender = rs.getString("gender");
                 address = rs.getString("address");
             }
+            
+            // calculate and show the money should pay
+            double debt = 0;
+            java.sql.Date dueDate = null, returnDate = null;
+            sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid;";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                dueDate = rs.getDate("TD.due_date");
+                returnDate = rs.getDate("TD.return_date");
+                returnDate = (returnDate == null ? Main.fakeTime.getDate() : returnDate);
+                if (returnDate.after(dueDate)) {
+                    debt += Utils.daysDifference(dueDate, returnDate) * Main.DEBT_EACH_DAY;
+                }
+            }
+            
             rs.close();
             stmt.close();
             
@@ -2187,9 +2311,7 @@ public class MainGUI extends JFrame {
             searchCustomerPagePhoneLabel.setText(phone);
             searchCustomerPageGenderLabel.setText((gender.equals("M") ? "男" : "女"));
             searchCustomerPageAddressLabel.setText(address);
-        
-            // TODO: calculate and show the money should pay
-            // using Main.DEBT_EACH_DAY
+            searchCustomerPageMoneyLabel.setText(Double.toString(debt));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
