@@ -109,12 +109,12 @@ public class MainGUI extends JFrame {
                 Statement stmt = null;
                 try{
                     stmt = Main.conn.createStatement();
-                    String sql = "select * from userinfo where hkid='" + hkid + "'";
+                    String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where hkid='" + hkid + "'";
                     ResultSet rs = stmt.executeQuery(sql);
-                    String name = null, email = null, phone = null, gender = null, address = null;
+                    String name = null, type = null, email = null, phone = null, gender = null, address = null;
                     while (rs.next()) {
-                        hkid = rs.getString("HKID");
                         name = rs.getString("name");
+                        type = rs.getString("UT.type_name");
                         email = rs.getString("email");
                         if (rs.wasNull()) {
                             // no email in this row
@@ -134,6 +134,7 @@ public class MainGUI extends JFrame {
                     if (name != null) {
                         // update other fields
                         newCustomerPageNameInput.setText(name);
+                        newCustomerPageUserTypeInput.setSelectedItem(type);
                         newCustomerPageEmailInput.setText(email);
                         newCustomerPagePhoneInput.setText(phone);
                         newCustomerPageMaleRadio.setSelected("M".equals(gender));
@@ -216,6 +217,8 @@ public class MainGUI extends JFrame {
         jLabel24 = new javax.swing.JLabel();
         searchCustomerPageMoneyLabel = new javax.swing.JLabel();
         searchCustomerPagePayBt = new javax.swing.JButton();
+        jLabel40 = new javax.swing.JLabel();
+        searchCustomerPageTypeLabel = new javax.swing.JLabel();
         customerBorrowRecordPage = new javax.swing.JPanel();
         customerBorrowRecordPageBackBt = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -280,6 +283,8 @@ public class MainGUI extends JFrame {
         newCustomerPageMaleRadio = new javax.swing.JRadioButton();
         newCustomerPageFemaleRadio = new javax.swing.JRadioButton();
         newCustomerPageSubmitBt = new javax.swing.JButton();
+        jLabel41 = new javax.swing.JLabel();
+        newCustomerPageUserTypeInput = new javax.swing.JComboBox<>();
         reportTab = new javax.swing.JPanel();
         settingTab = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -665,6 +670,10 @@ public class MainGUI extends JFrame {
             }
         });
 
+        jLabel40.setText("類型:");
+
+        searchCustomerPageTypeLabel.setText("type");
+
         javax.swing.GroupLayout searchCustomerPageLayout = new javax.swing.GroupLayout(searchCustomerPage);
         searchCustomerPage.setLayout(searchCustomerPageLayout);
         searchCustomerPageLayout.setHorizontalGroup(
@@ -676,32 +685,51 @@ public class MainGUI extends JFrame {
                         .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(searchCustomerPageHKIDInput)
                             .addGroup(searchCustomerPageLayout.createSequentialGroup()
                                 .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(searchCustomerPageEmailLabel)
                                     .addComponent(searchCustomerPageNameLabel)
                                     .addComponent(searchCustomerPagePhoneLabel)
-                                    .addComponent(searchCustomerPageGenderLabel)
-                                    .addComponent(searchCustomerPageAddressLabel)
                                     .addComponent(searchCustomerPageMoneyLabel))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(searchCustomerPageLayout.createSequentialGroup()
-                        .addGap(294, 294, 294)
-                        .addComponent(searchCustomerPageSearchBt, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63)
-                        .addComponent(searchCustomerPageRecordBt)
-                        .addGap(59, 59, 59)
-                        .addComponent(searchCustomerPagePayBt)
-                        .addGap(0, 326, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchCustomerPageTypeLabel))
+                            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchCustomerPageEmailLabel)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchCustomerPageGenderLabel))
+                            .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchCustomerPageAddressLabel))))
+                    .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addComponent(searchCustomerPageSearchBt, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(searchCustomerPageRecordBt)
+                        .addGap(58, 58, 58)
+                        .addComponent(searchCustomerPagePayBt)))
+                .addGap(0, 331, Short.MAX_VALUE))
         );
         searchCustomerPageLayout.setVerticalGroup(
             searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -714,6 +742,10 @@ public class MainGUI extends JFrame {
                 .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(searchCustomerPageNameLabel))
+                .addGap(18, 18, 18)
+                .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(searchCustomerPageTypeLabel))
                 .addGap(18, 18, 18)
                 .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
@@ -739,7 +771,7 @@ public class MainGUI extends JFrame {
                     .addComponent(searchCustomerPageSearchBt)
                     .addComponent(searchCustomerPageRecordBt)
                     .addComponent(searchCustomerPagePayBt))
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         searchCustomerTab.add(searchCustomerPage, "searchCustomerPage");
@@ -1219,36 +1251,42 @@ public class MainGUI extends JFrame {
             }
         });
 
+        jLabel41.setText("用戶類型:");
+
         javax.swing.GroupLayout newCustomerTabLayout = new javax.swing.GroupLayout(newCustomerTab);
         newCustomerTab.setLayout(newCustomerTabLayout);
         newCustomerTabLayout.setHorizontalGroup(
             newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newCustomerTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newCustomerPageHKIDInput)
-                    .addComponent(newCustomerPageNameInput)
-                    .addComponent(newCustomerPageEmailInput)
-                    .addComponent(newCustomerPagePhoneInput)
                     .addGroup(newCustomerTabLayout.createSequentialGroup()
-                        .addComponent(newCustomerPageMaleRadio)
+                        .addGap(462, 462, 462)
+                        .addComponent(newCustomerPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 459, Short.MAX_VALUE))
+                    .addGroup(newCustomerTabLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel41, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(newCustomerPageFemaleRadio)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(newCustomerPageAddressInput))
+                        .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(newCustomerPageHKIDInput)
+                            .addComponent(newCustomerPageNameInput)
+                            .addComponent(newCustomerPageEmailInput)
+                            .addComponent(newCustomerPagePhoneInput)
+                            .addComponent(newCustomerPageAddressInput)
+                            .addGroup(newCustomerTabLayout.createSequentialGroup()
+                                .addComponent(newCustomerPageMaleRadio)
+                                .addGap(18, 18, 18)
+                                .addComponent(newCustomerPageFemaleRadio)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(newCustomerPageUserTypeInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addGroup(newCustomerTabLayout.createSequentialGroup()
-                .addGap(461, 461, 461)
-                .addComponent(newCustomerPageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(466, Short.MAX_VALUE))
         );
         newCustomerTabLayout.setVerticalGroup(
             newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1279,8 +1317,12 @@ public class MainGUI extends JFrame {
                     .addComponent(jLabel21)
                     .addComponent(newCustomerPageAddressInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(newCustomerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel41)
+                    .addComponent(newCustomerPageUserTypeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(newCustomerPageSubmitBt)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         pageTab.addTab("客戶登記/修改", newCustomerTab);
@@ -1631,13 +1673,14 @@ public class MainGUI extends JFrame {
             savePoint = Main.conn.setSavepoint();
 
             // check if HKID exists in userinfo
-            sql = "select count(HKID) total from userinfo where HKID='" + hkid + "';";
+            // and get the debt each day
+            sql = "select UT.debt_each_day from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where HKID='" + hkid + "';";
             rs = stmt.executeQuery(sql);
-            int temp = 0;
+            double debtEachDay = -1;
             while (rs.next()) {
-                temp = rs.getInt("total");
+                debtEachDay = rs.getDouble("UT.debt_each_day");
             }
-            if (temp == 0) {
+            if (debtEachDay == -1) {
                 needRollBack = true;
                 msg += "\n找不到此客戶。";
             }
@@ -1647,6 +1690,7 @@ public class MainGUI extends JFrame {
             if (!needRollBack) {
                 sql = "select count(*) total from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and TD.return_date is NULL;";
                 rs = stmt.executeQuery(sql);
+                int temp = 0;
                 while (rs.next()) {
                     temp = rs.getInt("total");
                 }
@@ -1668,7 +1712,7 @@ public class MainGUI extends JFrame {
                     returnDate = rs.getDate("TD.return_date");
                     returnDate = (returnDate == null ? Main.fakeTime.getDate() : returnDate);
                     if (returnDate.after(dueDate)) {
-                        debt += Utils.daysDifference(dueDate, returnDate) * Main.DEBT_EACH_DAY;
+                        debt += Utils.daysDifference(dueDate, returnDate) * debtEachDay;
                     }
                 }
                 if (debt == 0) {
@@ -1870,6 +1914,7 @@ public class MainGUI extends JFrame {
         searchBookPageEditionLabel.setText("");
         searchBookPageCostLabel.setText("");
         searchBookPageQuantityLabel.setText("");
+        searchCustomerPageTypeLabel.setText("");
         searchCustomerPageNameLabel.setText("");
         searchCustomerPageEmailLabel.setText("");
         searchCustomerPagePhoneLabel.setText("");
@@ -1895,6 +1940,7 @@ public class MainGUI extends JFrame {
         allCustomersTableModel.setColumnCount(0);
         allCustomersTableModel.addColumn("HKID");
         allCustomersTableModel.addColumn("姓名");
+        allCustomersTableModel.addColumn("用戶類型");
         allCustomersTableModel.addColumn("Email");
         allCustomersTableModel.addColumn("電話號碼");
         allCustomersTableModel.addColumn("性別");
@@ -1931,6 +1977,10 @@ public class MainGUI extends JFrame {
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
         customerBorrowRecordTable.setDefaultEditor(Object.class, null);
         
+        // update combo box choices
+        newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
+        newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+        
         // select a default tab
         pageTab.setSelectedComponent(allBooksTab);
     }
@@ -1943,12 +1993,13 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from userinfo order by name";
+            String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id order by name";
             ResultSet rs = stmt.executeQuery(sql);
-            String hkid = null, name = null, email = null, phone = null, gender = null, address = null;
+            String hkid, type, name, email, phone, gender, address;
             while (rs.next()) {
                 hkid = rs.getString("HKID");
                 name = rs.getString("name");
+                type = rs.getString("UT.type_name");
                 email = rs.getString("email");
                 if (rs.wasNull()) {
                     // no email in this row
@@ -1963,7 +2014,7 @@ public class MainGUI extends JFrame {
                 address = rs.getString("address");
                 
                 // add rows to table
-                tableModel.addRow(new String[] {hkid, name, email, phone, (gender.equals("M") ? "男" : "女"), address});
+                tableModel.addRow(new String[] {hkid, name, type, email, phone, (gender.equals("M") ? "男" : "女"), address});
             }
             rs.close();
             stmt.close();
@@ -2024,9 +2075,6 @@ public class MainGUI extends JFrame {
             for (int i = 0, n = books.size(); i < n; i++) {
                 tableModel.addRow(books.get(i).getRow());
             }
-            
-            // update newBookPagePublisherInput choices
-            newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -2179,16 +2227,18 @@ public class MainGUI extends JFrame {
             }
         }
         
-        // check if isbn exists in database
+        int canBorrowNum = -1, maxBorrowNum = -1, maxDaysBorrow = 0;
         Statement stmt = null;
         String sql;
         ResultSet rs = null;
         try{
+            stmt = Main.conn.createStatement();
+            
+            // check if isbn exists in database
             for (int i = 0, n = isbns.length; i < n; i++) {
                 if (!needToCheck[i]) {
                     continue;
                 }
-                stmt = Main.conn.createStatement();
                 sql = "select ISBN from bookinfo where ISBN='" + isbns[i] + "'";
                 rs = stmt.executeQuery(sql);
                 needToCheck[i] = rs.next();
@@ -2199,6 +2249,18 @@ public class MainGUI extends JFrame {
             }
             if (rs != null) {
                 rs.close();
+            }
+            
+            // check if customer exists and get the
+            // max books borrow
+            sql = "select UT.max_books_borrow, UT.max_days_borrow from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where hkid='" + hkid + "';";
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                maxBorrowNum = rs.getInt("UT.max_books_borrow");
+                maxDaysBorrow = rs.getInt("UT.max_days_borrow");
+            } else {
+                // customer does NOT exists
+                msg += "\n找不到此客戶。";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2212,38 +2274,39 @@ public class MainGUI extends JFrame {
         }
         
         // check if user have enough quota to borrow these books
-        int can_borrow_num = Main.MAX_BOOKS_BORROW;
-        try{
-            stmt = Main.conn.createStatement();
-            sql = "select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id=TD.transaction_id where hkid='" + hkid + "' and return_date is NULL";
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                can_borrow_num = Main.MAX_BOOKS_BORROW - rs.getInt("total");
-            }
-            rs.close();
-            stmt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+        if (maxBorrowNum != -1) {
             try{
-                if (stmt != null) {
-                    stmt.close();
-                    stmt = null;
+                stmt = Main.conn.createStatement();
+                sql = "select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id=TD.transaction_id where hkid='" + hkid + "' and return_date is NULL";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    canBorrowNum = maxBorrowNum - rs.getInt("total");
                 }
-            }catch(SQLException se2){}
-        }
-        for (int i = 0, n = isbns.length; i < n; i++) {
-            if (needToCheck[i]) {
-                can_borrow_num--;
+                rs.close();
+                stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try{
+                    if (stmt != null) {
+                        stmt.close();
+                        stmt = null;
+                    }
+                }catch(SQLException se2){}
             }
-        }
-        
-        if (can_borrow_num < 0) {
-            // not enough quota
             for (int i = 0, n = isbns.length; i < n; i++) {
-                needToCheck[i] = false;
+                if (needToCheck[i]) {
+                    canBorrowNum--;
+                }
             }
-            msg += "\n此客戶沒有足夠配額，每位客戶只可同時借" + Main.MAX_BOOKS_BORROW + "本書。";
+
+            if (canBorrowNum < 0) {
+                // not enough quota
+                for (int i = 0, n = isbns.length; i < n; i++) {
+                    needToCheck[i] = false;
+                }
+                msg += "\n此客戶沒有足夠配額，此客戶只可同時借" + maxBorrowNum + "本書。";
+            }
         }
         
         
@@ -2297,7 +2360,7 @@ public class MainGUI extends JFrame {
                     msg += "\n無法取回交易ID。";
                 } else {
                     // insert transaction detail of each book
-                    String dueDateStr = Utils.toString(Utils.addDays(Main.fakeTime.getDate(), Main.MAX_DAYS_BORROW));
+                    String dueDateStr = Utils.toString(Utils.addDays(Main.fakeTime.getDate(), maxDaysBorrow));
                     for (int i = 0, n = isbns.length; i < n; i++) {
                         if (!needToCheck[i]) {
                             continue;
@@ -2376,7 +2439,7 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join bookinfo BI on TD.ISBN=BI.ISBN right join userinfo UI on T.HKID=UI.HKID where UI.HKID = '" + hkid + "' order by T.transaction_id desc;";
+            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join bookinfo BI on TD.ISBN=BI.ISBN right join userinfo UI on T.HKID=UI.HKID where UI.HKID = '" + hkid + "' order by T.transaction_id desc, TD.return_date desc;";
             ResultSet rs = stmt.executeQuery(sql);
             String isbn = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
@@ -2423,7 +2486,7 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID right join bookinfo BI on TD.ISBN=BI.ISBN where BI.ISBN = '" + isbn + "' order by T.transaction_id desc;";
+            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID right join bookinfo BI on TD.ISBN=BI.ISBN where BI.ISBN = '" + isbn + "' order by T.transaction_id desc, TD.return_date desc;";
             ResultSet rs = stmt.executeQuery(sql);
             String hkid = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
@@ -2470,12 +2533,15 @@ public class MainGUI extends JFrame {
         Statement stmt = null;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from userinfo where hkid='" + hkid + "'";
+            String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where UI.hkid='" + hkid + "'";
             ResultSet rs = stmt.executeQuery(sql);
-            String name = null, email = null, phone = null, gender = null, address = null;
+            String name = null, type = null, email = null, phone = null, gender = null, address = null;
+            double debtEachDay = 0;
             while (rs.next()) {
                 hkid = rs.getString("HKID");
                 name = rs.getString("name");
+                type = rs.getString("UT.type_name");
+                debtEachDay = rs.getDouble("UT.debt_each_day");
                 email = rs.getString("email");
                 if (rs.wasNull()) {
                     // no email in this row
@@ -2500,7 +2566,7 @@ public class MainGUI extends JFrame {
                 returnDate = rs.getDate("TD.return_date");
                 returnDate = (returnDate == null ? Main.fakeTime.getDate() : returnDate);
                 if (returnDate.after(dueDate)) {
-                    debt += Utils.daysDifference(dueDate, returnDate) * Main.DEBT_EACH_DAY;
+                    debt += Utils.daysDifference(dueDate, returnDate) * debtEachDay;
                 }
             }
             
@@ -2513,6 +2579,7 @@ public class MainGUI extends JFrame {
             }
             // update info label
             searchCustomerPageNameLabel.setText(name);
+            searchCustomerPageTypeLabel.setText(type);
             searchCustomerPageEmailLabel.setText(email);
             searchCustomerPagePhoneLabel.setText(phone);
             searchCustomerPageGenderLabel.setText((gender.equals("M") ? "男" : "女"));
@@ -2598,7 +2665,8 @@ public class MainGUI extends JFrame {
         boolean m = newCustomerPageMaleRadio.isSelected();
         boolean f = newCustomerPageFemaleRadio.isSelected();
         String address = newCustomerPageAddressInput.getText().trim();
-        
+        String typeName = newCustomerPageUserTypeInput.getEditor().getItem().toString().trim();
+        int typeID = -1;
         
         if (!Utils.isValidHKID(hkid)) {
             // invalid HKID
@@ -2625,7 +2693,10 @@ public class MainGUI extends JFrame {
             JOptionPane.showMessageDialog(null, "請輸入住址。");
             return;
         }
-
+        if (typeName.equals("")) {
+            JOptionPane.showMessageDialog(null, "請選擇用戶類型。");
+            return;
+        }
 
         // valid data
         String gender = (m ? "M" : "F");
@@ -2633,72 +2704,82 @@ public class MainGUI extends JFrame {
         email = (email.equals("") ? "NULL" : "'" + email + "'");
         phone = (phone.equals("") ? "NULL" : "'" + phone + "'");
         
+        
         Statement stmt = null;
-        boolean HKIDExist = false;
-        // check if HKID already exists in table
+        Savepoint savePoint = null;
+        ResultSet rs;
+        String sql;
+        boolean HKIDExist;
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select hkid from userinfo where hkid='" + hkid + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            
+            // find type_id
+            sql = "select type_id from usertype where type_name='" + typeName + "'";
+            rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                HKIDExist = true;
+                typeID = rs.getInt("type_id");
             }
+            
+            if (typeID == -1) {
+                // usertype not exists
+                JOptionPane.showMessageDialog(null, "找不到此用戶類型。");
+                return;
+            }
+            
+            boolean needRollBack = false;
+            Main.conn.setAutoCommit(false);
+            savePoint = Main.conn.setSavepoint();
+            
+            // check if HKID already exists in table
+            sql = "select hkid from userinfo where hkid='" + hkid + "'";
+            rs = stmt.executeQuery(sql);
+            HKIDExist = rs.next();
+            
+            if (HKIDExist) {
+                // existing customer
+                sql = "update userinfo set type_id=" + typeID + ", name='" + name + "', email=" + email + ", phone=" + phone + ", gender='" + gender + "', address='" + address + "' where hkid='" + hkid + "'";
+                stmt.executeUpdate(sql);
+            } else {
+                // new customer
+                sql = "insert into userinfo values ('" + hkid + "', " + typeID + ", '" + name + "', " + email + ", " + phone + ", '" + gender + "', '" + address + "')";
+                stmt.executeUpdate(sql);
+            }
+            
             rs.close();
             stmt.close();
-        } catch (Exception e) {
+            if (needRollBack) {
+                Main.conn.rollback(savePoint);
+            }
+            Main.conn.commit();
+            
+            // clear the input box
+            newCustomerPageHKIDInput.setText("");
+            newCustomerPageNameInput.setText("");
+            newCustomerPageEmailInput.setText("");
+            newCustomerPagePhoneInput.setText("");
+            newCustomerPageGenderBtGp.clearSelection();
+            newCustomerPageAddressInput.setText("");
+            newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+            newCustomerPageHKIDInput.requestFocus();
+        } catch (SQLException e) {
             e.printStackTrace();
+            if (Main.conn != null) {
+                try {
+                    if (savePoint != null) {
+                        Main.conn.rollback(savePoint);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } finally {
             try{
-                if (stmt != null) stmt.close();
+                Main.conn.setAutoCommit(true);
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
             }catch(SQLException se2){}
-        }
-        
-        if (HKIDExist) {
-            // existing customer
-            try{
-                stmt = Main.conn.createStatement();
-                String sql = "update userinfo set name = '" + name + "', email = " + email + ", phone = " + phone + ", gender = '" + gender + "', address = '" + address + "' where hkid = '" + hkid + "'";
-                stmt.executeUpdate(sql);
-                stmt.close();
-
-                // clear the input box
-                newCustomerPageHKIDInput.setText("");
-                newCustomerPageNameInput.setText("");
-                newCustomerPageEmailInput.setText("");
-                newCustomerPagePhoneInput.setText("");
-                newCustomerPageGenderBtGp.clearSelection();
-                newCustomerPageAddressInput.setText("");
-                newCustomerPageHKIDInput.requestFocus();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try{
-                    if (stmt != null) stmt.close();
-                }catch(SQLException se2){}
-            }
-        } else {
-            // new customer
-            try{
-                stmt = Main.conn.createStatement();
-                String sql = "insert into userinfo values ('" + hkid + "', '" + name + "', " + email + ", " + phone + ", '" + gender + "', '" + address + "')";
-                stmt.executeUpdate(sql);
-                stmt.close();
-
-                // clear the input box
-                newCustomerPageHKIDInput.setText("");
-                newCustomerPageNameInput.setText("");
-                newCustomerPageEmailInput.setText("");
-                newCustomerPagePhoneInput.setText("");
-                newCustomerPageGenderBtGp.clearSelection();
-                newCustomerPageAddressInput.setText("");
-                newCustomerPageHKIDInput.requestFocus();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try{
-                    if (stmt != null) stmt.close();
-                }catch(SQLException se2){}
-            }
         }
     }
     
@@ -2718,6 +2799,10 @@ public class MainGUI extends JFrame {
         }
         if (title.equals("")) {
             JOptionPane.showMessageDialog(null, "請輸入書名。");
+            return;
+        }
+        if (publisher.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入出版社。");
             return;
         }
         if (newBookPageEditionInput.getText().trim().equals("")) {
@@ -2903,6 +2988,8 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2931,6 +3018,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JTextField newCustomerPageNameInput;
     private javax.swing.JTextField newCustomerPagePhoneInput;
     private javax.swing.JButton newCustomerPageSubmitBt;
+    private javax.swing.JComboBox<String> newCustomerPageUserTypeInput;
     private javax.swing.JPanel newCustomerTab;
     private javax.swing.JTabbedPane pageTab;
     private javax.swing.JPanel reportTab;
@@ -2961,6 +3049,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel searchCustomerPagePhoneLabel;
     private javax.swing.JButton searchCustomerPageRecordBt;
     private javax.swing.JButton searchCustomerPageSearchBt;
+    private javax.swing.JLabel searchCustomerPageTypeLabel;
     private javax.swing.JPanel searchCustomerTab;
     private javax.swing.JTextField settingPageDateInput;
     private javax.swing.JPanel settingTab;

@@ -11,9 +11,6 @@ public class Main {
     public static Connection conn = null;
     public static FakeTime fakeTime;
     public static final String REPORT_FOLDER = "reports";
-    public static final int MAX_BOOKS_BORROW = 8;
-    public static final int MAX_DAYS_BORROW = 14;
-    public static final double DEBT_EACH_DAY = 1.5;
     
     public static void main(String[] args) {
         fakeTime = new FakeTime();

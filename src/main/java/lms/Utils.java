@@ -89,7 +89,10 @@ public class Utils {
     public static String[] publisherChoices() {
         Statement stmt = null;
         ArrayList<String> choices = new ArrayList<>();
+        
+        // a default choice: nothing
         choices.add("");
+        
         try{
             stmt = Main.conn.createStatement();
             String sql = "select distinct publisher from bookinfo order by publisher";
@@ -109,6 +112,31 @@ public class Utils {
         return choices.toArray(new String[0]);
     }
     
+    public static String[] userTypeChoices() {
+        Statement stmt = null;
+        ArrayList<String> choices = new ArrayList<>();
+        
+        // a default choice: nothing
+        choices.add("");
+        
+        try{
+            stmt = Main.conn.createStatement();
+            String sql = "select * from usertype order by type_name";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                choices.add(rs.getString("type_name"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        return choices.toArray(new String[0]);
+    }
     
     public static boolean isDouble(String strNum) {
         if (strNum == null) {

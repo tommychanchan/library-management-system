@@ -36,14 +36,26 @@ CREATE TABLE bookauthor (
     PRIMARY KEY (ISBN, author)
 );
 
+-- Table: UserType
+CREATE TABLE usertype (
+    type_id INT AUTO_INCREMENT,
+    type_name VARCHAR(20) NOT NULL,
+    max_books_borrow INT NOT NULL,
+    max_days_borrow INT NOT NULL,
+    debt_each_day DECIMAL(3, 1),
+    PRIMARY KEY (type_id)
+);
+
 -- Table: UserInfo
 CREATE TABLE userinfo (
     HKID VARCHAR(9) NOT NULL,
+    type_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(90),
     phone CHAR(8),
     gender CHAR(1) NOT NULL,
     address VARCHAR(300) NOT NULL,
+    FOREIGN KEY (type_id) REFERENCES usertype(type_id),
     PRIMARY KEY (HKID)
 );
 
@@ -56,7 +68,6 @@ CREATE TABLE transaction (
     FOREIGN KEY (HKID) REFERENCES userinfo(HKID),
     PRIMARY KEY (transaction_id)
 );
-
 
 -- Table: TransactionDetail
 CREATE TABLE transactiondetail (
@@ -136,15 +147,19 @@ INSERT INTO bookauthor VALUES ('9789882398085', 'F.C. Tong');
 INSERT INTO bookauthor VALUES ('9789882398085', 'M.K. Lui');
 INSERT INTO bookauthor VALUES ('9789882398085', 'M.N. Wong');
 
+-- Initial data: UserType
+INSERT INTO usertype (type_name, max_books_borrow, max_days_borrow, debt_each_day) VALUES ('基本客戶', 8, 14, 1.5);
+INSERT INTO usertype (type_name, max_books_borrow, max_days_borrow, debt_each_day) VALUES ('VIP', 12, 21, 1);
+
 -- Initial data: UserInfo
-INSERT INTO userinfo VALUES ('A1234563', 'Tommy Chan', 's207885@hsu.edu.hk', '98765432', 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
-INSERT INTO userinfo VALUES ('E3620003', '陳大文', 'chantaiman@gmail.com', NULL, 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
-INSERT INTO userinfo VALUES ('N1016774', '林子祥', NULL, NULL, 'M', '花街70號');
-INSERT INTO userinfo VALUES ('Y1481892', 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');
-INSERT INTO userinfo VALUES ('P2233790', '陳一心', NULL, '36288588', 'F', '九龍新蒲崗爵祿街17號');
-INSERT INTO userinfo VALUES ('G8333881', 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
-INSERT INTO userinfo VALUES ('XA1234568', 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
-INSERT INTO userinfo VALUES ('C1413161', '獨孤允行', NULL, NULL, 'M', '新界屯門蝴蝶邨蝶影樓');
+INSERT INTO userinfo VALUES ('A1234563', 2, 'Tommy Chan', 's207885@hsu.edu.hk', '98765432', 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
+INSERT INTO userinfo VALUES ('E3620003', 1, '陳大文', 'chantaiman@gmail.com', NULL, 'M', 'Hang Shin Link, Siu Lek Yuen, Sha Tin, Hong Kong.');
+INSERT INTO userinfo VALUES ('N1016774', 2, '林子祥', NULL, NULL, 'M', '花街70號');
+INSERT INTO userinfo VALUES ('Y1481892', 2, 'Sue', NULL, '62201234', 'F', '九龍慈雲山慈樂邨樂安樓');
+INSERT INTO userinfo VALUES ('P2233790', 1, '陳一心', NULL, '36288588', 'F', '九龍新蒲崗爵祿街17號');
+INSERT INTO userinfo VALUES ('G8333881', 1, 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
+INSERT INTO userinfo VALUES ('XA1234568', 1, 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
+INSERT INTO userinfo VALUES ('C1413161', 1, '獨孤允行', NULL, NULL, 'M', '新界屯門蝴蝶邨蝶影樓');
 
 -- Initial data: Transaction
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-07', true);

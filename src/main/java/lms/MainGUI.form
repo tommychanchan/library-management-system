@@ -544,22 +544,16 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel22" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel23" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel27" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel29" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel31" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel24" alignment="0" pref="146" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="searchCustomerPageHKIDInput" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="searchCustomerPageEmailLabel" min="-2" max="-2" attributes="0"/>
-                                              <Component id="searchCustomerPageNameLabel" min="-2" max="-2" attributes="0"/>
+                                              <Component id="searchCustomerPageNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="searchCustomerPagePhoneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="searchCustomerPageGenderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="searchCustomerPageAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="searchCustomerPageMoneyLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -567,16 +561,51 @@
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
-                                  <Component id="searchCustomerPageSearchBt" min="-2" pref="76" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                                  <Component id="searchCustomerPageRecordBt" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                                  <Component id="searchCustomerPagePayBt" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="326" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel40" min="-2" pref="146" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="searchCustomerPageTypeLabel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel25" min="-2" pref="146" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="searchCustomerPageEmailLabel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel29" min="-2" pref="146" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="searchCustomerPageGenderLabel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel31" min="-2" pref="146" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="searchCustomerPageAddressLabel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="290" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPageSearchBt" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPageRecordBt" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                                  <Component id="searchCustomerPagePayBt" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="0" pref="331" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -592,6 +621,11 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="searchCustomerPageNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchCustomerPageTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -624,7 +658,7 @@
                               <Component id="searchCustomerPageRecordBt" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="searchCustomerPagePayBt" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="267" max="32767" attributes="0"/>
+                          <EmptySpace pref="228" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -723,6 +757,16 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCustomerPagePayBtActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel40">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x985e;&#x578b;:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="searchCustomerPageTypeLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="type"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -1297,35 +1341,41 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel12" max="32767" attributes="0"/>
-                          <Component id="jLabel14" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabel16" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabel20" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabel18" alignment="1" pref="102" max="32767" attributes="0"/>
-                          <Component id="jLabel21" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="newCustomerPageHKIDInput" max="32767" attributes="0"/>
-                          <Component id="newCustomerPageNameInput" max="32767" attributes="0"/>
-                          <Component id="newCustomerPageEmailInput" alignment="0" max="32767" attributes="0"/>
-                          <Component id="newCustomerPagePhoneInput" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="newCustomerPageMaleRadio" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="newCustomerPageFemaleRadio" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="462" max="-2" attributes="0"/>
+                              <Component id="newCustomerPageSubmitBt" min="-2" pref="73" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="newCustomerPageAddressInput" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel12" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel14" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel16" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel20" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel18" alignment="1" pref="102" max="32767" attributes="0"/>
+                                  <Component id="jLabel21" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel41" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="newCustomerPageHKIDInput" max="32767" attributes="0"/>
+                                  <Component id="newCustomerPageNameInput" max="32767" attributes="0"/>
+                                  <Component id="newCustomerPageEmailInput" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="newCustomerPagePhoneInput" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="newCustomerPageAddressInput" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="newCustomerPageMaleRadio" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="newCustomerPageFemaleRadio" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="newCustomerPageUserTypeInput" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="461" max="-2" attributes="0"/>
-                      <Component id="newCustomerPageSubmitBt" min="-2" pref="73" max="-2" attributes="0"/>
-                      <EmptySpace pref="466" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1364,8 +1414,13 @@
                           <Component id="newCustomerPageAddressInput" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newCustomerPageUserTypeInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="newCustomerPageSubmitBt" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="258" max="32767" attributes="0"/>
+                      <EmptySpace pref="213" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1449,6 +1504,21 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newCustomerPageSubmitBtActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel41">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x7528;&#x6236;&#x985e;&#x578b;:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="newCustomerPageUserTypeInput">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
