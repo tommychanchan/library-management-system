@@ -166,7 +166,7 @@ public class PreSettingGUI extends JFrame {
             JOptionPane.showMessageDialog(null, "請勿使用root帳號。");
             return;
         }
-        try{
+        try {
             Class.forName(Main.JDBC_DRIVER);
             Main.conn = DriverManager.getConnection(Main.DB_URL.replaceAll("\\{host\\}", hostInput.getText()), usernameInput.getText(), passwordInput.getText());
             
@@ -175,19 +175,19 @@ public class PreSettingGUI extends JFrame {
             // show mainGUI
             Main.preSettingGUI.setVisible(false);
             Main.mainGUI.setVisible(true);
-        }catch(SQLException se){
+        } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "無法連接資料庫。可能是用戶/密碼錯誤！");
-            try{
+            try {
                 if (Main.conn != null) Main.conn.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            try{
+            try {
                 if (Main.conn != null) Main.conn.close();
-            }catch(SQLException se){
+            } catch (SQLException se) {
                 se.printStackTrace();
             }
         }

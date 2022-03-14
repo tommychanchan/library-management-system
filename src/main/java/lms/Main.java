@@ -11,6 +11,11 @@ public class Main {
     public static Connection conn = null;
     public static FakeTime fakeTime;
     public static final String REPORT_FOLDER = "reports";
+    public static final Report[] REPORT_DATA = {
+        new Report("所有未還欠書的客戶", "all_owing_customers", new String[] {
+            "HKID", "姓名", "欠書數量"
+        })
+    };
     
     public static void main(String[] args) {
         fakeTime = new FakeTime();

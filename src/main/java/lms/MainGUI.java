@@ -296,6 +296,11 @@ public class MainGUI extends JFrame {
         newUserTypePageDebtInput = new javax.swing.JTextField();
         newUserTypePageSubmitBt = new javax.swing.JButton();
         reportTab = new javax.swing.JPanel();
+        reportPageRefreshBt = new javax.swing.JButton();
+        reportPageExportBt = new javax.swing.JButton();
+        reportPageInput = new javax.swing.JComboBox<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        reportPageTable = new javax.swing.JTable();
         settingTab = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         settingPageDateInput = new javax.swing.JTextField();
@@ -1425,15 +1430,68 @@ public class MainGUI extends JFrame {
 
         pageTab.addTab("新增/修改客戶類型", newUserTypeTab);
 
+        reportPageRefreshBt.setText("更新");
+        reportPageRefreshBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportPageRefreshBtActionPerformed(evt);
+            }
+        });
+
+        reportPageExportBt.setText("導出CSV");
+        reportPageExportBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportPageExportBtActionPerformed(evt);
+            }
+        });
+
+        reportPageInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportPageInputActionPerformed(evt);
+            }
+        });
+
+        reportPageTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        reportPageTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        reportPageTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        reportPageTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                reportPageTableMousePressed(evt);
+            }
+        });
+        jScrollPane5.setViewportView(reportPageTable);
+
         javax.swing.GroupLayout reportTabLayout = new javax.swing.GroupLayout(reportTab);
         reportTab.setLayout(reportTabLayout);
         reportTabLayout.setHorizontalGroup(
             reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(reportTabLayout.createSequentialGroup()
+                .addComponent(reportPageRefreshBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(reportPageExportBt)
+                .addGap(18, 18, 18)
+                .addComponent(reportPageInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         reportTabLayout.setVerticalGroup(
             reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGroup(reportTabLayout.createSequentialGroup()
+                .addGroup(reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reportPageRefreshBt)
+                    .addComponent(reportPageExportBt)
+                    .addComponent(reportPageInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
         );
 
         pageTab.addTab("Report", reportTab);
@@ -2065,6 +2123,37 @@ public class MainGUI extends JFrame {
     private void newUserTypePageSubmitBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserTypePageSubmitBtActionPerformed
         newUserTypePageSubmit();
     }//GEN-LAST:event_newUserTypePageSubmitBtActionPerformed
+
+    private void reportPageInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportPageInputActionPerformed
+        reportPageTableUpdate(reportPageInput.getSelectedIndex());
+    }//GEN-LAST:event_reportPageInputActionPerformed
+
+    private void reportPageRefreshBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportPageRefreshBtActionPerformed
+        reportPageTableUpdate(reportPageInput.getSelectedIndex());
+    }//GEN-LAST:event_reportPageRefreshBtActionPerformed
+
+    private void reportPageExportBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportPageExportBtActionPerformed
+        String filename = Utils.exportCSV(Main.REPORT_DATA[reportPageInput.getSelectedIndex()].getFilename(), reportPageTable);
+        JOptionPane.showMessageDialog(null, (filename == null ? "無法導出CSV。" : "已導出CSV: " + filename));
+    }//GEN-LAST:event_reportPageExportBtActionPerformed
+
+    private void reportPageTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportPageTableMousePressed
+        JTable table = (JTable) evt.getSource();
+        int row = table.rowAtPoint(evt.getPoint());
+        int index = reportPageInput.getSelectedIndex();
+        if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            if (index == 0) {
+                // 所有未還欠書的客戶
+                String hkid = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "HKID")).toString();
+                // change page to searchCustomerPage and show search result of hkid
+                searchCustomerPageHKIDInput.setText(hkid);
+                CardLayout card = (CardLayout)searchCustomerTab.getLayout();
+                card.show(searchCustomerTab, "searchCustomerPage");
+                searchCustomerPageSearch();
+                pageTab.setSelectedComponent(searchCustomerTab);
+            }
+        }
+    }//GEN-LAST:event_reportPageTableMousePressed
     
     public void init() {
         // remove useless label text
@@ -2136,11 +2225,16 @@ public class MainGUI extends JFrame {
         allCustomersTable.setDefaultEditor(Object.class, null);
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
         customerBorrowRecordTable.setDefaultEditor(Object.class, null);
+        reportPageTable.setDefaultEditor(Object.class, null);
         
         // update combo box choices
         newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
         newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
         newUserTypePageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+        reportPageInput.setModel(new DefaultComboBoxModel<>(Utils.reportChoices()));
+        
+        // update report
+        reportPageTableUpdate(0);
         
         // select a default tab
         pageTab.setSelectedComponent(allBooksTab);
@@ -3188,6 +3282,46 @@ public class MainGUI extends JFrame {
             }catch(SQLException se2){}
         }
     }
+    
+    private void reportPageTableUpdate(int index) {
+        // clear columns for reportPageTable
+        DefaultTableModel reportPageTableModel = (DefaultTableModel) reportPageTable.getModel();
+        reportPageTableModel.setColumnCount(0);
+        reportPageTableModel.setRowCount(0);
+        
+        // set up table columns for reportPageTable
+        Report reportDatum;
+        reportDatum = Main.REPORT_DATA[index];
+        for (int i = 0, n = reportDatum.getColumnNames().length; i < n; i++) {
+            reportPageTableModel.addColumn(reportDatum.getColumnNames()[i]);
+        }
+        
+        
+        Statement stmt = null;
+        try {
+            stmt = Main.conn.createStatement();
+            String sql, hkid, name, bookNumStr;
+            ResultSet rs;
+            if (index == 0) {
+                // 所有未還欠書的客戶
+                sql = "select UI.HKID, UI.name, count(*) book_num from userinfo UI inner join transaction T on UI.HKID=T.HKID inner join transactiondetail TD on T.transaction_id=TD.transaction_id where due_date < '" + Main.fakeTime.formatDate() + "' and return_date is NULL group by UI.HKID order by book_num desc;";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    hkid = rs.getString("UI.HKID");
+                    name = rs.getString("UI.name");
+                    bookNumStr = Integer.toString(rs.getInt("book_num"));
+                    
+                    reportPageTableModel.addRow(new String[] {hkid, name, bookNumStr});
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {}
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBooksExportBt;
@@ -3269,6 +3403,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton logoutBt;
     private javax.swing.JTextField newBookPageAuthorInput;
     private javax.swing.JTextField newBookPageCostInput;
@@ -3297,6 +3432,10 @@ public class MainGUI extends JFrame {
     private javax.swing.JComboBox<String> newUserTypePageUserTypeInput;
     private javax.swing.JPanel newUserTypeTab;
     private javax.swing.JTabbedPane pageTab;
+    private javax.swing.JButton reportPageExportBt;
+    private javax.swing.JComboBox<String> reportPageInput;
+    private javax.swing.JButton reportPageRefreshBt;
+    private javax.swing.JTable reportPageTable;
     private javax.swing.JPanel reportTab;
     private javax.swing.JTextField returnPageHKIDInput;
     private javax.swing.JTextField returnPageISBNInput;

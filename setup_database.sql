@@ -176,6 +176,7 @@ INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-02-2
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('P2233790', '2022-02-21', true);
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-02-23', false);
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-02-23', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-02-25', false);
 
 -- Initial data: TransactionDetail
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '9789622880184', '2022-03-04', '2022-02-18');
@@ -200,3 +201,4 @@ INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALU
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (12, '9789882054226', '2022-03-09', '2022-03-01');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (13, '9789888540129', '2022-03-09');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (13, '9789888540143', '2022-03-09');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (14, '962070133X', '2022-03-11');

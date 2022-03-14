@@ -86,6 +86,14 @@ public class Utils {
         return (s.contains(",") || s.contains("\"") ? "\"" + s.replaceAll("\"", "\"\"").trim() + "\"" : s.trim());
     }
     
+    public static String[] reportChoices() {
+        String[] choices = new String[Main.REPORT_DATA.length];
+        for (int i = 0, n = Main.REPORT_DATA.length; i < n; i++) {
+            choices[i] = Main.REPORT_DATA[i].getDesc();
+        }
+        return choices;
+    }
+    
     public static String[] publisherChoices() {
         Statement stmt = null;
         ArrayList<String> choices = new ArrayList<>();
