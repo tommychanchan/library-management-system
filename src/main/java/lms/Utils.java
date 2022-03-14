@@ -121,7 +121,7 @@ public class Utils {
         
         try{
             stmt = Main.conn.createStatement();
-            String sql = "select * from usertype order by type_name";
+            String sql = "select distinct type_name from usertype order by type_name";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 choices.add(rs.getString("type_name"));

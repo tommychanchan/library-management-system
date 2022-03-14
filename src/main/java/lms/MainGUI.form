@@ -538,9 +538,9 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel22" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel23" alignment="0" max="32767" attributes="0"/>
@@ -561,7 +561,6 @@
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel40" min="-2" pref="146" max="-2" attributes="0"/>
@@ -742,7 +741,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel24">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&#x5c1a;&#x6b20;&#x6b3e;&#x9805; (HKD):"/>
+                    <Property name="text" type="java.lang.String" value="&#x5c1a;&#x6b20;&#x7f70;&#x6b3e; (HKD):"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="searchCustomerPageMoneyLabel">
@@ -752,7 +751,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="searchCustomerPagePayBt">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&#x4ea4;&#x9084;&#x6240;&#x6709;&#x6b3e;&#x9805;"/>
+                    <Property name="text" type="java.lang.String" value="&#x4ea4;&#x9084;&#x6240;&#x6709;&#x7f70;&#x6b3e;"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCustomerPagePayBtActionPerformed"/>
@@ -1157,8 +1156,8 @@
         <Container class="javax.swing.JPanel" name="newBookTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&#x65b0;&#x5716;&#x66f8;/&#x4fee;&#x6539;">
-                <Property name="tabTitle" type="java.lang.String" value="&#x65b0;&#x5716;&#x66f8;/&#x4fee;&#x6539;"/>
+              <JTabbedPaneConstraints tabName="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5716;&#x66f8;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5716;&#x66f8;"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1331,8 +1330,8 @@
         <Container class="javax.swing.JPanel" name="newCustomerTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&#x5ba2;&#x6236;&#x767b;&#x8a18;/&#x4fee;&#x6539;">
-                <Property name="tabTitle" type="java.lang.String" value="&#x5ba2;&#x6236;&#x767b;&#x8a18;/&#x4fee;&#x6539;"/>
+              <JTabbedPaneConstraints tabName="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5ba2;&#x6236;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5ba2;&#x6236;"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1519,6 +1518,132 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="newUserTypeTab">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5ba2;&#x6236;&#x985e;&#x578b;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x65b0;&#x589e;/&#x4fee;&#x6539;&#x5ba2;&#x6236;&#x985e;&#x578b;"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel42" max="32767" attributes="0"/>
+                          <Component id="jLabel43" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel44" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel45" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="newUserTypePageUserTypeInput" pref="799" max="32767" attributes="0"/>
+                          <Component id="newUserTypePageMaxBooksInput" max="32767" attributes="0"/>
+                          <Component id="newUserTypePageMaxDaysInput" alignment="0" max="32767" attributes="0"/>
+                          <Component id="newUserTypePageDebtInput" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="461" max="-2" attributes="0"/>
+                      <Component id="newUserTypePageSubmitBt" min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace pref="466" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newUserTypePageUserTypeInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newUserTypePageMaxBooksInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newUserTypePageMaxDaysInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="newUserTypePageDebtInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="newUserTypePageSubmitBt" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="354" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="jLabel42">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x5ba2;&#x6236;&#x985e;&#x578b;:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="newUserTypePageUserTypeInput">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newUserTypePageUserTypeInputActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel43">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x501f;&#x66f8;&#x9650;&#x984d; (&#x672c;):"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel44">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x501f;&#x66f8;&#x671f;&#x9650; (&#x65e5;):"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel45">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x903e;&#x671f;&#x7f70;&#x6b3e; (&#x6bcf;&#x672c;&#x6bcf;&#x65e5;):"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newUserTypePageMaxBooksInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newUserTypePageMaxBooksInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newUserTypePageMaxDaysInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newUserTypePageMaxDaysInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="newUserTypePageDebtInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newUserTypePageDebtInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="newUserTypePageSubmitBt">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x78ba;&#x5b9a;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newUserTypePageSubmitBtActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

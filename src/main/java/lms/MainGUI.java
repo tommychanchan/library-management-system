@@ -285,6 +285,16 @@ public class MainGUI extends JFrame {
         newCustomerPageSubmitBt = new javax.swing.JButton();
         jLabel41 = new javax.swing.JLabel();
         newCustomerPageUserTypeInput = new javax.swing.JComboBox<>();
+        newUserTypeTab = new javax.swing.JPanel();
+        jLabel42 = new javax.swing.JLabel();
+        newUserTypePageUserTypeInput = new javax.swing.JComboBox<>();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        newUserTypePageMaxBooksInput = new javax.swing.JTextField();
+        newUserTypePageMaxDaysInput = new javax.swing.JTextField();
+        newUserTypePageDebtInput = new javax.swing.JTextField();
+        newUserTypePageSubmitBt = new javax.swing.JButton();
         reportTab = new javax.swing.JPanel();
         settingTab = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -659,11 +669,11 @@ public class MainGUI extends JFrame {
             }
         });
 
-        jLabel24.setText("尚欠款項 (HKD):");
+        jLabel24.setText("尚欠罰款 (HKD):");
 
         searchCustomerPageMoneyLabel.setText("money");
 
-        searchCustomerPagePayBt.setText("交還所有款項");
+        searchCustomerPagePayBt.setText("交還所有罰款");
         searchCustomerPagePayBt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchCustomerPagePayBtActionPerformed(evt);
@@ -679,9 +689,9 @@ public class MainGUI extends JFrame {
         searchCustomerPageLayout.setHorizontalGroup(
             searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchCustomerPageLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(searchCustomerPageLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -697,7 +707,6 @@ public class MainGUI extends JFrame {
                                     .addComponent(searchCustomerPageMoneyLabel))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(searchCustomerPageLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(searchCustomerPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(searchCustomerPageLayout.createSequentialGroup()
                                 .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1194,7 +1203,7 @@ public class MainGUI extends JFrame {
                 .addContainerGap(196, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("新圖書/修改", newBookTab);
+        pageTab.addTab("新增/修改圖書", newBookTab);
 
         jLabel12.setText("HKID:");
 
@@ -1325,7 +1334,96 @@ public class MainGUI extends JFrame {
                 .addContainerGap(213, Short.MAX_VALUE))
         );
 
-        pageTab.addTab("客戶登記/修改", newCustomerTab);
+        pageTab.addTab("新增/修改客戶", newCustomerTab);
+
+        jLabel42.setText("客戶類型:");
+
+        newUserTypePageUserTypeInput.setEditable(true);
+        newUserTypePageUserTypeInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newUserTypePageUserTypeInputActionPerformed(evt);
+            }
+        });
+
+        jLabel43.setText("借書限額 (本):");
+
+        jLabel44.setText("借書期限 (日):");
+
+        jLabel45.setText("逾期罰款 (每本每日):");
+
+        newUserTypePageMaxBooksInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newUserTypePageMaxBooksInputKeyPressed(evt);
+            }
+        });
+
+        newUserTypePageMaxDaysInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newUserTypePageMaxDaysInputKeyPressed(evt);
+            }
+        });
+
+        newUserTypePageDebtInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newUserTypePageDebtInputKeyPressed(evt);
+            }
+        });
+
+        newUserTypePageSubmitBt.setText("確定");
+        newUserTypePageSubmitBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newUserTypePageSubmitBtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout newUserTypeTabLayout = new javax.swing.GroupLayout(newUserTypeTab);
+        newUserTypeTab.setLayout(newUserTypeTabLayout);
+        newUserTypeTabLayout.setHorizontalGroup(
+            newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newUserTypeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newUserTypePageUserTypeInput, 0, 799, Short.MAX_VALUE)
+                    .addComponent(newUserTypePageMaxBooksInput)
+                    .addComponent(newUserTypePageMaxDaysInput)
+                    .addComponent(newUserTypePageDebtInput))
+                .addContainerGap())
+            .addGroup(newUserTypeTabLayout.createSequentialGroup()
+                .addGap(461, 461, 461)
+                .addComponent(newUserTypePageSubmitBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(466, Short.MAX_VALUE))
+        );
+        newUserTypeTabLayout.setVerticalGroup(
+            newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newUserTypeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel42)
+                    .addComponent(newUserTypePageUserTypeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43)
+                    .addComponent(newUserTypePageMaxBooksInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel44)
+                    .addComponent(newUserTypePageMaxDaysInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(newUserTypeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel45)
+                    .addComponent(newUserTypePageDebtInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(newUserTypePageSubmitBt)
+                .addContainerGap(354, Short.MAX_VALUE))
+        );
+
+        pageTab.addTab("新增/修改客戶類型", newUserTypeTab);
 
         javax.swing.GroupLayout reportTabLayout = new javax.swing.GroupLayout(reportTab);
         reportTab.setLayout(reportTabLayout);
@@ -1718,7 +1816,7 @@ public class MainGUI extends JFrame {
                 if (debt == 0) {
                     // no any debt need to pay
                     needRollBack = true;
-                    msg += "\n此客戶沒有任何未還款項。";
+                    msg += "\n此客戶沒有任何未還罰款。";
                 }
             }
             
@@ -1762,7 +1860,7 @@ public class MainGUI extends JFrame {
             searchCustomerPageSearch();
         } else {
             // something wrong
-            msg = "無法交還款項，原因如下：" + msg;
+            msg = "無法交還罰款，原因如下：" + msg;
             JOptionPane.showMessageDialog(null, msg);
         }
     }//GEN-LAST:event_searchCustomerPagePayBtActionPerformed
@@ -1905,6 +2003,68 @@ public class MainGUI extends JFrame {
         returnPageISBNInput.setText("");
         returnPageHKIDInput.requestFocus();
     }//GEN-LAST:event_returnPageResetBtActionPerformed
+
+    private void newUserTypePageUserTypeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserTypePageUserTypeInputActionPerformed
+        String typeName = newUserTypePageUserTypeInput.getEditor().getItem().toString().trim();
+        if (typeName.equals("")) {
+            return;
+        }
+        
+        Statement stmt = null;
+        int typeID = -1, maxBooks = 0, maxDays = 0;
+        double debt = 0;
+        String sql;
+        ResultSet rs;
+        try{
+            stmt = Main.conn.createStatement();
+            // try to find the usertype information (it can be empty set)
+            sql = "select * from usertype where type_name='" + typeName + "'";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                typeID = rs.getInt("type_id");
+                maxBooks = rs.getInt("max_books_borrow");
+                maxDays = rs.getInt("max_days_borrow");
+                debt = rs.getDouble("debt_each_day");
+            }
+            
+            if (typeID != -1) {
+                // usertype exists
+                newUserTypePageMaxBooksInput.setText(Integer.toString(maxBooks));
+                newUserTypePageMaxDaysInput.setText(Integer.toString(maxDays));
+                newUserTypePageDebtInput.setText(Double.toString(debt));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+    }//GEN-LAST:event_newUserTypePageUserTypeInputActionPerformed
+
+    private void newUserTypePageMaxBooksInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newUserTypePageMaxBooksInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !newUserTypePageMaxBooksInput.getText().trim().equals("")) {
+            newUserTypePageMaxDaysInput.requestFocus();
+        }
+    }//GEN-LAST:event_newUserTypePageMaxBooksInputKeyPressed
+
+    private void newUserTypePageMaxDaysInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newUserTypePageMaxDaysInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !newUserTypePageMaxDaysInput.getText().trim().equals("")) {
+            newUserTypePageDebtInput.requestFocus();
+        }
+    }//GEN-LAST:event_newUserTypePageMaxDaysInputKeyPressed
+
+    private void newUserTypePageDebtInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newUserTypePageDebtInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !newUserTypePageDebtInput.getText().trim().equals("")) {
+            newUserTypePageSubmit();
+        }
+    }//GEN-LAST:event_newUserTypePageDebtInputKeyPressed
+
+    private void newUserTypePageSubmitBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserTypePageSubmitBtActionPerformed
+        newUserTypePageSubmit();
+    }//GEN-LAST:event_newUserTypePageSubmitBtActionPerformed
     
     public void init() {
         // remove useless label text
@@ -1980,6 +2140,7 @@ public class MainGUI extends JFrame {
         // update combo box choices
         newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
         newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+        newUserTypePageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
         
         // select a default tab
         pageTab.setSelectedComponent(allBooksTab);
@@ -2922,6 +3083,111 @@ public class MainGUI extends JFrame {
             }
         }
     }
+    
+    private void newUserTypePageSubmit() {
+        String typeName = newUserTypePageUserTypeInput.getEditor().getItem().toString().trim();
+        String maxBooksStr = newUserTypePageMaxBooksInput.getText().trim();
+        String maxDaysStr = newUserTypePageMaxDaysInput.getText().trim();
+        String debtStr = newUserTypePageDebtInput.getText().trim();
+        int maxBooks, maxDays;
+        double debt;
+        
+        if (typeName.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入客戶類型。");
+            return;
+        }
+        if (maxBooksStr.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入借書限額。");
+            return;
+        }
+        if (maxDaysStr.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入借書期限。");
+            return;
+        }
+        if (debtStr.equals("")) {
+            JOptionPane.showMessageDialog(null, "請輸入逾期罰款。");
+            return;
+        }
+        if (!Utils.isInt(maxBooksStr)) {
+            JOptionPane.showMessageDialog(null, "借書限額必須是整數。");
+            return;
+        }
+        if (!Utils.isInt(maxDaysStr)) {
+            JOptionPane.showMessageDialog(null, "借書期限必須是整數。");
+            return;
+        }
+        if (!Utils.isDouble(debtStr)) {
+            JOptionPane.showMessageDialog(null, "逾期罰款必須是數字。");
+            return;
+        }
+        maxBooks = Integer.parseInt(maxBooksStr);
+        maxDays = Integer.parseInt(maxDaysStr);
+        debt = Double.parseDouble(debtStr);
+        if (maxBooks < 0) {
+            JOptionPane.showMessageDialog(null, "借書限額不能是負數。");
+            return;
+        }
+        if (maxDays < 0) {
+            JOptionPane.showMessageDialog(null, "借書期限不能是負數。");
+            return;
+        }
+        if (debt < 0) {
+            JOptionPane.showMessageDialog(null, "逾期罰款不能是負數。");
+            return;
+        }
+        
+        // valid data
+        Statement stmt = null;
+        int typeID = -1;
+        String sql;
+        // check if user type exists in table already
+        try{
+            stmt = Main.conn.createStatement();
+            sql = "select type_id from usertype where type_name='" + typeName + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                typeID = rs.getInt("type_id");
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        
+        try{
+            stmt = Main.conn.createStatement();
+            if (typeID != -1) {
+                // existing user type
+                sql = "update usertype set type_name='" + typeName + "', max_books_borrow=" + maxBooks + ", max_days_borrow=" + maxDays + ", debt_each_day=" + debt + " where type_id=" + typeID + ";";
+            } else {
+                // new user type
+                sql = "insert into usertype (type_name, max_books_borrow, max_days_borrow, debt_each_day) values ('" + typeName + "', " + maxBooks + ", " + maxDays + ", " + debt + ");";
+            }
+            stmt.executeUpdate(sql);
+            stmt.close();
+            
+            // update type choice
+            newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+            newUserTypePageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+            newCustomerPageUserTypeInput.getEditor().setItem("");
+            newUserTypePageUserTypeInput.getEditor().setItem("");
+            
+            // clear the input box
+            newUserTypePageMaxBooksInput.setText("");
+            newUserTypePageMaxDaysInput.setText("");
+            newUserTypePageDebtInput.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBooksExportBt;
@@ -2990,6 +3256,10 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -3020,6 +3290,12 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton newCustomerPageSubmitBt;
     private javax.swing.JComboBox<String> newCustomerPageUserTypeInput;
     private javax.swing.JPanel newCustomerTab;
+    private javax.swing.JTextField newUserTypePageDebtInput;
+    private javax.swing.JTextField newUserTypePageMaxBooksInput;
+    private javax.swing.JTextField newUserTypePageMaxDaysInput;
+    private javax.swing.JButton newUserTypePageSubmitBt;
+    private javax.swing.JComboBox<String> newUserTypePageUserTypeInput;
+    private javax.swing.JPanel newUserTypeTab;
     private javax.swing.JTabbedPane pageTab;
     private javax.swing.JPanel reportTab;
     private javax.swing.JTextField returnPageHKIDInput;
