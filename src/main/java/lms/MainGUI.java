@@ -228,23 +228,13 @@ public class MainGUI extends JFrame {
         borrowTab = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
         borrowPageHKIDInput = new javax.swing.JTextField();
-        borrowPageISBNInput1 = new javax.swing.JTextField();
-        borrowPageISBNInput2 = new javax.swing.JTextField();
-        borrowPageISBNInput3 = new javax.swing.JTextField();
-        borrowPageISBNInput4 = new javax.swing.JTextField();
-        borrowPageISBNInput5 = new javax.swing.JTextField();
-        borrowPageISBNInput6 = new javax.swing.JTextField();
-        borrowPageISBNInput7 = new javax.swing.JTextField();
-        borrowPageISBNInput8 = new javax.swing.JTextField();
+        borrowPageISBNInput = new javax.swing.JTextField();
         borrowPageBorrowBt = new javax.swing.JButton();
+        borrowPageAddBt = new javax.swing.JButton();
+        borrowPageResetBt = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        borrowPageTable = new javax.swing.JTable();
         returnTab = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         returnPageHKIDInput = new javax.swing.JTextField();
@@ -859,71 +849,15 @@ public class MainGUI extends JFrame {
 
         jLabel28.setText("ISBN:");
 
-        jLabel30.setText("ISBN:");
-
-        jLabel32.setText("ISBN:");
-
-        jLabel33.setText("ISBN:");
-
-        jLabel34.setText("ISBN:");
-
-        jLabel35.setText("ISBN:");
-
-        jLabel36.setText("ISBN:");
-
-        jLabel37.setText("ISBN:");
-
         borrowPageHKIDInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 borrowPageHKIDInputKeyPressed(evt);
             }
         });
 
-        borrowPageISBNInput1.addKeyListener(new java.awt.event.KeyAdapter() {
+        borrowPageISBNInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput1KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput2KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput3KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput4KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput5.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput5KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput6.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput6KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput7.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput7KeyPressed(evt);
-            }
-        });
-
-        borrowPageISBNInput8.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                borrowPageISBNInput8KeyPressed(evt);
+                borrowPageISBNInputKeyPressed(evt);
             }
         });
 
@@ -934,38 +868,65 @@ public class MainGUI extends JFrame {
             }
         });
 
+        borrowPageAddBt.setText("加入");
+        borrowPageAddBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrowPageAddBtActionPerformed(evt);
+            }
+        });
+
+        borrowPageResetBt.setText("重設");
+        borrowPageResetBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrowPageResetBtActionPerformed(evt);
+            }
+        });
+
+        borrowPageTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        borrowPageTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        borrowPageTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        borrowPageTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                borrowPageTableMousePressed(evt);
+            }
+        });
+        jScrollPane6.setViewportView(borrowPageTable);
+
         javax.swing.GroupLayout borrowTabLayout = new javax.swing.GroupLayout(borrowTab);
         borrowTab.setLayout(borrowTabLayout);
         borrowTabLayout.setHorizontalGroup(
             borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(borrowTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(borrowPageHKIDInput, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
-                    .addComponent(borrowPageISBNInput1)
-                    .addComponent(borrowPageISBNInput2)
-                    .addComponent(borrowPageISBNInput3)
-                    .addComponent(borrowPageISBNInput4)
-                    .addComponent(borrowPageISBNInput5)
-                    .addComponent(borrowPageISBNInput6)
-                    .addComponent(borrowPageISBNInput7)
-                    .addComponent(borrowPageISBNInput8))
+                    .addGroup(borrowTabLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(borrowPageHKIDInput, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                            .addComponent(borrowPageISBNInput)))
+                    .addGroup(borrowTabLayout.createSequentialGroup()
+                        .addGap(352, 352, 352)
+                        .addComponent(borrowPageAddBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(borrowPageBorrowBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(borrowPageResetBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(borrowTabLayout.createSequentialGroup()
-                .addGap(460, 460, 460)
-                .addComponent(borrowPageBorrowBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane6)
         );
         borrowTabLayout.setVerticalGroup(
             borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -977,38 +938,14 @@ public class MainGUI extends JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
-                    .addComponent(borrowPageISBNInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(borrowPageISBNInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel30)
-                    .addComponent(borrowPageISBNInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(borrowPageISBNInput3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel33)
-                    .addComponent(borrowPageISBNInput4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel34)
-                    .addComponent(borrowPageISBNInput5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel35)
-                    .addComponent(borrowPageISBNInput6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel36)
-                    .addComponent(borrowPageISBNInput7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(borrowTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel37)
-                    .addComponent(borrowPageISBNInput8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(borrowPageBorrowBt)
-                .addContainerGap(133, Short.MAX_VALUE))
+                    .addComponent(borrowPageBorrowBt)
+                    .addComponent(borrowPageAddBt)
+                    .addComponent(borrowPageResetBt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE))
         );
 
         pageTab.addTab("借書", borrowTab);
@@ -1923,109 +1860,6 @@ public class MainGUI extends JFrame {
         }
     }//GEN-LAST:event_searchCustomerPagePayBtActionPerformed
 
-    private void borrowPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageHKIDInputKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String hkid = borrowPageHKIDInput.getText().trim().toUpperCase();
-            if (Utils.isValidHKID(hkid)) {
-                borrowPageISBNInput1.requestFocus();
-            } else if (!hkid.equals("")) {
-                JOptionPane.showMessageDialog(null, "無效的HKID。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageHKIDInputKeyPressed
-
-    private void borrowPageISBNInput1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput1KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput1.getText().trim().toUpperCase();
-            if (Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput2.requestFocus();
-            } else if (!isbn.equals("")) {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput1KeyPressed
-
-    private void borrowPageISBNInput2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput2KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput2.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput3.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput2KeyPressed
-
-    private void borrowPageISBNInput3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput3KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput3.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput4.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput3KeyPressed
-
-    private void borrowPageISBNInput4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput4KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput4.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput5.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput4KeyPressed
-
-    private void borrowPageISBNInput5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput5KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput5.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput6.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput5KeyPressed
-
-    private void borrowPageISBNInput6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput6KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput6.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput7.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput6KeyPressed
-
-    private void borrowPageISBNInput7KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput7KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput7.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageISBNInput8.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput7KeyPressed
-
-    private void borrowPageISBNInput8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInput8KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            String isbn = borrowPageISBNInput8.getText().trim().toUpperCase();
-            if (isbn.equals("") || Utils.isValidISBN(isbn)) {
-                borrowPageBorrow();
-            } else {
-                JOptionPane.showMessageDialog(null, "無效的ISBN。");
-            }
-        }
-    }//GEN-LAST:event_borrowPageISBNInput8KeyPressed
-
-    private void borrowPageBorrowBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageBorrowBtActionPerformed
-        borrowPageBorrow();
-    }//GEN-LAST:event_borrowPageBorrowBtActionPerformed
-
     private void returnPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnPageHKIDInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             String hkid = returnPageHKIDInput.getText().trim().toUpperCase();
@@ -2154,6 +1988,50 @@ public class MainGUI extends JFrame {
             }
         }
     }//GEN-LAST:event_reportPageTableMousePressed
+
+    private void borrowPageBorrowBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageBorrowBtActionPerformed
+        borrowPageBorrow();
+    }//GEN-LAST:event_borrowPageBorrowBtActionPerformed
+
+    private void borrowPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            borrowPageAdd();
+        }
+    }//GEN-LAST:event_borrowPageISBNInputKeyPressed
+
+    private void borrowPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageHKIDInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            String hkid = borrowPageHKIDInput.getText().trim().toUpperCase();
+            if (Utils.isValidHKID(hkid)) {
+                borrowPageISBNInput.requestFocus();
+            } else if (!hkid.equals("")) {
+                JOptionPane.showMessageDialog(null, "無效的HKID。");
+            }
+        }
+    }//GEN-LAST:event_borrowPageHKIDInputKeyPressed
+
+    private void borrowPageResetBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageResetBtActionPerformed
+        borrowPageHKIDInput.setText("");
+        borrowPageISBNInput.setText("");
+
+        // clear all books
+        Main.borrowPageBooks.clear();
+        updateBorrowPageTable();
+    }//GEN-LAST:event_borrowPageResetBtActionPerformed
+
+    private void borrowPageAddBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageAddBtActionPerformed
+        borrowPageAdd();
+    }//GEN-LAST:event_borrowPageAddBtActionPerformed
+
+    private void borrowPageTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borrowPageTableMousePressed
+        JTable table = (JTable) evt.getSource();
+        int row = table.rowAtPoint(evt.getPoint());
+        if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            Main.borrowPageBooks.remove(row);
+            
+            updateBorrowPageTable();
+        }
+    }//GEN-LAST:event_borrowPageTableMousePressed
     
     public void init() {
         // remove useless label text
@@ -2213,6 +2091,15 @@ public class MainGUI extends JFrame {
         customerBorrowRecordTableModel.addColumn("到期日");
         customerBorrowRecordTableModel.addColumn("還書日期");
         
+        // set up table columns for borrowPageTable
+        DefaultTableModel borrowPageTableModel = (DefaultTableModel) borrowPageTable.getModel();
+        borrowPageTableModel.setColumnCount(0);
+        borrowPageTableModel.addColumn("ISBN");
+        borrowPageTableModel.addColumn("書名");
+        borrowPageTableModel.addColumn("出版社");
+        borrowPageTableModel.addColumn("作者");
+        borrowPageTableModel.addColumn("版本");
+        
         
         // show book info on allBooksTable
         allBooksRefresh();
@@ -2220,12 +2107,16 @@ public class MainGUI extends JFrame {
         // show customer info on allCustomersTable
         allCustomersRefresh();
         
+        // clear updateBorrowPageTable
+        updateBorrowPageTable();
+        
         // set editable false to tables
         allBooksTable.setDefaultEditor(Object.class, null);
         allCustomersTable.setDefaultEditor(Object.class, null);
         bookBorrowRecordTable.setDefaultEditor(Object.class, null);
         customerBorrowRecordTable.setDefaultEditor(Object.class, null);
         reportPageTable.setDefaultEditor(Object.class, null);
+        borrowPageTable.setDefaultEditor(Object.class, null);
         
         // update combo box choices
         newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
@@ -2452,54 +2343,116 @@ public class MainGUI extends JFrame {
         }
     }
     
+    private void borrowPageAdd() {
+        String isbn = borrowPageISBNInput.getText().trim().toUpperCase();
+        if (isbn.equals("")) {
+            return;
+        }
+        if (!Utils.isValidISBN(isbn)) {
+            JOptionPane.showMessageDialog(null, "無效的ISBN。");
+            return;
+        }
+        
+        Statement stmt = null;
+        String sql, title = null, publisher = null, author = null;
+        int edition = -1, quantity = -1;
+        double cost = -1;
+        ArrayList<String> tempAuthors = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            stmt = Main.conn.createStatement();
+            
+            // check if isbn exists in database
+            sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                title = rs.getString("title");
+                publisher = rs.getString("publisher");
+                author = rs.getString("author");
+                if (rs.wasNull()) {
+                    // no author in this row
+                    author = null;
+                }
+                edition = rs.getInt("edition");
+                cost = rs.getDouble("cost");
+                quantity = rs.getInt("quantity");
+                if (author != null) {
+                    tempAuthors.add(author);
+                }
+            }
+            
+            if (title == null) {
+                // isbn not found
+                JOptionPane.showMessageDialog(null, "找不到此書。");
+                return;
+            }
+            
+            Main.borrowPageBooks.add(new Book(isbn, title, publisher, edition, cost, quantity, tempAuthors));
+            
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+            }catch(SQLException se2){}
+        }
+        
+        // clear and focus the input field
+        borrowPageISBNInput.setText("");
+        borrowPageISBNInput.requestFocus();
+        
+        // update the table
+        updateBorrowPageTable();
+    }
+    
+    private void updateBorrowPageTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) borrowPageTable.getModel();
+        tableModel.setRowCount(0);
+        Book book;
+        for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+            book = Main.borrowPageBooks.get(i);
+            tableModel.addRow(new String[] {book.getISBN(), book.getTitle(), book.getPublisher(), book.joinAuthors(", "), Integer.toString(book.getEdition())});
+        }
+    }
+    
     private void borrowPageBorrow() {
         String hkid = borrowPageHKIDInput.getText().trim().toUpperCase();
         if (!Utils.isValidHKID(hkid)) {
             JOptionPane.showMessageDialog(null, (hkid.equals("") ? "請輸入HKID。" : "無效的HKID。"));
             return;
         }
+        if (Main.borrowPageBooks.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "請加入至少一本圖書。");
+            return;
+        }
         
         String msg = "";
-        boolean[] needToCheck = new boolean[] {true, true, true, true, true, true, true, true};
-        String[] isbns = new String[] {
-            borrowPageISBNInput1.getText().trim().toUpperCase(),
-            borrowPageISBNInput2.getText().trim().toUpperCase(),
-            borrowPageISBNInput3.getText().trim().toUpperCase(),
-            borrowPageISBNInput4.getText().trim().toUpperCase(),
-            borrowPageISBNInput5.getText().trim().toUpperCase(),
-            borrowPageISBNInput6.getText().trim().toUpperCase(),
-            borrowPageISBNInput7.getText().trim().toUpperCase(),
-            borrowPageISBNInput8.getText().trim().toUpperCase()
-        };
-        
-        // filter all invalid ISBN
-        for (int i = 0, n = isbns.length; i < n; i++) {
-            if (isbns[i].equals("")) {
-                needToCheck[i] = false;
-            } else if (!Utils.isValidISBN(isbns[i])) {
-                needToCheck[i] = false;
-                msg += "\n無效的ISBN：" + isbns[i];
-            }
-        }
+        Book book;
         
         int canBorrowNum = -1, maxBorrowNum = -1, maxDaysBorrow = 0;
         Statement stmt = null;
         String sql;
         ResultSet rs = null;
-        try{
+        try {
             stmt = Main.conn.createStatement();
             
             // check if isbn exists in database
-            for (int i = 0, n = isbns.length; i < n; i++) {
-                if (!needToCheck[i]) {
+            for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+                book = Main.borrowPageBooks.get(i);
+                if (!book.getNeedToCheck()) {
                     continue;
                 }
-                sql = "select ISBN from bookinfo where ISBN='" + isbns[i] + "'";
+                sql = "select ISBN from bookinfo where ISBN='" + book.getISBN() + "'";
                 rs = stmt.executeQuery(sql);
-                needToCheck[i] = rs.next();
-                if (!needToCheck[i]) {
+                book.setNeedToCheck(rs.next());
+                if (!book.getNeedToCheck()) {
                     // ISBN valid but not exists
-                    msg += "\n找不到此書：" + isbns[i];
+                    msg += "\n找不到此書：" + book.getISBN();
                 }
             }
             if (rs != null) {
@@ -2549,16 +2502,16 @@ public class MainGUI extends JFrame {
                     }
                 }catch(SQLException se2){}
             }
-            for (int i = 0, n = isbns.length; i < n; i++) {
-                if (needToCheck[i]) {
+            for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+                if (Main.borrowPageBooks.get(i).getNeedToCheck()) {
                     canBorrowNum--;
                 }
             }
 
             if (canBorrowNum < 0) {
                 // not enough quota
-                for (int i = 0, n = isbns.length; i < n; i++) {
-                    needToCheck[i] = false;
+                for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+                    Main.borrowPageBooks.get(i).setNeedToCheck(false);
                 }
                 msg += "\n此客戶沒有足夠配額，此客戶只可同時借" + maxBorrowNum + "本書。";
             }
@@ -2579,16 +2532,17 @@ public class MainGUI extends JFrame {
                 savePoint = Main.conn.setSavepoint();
                 
                 // remove quantity of each book
-                for (int i = 0, n = isbns.length; i < n; i++) {
-                    if (!needToCheck[i]) {
+                for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+                    book = Main.borrowPageBooks.get(i);
+                    if (!book.getNeedToCheck()) {
                         continue;
                     }
-                    sql = "update bookinfo set quantity = quantity-1 where isbn = '" + isbns[i] + "' and quantity > 0;";
+                    sql = "update bookinfo set quantity = quantity-1 where isbn = '" + book.getISBN() + "' and quantity > 0;";
                     affectedRow = stmt.executeUpdate(sql);
                     if (affectedRow == 0) {
                         // quantity is 0
                         needRollBack = true;
-                        msg += "\n沒有足夠存貨：" + isbns[i];
+                        msg += "\n沒有足夠存貨：" + book.getISBN();
                     }
                 }
                 
@@ -2616,16 +2570,17 @@ public class MainGUI extends JFrame {
                 } else {
                     // insert transaction detail of each book
                     String dueDateStr = Utils.toString(Utils.addDays(Main.fakeTime.getDate(), maxDaysBorrow));
-                    for (int i = 0, n = isbns.length; i < n; i++) {
-                        if (!needToCheck[i]) {
+                    for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+                        book = Main.borrowPageBooks.get(i);
+                        if (!book.getNeedToCheck()) {
                             continue;
                         }
-                        sql = "insert into transactiondetail (transaction_id, ISBN, due_date) VALUES (" + transaction_id + ", '" + isbns[i] + "', '" + dueDateStr + "');";
+                        sql = "insert into transactiondetail (transaction_id, ISBN, due_date) VALUES (" + transaction_id + ", '" + book.getISBN() + "', '" + dueDateStr + "');";
                         affectedRow = stmt.executeUpdate(sql);
                         if (affectedRow == 0) {
                             // cannot insert TransactionDetail
                             needRollBack = true;
-                            msg += "\n無法插入交易詳細資料：" + isbns[i] + "。";
+                            msg += "\n無法插入交易詳細資料：" + book.getISBN() + "。";
                         }
                     }
                 }
@@ -2663,14 +2618,11 @@ public class MainGUI extends JFrame {
             // success
             // clear all input fields
             borrowPageHKIDInput.setText("");
-            borrowPageISBNInput1.setText("");
-            borrowPageISBNInput2.setText("");
-            borrowPageISBNInput3.setText("");
-            borrowPageISBNInput4.setText("");
-            borrowPageISBNInput5.setText("");
-            borrowPageISBNInput6.setText("");
-            borrowPageISBNInput7.setText("");
-            borrowPageISBNInput8.setText("");
+            borrowPageISBNInput.setText("");
+            
+            // clear books
+            Main.borrowPageBooks.clear();
+            updateBorrowPageTable();
             
             // focus hkid input
             borrowPageHKIDInput.requestFocus();
@@ -3337,16 +3289,12 @@ public class MainGUI extends JFrame {
     private javax.swing.JButton bookBorrowRecordPageBackBt;
     private javax.swing.JTable bookBorrowRecordTable;
     private javax.swing.JLabel bookBorrowRecordTitleLabel;
+    private javax.swing.JButton borrowPageAddBt;
     private javax.swing.JButton borrowPageBorrowBt;
     private javax.swing.JTextField borrowPageHKIDInput;
-    private javax.swing.JTextField borrowPageISBNInput1;
-    private javax.swing.JTextField borrowPageISBNInput2;
-    private javax.swing.JTextField borrowPageISBNInput3;
-    private javax.swing.JTextField borrowPageISBNInput4;
-    private javax.swing.JTextField borrowPageISBNInput5;
-    private javax.swing.JTextField borrowPageISBNInput6;
-    private javax.swing.JTextField borrowPageISBNInput7;
-    private javax.swing.JTextField borrowPageISBNInput8;
+    private javax.swing.JTextField borrowPageISBNInput;
+    private javax.swing.JButton borrowPageResetBt;
+    private javax.swing.JTable borrowPageTable;
     private javax.swing.JPanel borrowTab;
     private javax.swing.JButton customerBorrowRecordExportBt;
     private javax.swing.JLabel customerBorrowRecordNameLabel;
@@ -3377,14 +3325,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
@@ -3404,6 +3345,7 @@ public class MainGUI extends JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutBt;
     private javax.swing.JTextField newBookPageAuthorInput;
     private javax.swing.JTextField newBookPageCostInput;

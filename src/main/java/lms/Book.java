@@ -10,6 +10,7 @@ public class Book {
     private double cost;
     private int quantity;
     private ArrayList<String> authors;
+    private boolean needToCheck;
     
     public Book() {}
     
@@ -21,6 +22,7 @@ public class Book {
         this.cost = cost;
         this.quantity = quantity;
         this.authors = authors;
+        this.needToCheck = true;
     }
     
     public String getISBN() {
@@ -47,8 +49,16 @@ public class Book {
         return quantity;
     }
     
+    public boolean getNeedToCheck() {
+        return needToCheck;
+    }
+    
     public ArrayList<String> getAuthors() {
         return authors;
+    }
+    
+    public void setNeedToCheck(boolean needToCheck) {
+        this.needToCheck = needToCheck;
     }
     
     public String[] getRow() {

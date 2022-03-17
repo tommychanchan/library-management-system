@@ -1,6 +1,7 @@
 package lms;
 
 import java.sql.*;
+import java.util.*;
 
 public class Main {
     public static String PROGRAM_NAME = "Library Management System";
@@ -16,6 +17,7 @@ public class Main {
             "HKID", "姓名", "欠書數量"
         })
     };
+    public static ArrayList<Book> borrowPageBooks = new ArrayList<>();
     
     public static void main(String[] args) {
         fakeTime = new FakeTime();
