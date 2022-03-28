@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 public class Utils {
-    private static SimpleDateFormat toStringDtf = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat toStringDtf = new SimpleDateFormat("yyyy-MM-dd");
     
     public static long daysDifference(java.sql.Date d1, java.sql.Date d2) {
         return TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
@@ -95,16 +95,15 @@ public class Utils {
     }
     
     public static String[] publisherChoices() {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ArrayList<String> choices = new ArrayList<>();
         
         // a default choice: nothing
         choices.add("");
         
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select distinct publisher from bookinfo order by publisher";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select distinct publisher from bookinfo order by publisher");
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 choices.add(rs.getString("publisher"));
             }
@@ -121,16 +120,15 @@ public class Utils {
     }
     
     public static String[] userTypeChoices() {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ArrayList<String> choices = new ArrayList<>();
         
         // a default choice: nothing
         choices.add("");
         
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select distinct type_name from usertype order by type_name";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select distinct type_name from usertype order by type_name");
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 choices.add(rs.getString("type_name"));
             }
@@ -170,13 +168,13 @@ public class Utils {
         return true;
     }
     
-    public static boolean isValidHKID(String id) {
-        String hkid = id.toUpperCase();
-        return (Pattern.matches("^.\\d{6}.$", id) || Pattern.matches("^..\\d{6}.$", id)) && (hkid.equals(generateHKID(hkid.substring(0, hkid.length()-1))));
+    public static boolean isValidHKID(String hkid) {
+        hkid = hkid.toUpperCase();
+        return Pattern.matches("^[A-Z]{1,2}\\d{6}[0-9A]$", hkid) && hkid.equals(generateHKID(hkid.substring(0, hkid.length()-1)));
     }
     
-    public static String generateHKID(String id) {
-        String hkid = id.toUpperCase();
+    public static String generateHKID(String hkid) {
+        hkid = hkid.toUpperCase();
         int temp = 0;
         String digit;
         if (hkid.length() == 7) {
@@ -199,9 +197,9 @@ public class Utils {
         return hkid + digit;
     }
     
-    public static boolean isValidISBN(String s) {
-        String isbn = s.toUpperCase();
-        return (Pattern.matches("^\\d{9}.$", isbn) || Pattern.matches("^\\d{13}$", isbn)) && (isbn.equals(generateISBN(isbn.substring(0, isbn.length()-1))));
+    public static boolean isValidISBN(String isbn) {
+        isbn = isbn.toUpperCase();
+        return (Pattern.matches("^\\d{9}[0-9X]$", isbn) || Pattern.matches("^\\d{13}$", isbn)) && (isbn.equals(generateISBN(isbn.substring(0, isbn.length()-1))));
     }
 
     public static String generateISBN(String isbn) {
