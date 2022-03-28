@@ -175,6 +175,22 @@ public class PreSettingGUI extends JFrame {
             // show mainGUI
             Main.preSettingGUI.setVisible(false);
             Main.mainGUI.setVisible(true);
+        } catch (SQLNonTransientConnectionException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "無法連接資料庫。");
+            try {
+                if (Main.conn != null) Main.conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLInvalidAuthorizationSpecException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "用戶名/密碼錯誤。");
+            try {
+                if (Main.conn != null) Main.conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "無法連接資料庫。可能是用戶/密碼錯誤！");

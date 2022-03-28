@@ -37,12 +37,12 @@ public class MainGUI extends JFrame {
                 }
                 
                 // valid ISBN
-                Statement stmt = null;
+                PreparedStatement stmt = null;
                 ArrayList<String> authors = new ArrayList<>();
                 try{
-                    stmt = Main.conn.createStatement();
-                    String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
-                    ResultSet rs = stmt.executeQuery(sql);
+                    stmt = Main.conn.prepareStatement("select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn = ?");
+                    stmt.setString(1, isbn);
+                    ResultSet rs = stmt.executeQuery();
                     String title = null, publisher = null, author = null;
                     int edition = 0, quantity = 0;
                     double cost = 0;
@@ -106,11 +106,11 @@ public class MainGUI extends JFrame {
                 }
                 
                 // valid HKID
-                Statement stmt = null;
+                PreparedStatement stmt = null;
                 try{
-                    stmt = Main.conn.createStatement();
-                    String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where hkid='" + hkid + "'";
-                    ResultSet rs = stmt.executeQuery(sql);
+                    stmt = Main.conn.prepareStatement("select * from userinfo UI inner join usertype UT on UI.type_id = UT.type_id where hkid = ?");
+                    stmt.setString(1, hkid);
+                    ResultSet rs = stmt.executeQuery();
                     String name = null, type = null, email = null, phone = null, gender = null, address = null;
                     while (rs.next()) {
                         name = rs.getString("name");
@@ -1754,21 +1754,21 @@ public class MainGUI extends JFrame {
             return;
         }
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Savepoint savePoint = null;
-        String sql, msg = "";
+        String msg = "";
         ResultSet rs;
         try {
             boolean needRollBack = false;
             int affectedRow;
             Main.conn.setAutoCommit(false);
-            stmt = Main.conn.createStatement();
+            stmt = Main.conn.prepareStatement("select UT.debt_each_day from userinfo UI inner join usertype UT on UI.type_id = UT.type_id where HKID = ?");
+            stmt.setString(1, hkid);
             savePoint = Main.conn.setSavepoint();
 
             // check if HKID exists in userinfo
             // and get the debt each day
-            sql = "select UT.debt_each_day from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where HKID='" + hkid + "';";
-            rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery();
             double debtEachDay = -1;
             while (rs.next()) {
                 debtEachDay = rs.getDouble("UT.debt_each_day");
@@ -1781,8 +1781,9 @@ public class MainGUI extends JFrame {
             // check if all books are returned and
             // mark as paid for all TransactionDetail
             if (!needRollBack) {
-                sql = "select count(*) total from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and TD.return_date is NULL;";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select count(*) total from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id where T.HKID = ? and TD.return_date is NULL;");
+                stmt.setString(1, hkid);
+                rs = stmt.executeQuery();
                 int temp = 0;
                 while (rs.next()) {
                     temp = rs.getInt("total");
@@ -1798,8 +1799,9 @@ public class MainGUI extends JFrame {
             double debt = 0;
             java.sql.Date dueDate, returnDate;
             if (!needRollBack) {
-                sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid;";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id where T.HKID = ? and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid");
+                stmt.setString(1, hkid);
+                rs = stmt.executeQuery();
                 while (rs.next()) {
                     dueDate = rs.getDate("TD.due_date");
                     returnDate = rs.getDate("TD.return_date");
@@ -1817,8 +1819,9 @@ public class MainGUI extends JFrame {
             
             if (!needRollBack) {
                 // clear the debt
-                sql = "update transaction set paid=true where HKID='" + hkid + "';";
-                stmt.executeUpdate(sql);
+                stmt = Main.conn.prepareStatement("update transaction set paid = true where HKID = ?");
+                stmt.setString(1, hkid);
+                stmt.executeUpdate();
             }
             
             rs.close();
@@ -1902,16 +1905,15 @@ public class MainGUI extends JFrame {
             return;
         }
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         int typeID = -1, maxBooks = 0, maxDays = 0;
         double debt = 0;
-        String sql;
         ResultSet rs;
         try{
-            stmt = Main.conn.createStatement();
+            stmt = Main.conn.prepareStatement("select * from usertype where type_name = ?");
+            stmt.setString(1, typeName);
             // try to find the usertype information (it can be empty set)
-            sql = "select * from usertype where type_name='" + typeName + "'";
-            rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 typeID = rs.getInt("type_id");
                 maxBooks = rs.getInt("max_books_borrow");
@@ -2136,11 +2138,10 @@ public class MainGUI extends JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) allCustomersTable.getModel();
         tableModel.setRowCount(0);
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id order by name";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from userinfo UI inner join usertype UT on UI.type_id = UT.type_id order by name");
+            ResultSet rs = stmt.executeQuery();
             String hkid, type, name, email, phone, gender, address;
             while (rs.next()) {
                 hkid = rs.getString("HKID");
@@ -2178,13 +2179,12 @@ public class MainGUI extends JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) allBooksTable.getModel();
         tableModel.setRowCount(0);
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ArrayList<Book> books = new ArrayList<>();
         Hashtable<String, ArrayList<String>> tempAuthors = new Hashtable<>();
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn order by BI.title";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from bookinfo BI left join bookauthor BA on BI.isbn = BA.isbn order by BI.title");
+            ResultSet rs = stmt.executeQuery();
             String isbn, title, publisher, author;
             int edition, quantity;
             double cost;
@@ -2249,20 +2249,20 @@ public class MainGUI extends JFrame {
             return;
         }
         
-        Statement stmt = null;
-        String sql, msg = "";
+        PreparedStatement stmt = null;
+        String msg = "";
         Savepoint savePoint = null;
         ResultSet rs;
         try {
             boolean needRollBack = false;
             int affectedRow;
             Main.conn.setAutoCommit(false);
-            stmt = Main.conn.createStatement();
             savePoint = Main.conn.setSavepoint();
 
             // check if customer exists
-            sql = "select hkid from userinfo where hkid='" + hkid + "';";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select hkid from userinfo where hkid = ?");
+            stmt.setString(1, hkid);
+            rs = stmt.executeQuery();
             if (!rs.next()) {
                 // customer does NOT exists
                 needRollBack = true;
@@ -2270,8 +2270,9 @@ public class MainGUI extends JFrame {
             }
             
             // update the quantity
-            sql = "update bookinfo set quantity = quantity+1 where isbn = '" + isbn + "';";
-            affectedRow = stmt.executeUpdate(sql);
+            stmt = Main.conn.prepareStatement("update bookinfo set quantity = quantity+1 where isbn = ?");
+            stmt.setString(1, isbn);
+            affectedRow = stmt.executeUpdate();
             if (affectedRow == 0) {
                 // cannot find the book
                 needRollBack = true;
@@ -2279,8 +2280,10 @@ public class MainGUI extends JFrame {
             }
 
             // find which detail_id is the book from
-            sql = "select TD.detail_id from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and TD.ISBN='" + isbn + "' and return_date is NULL order by TD.due_date, TD.detail_id;";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select TD.detail_id from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id where T.HKID = ? and TD.ISBN = ? and return_date is NULL order by TD.due_date, TD.detail_id");
+            stmt.setString(1, hkid);
+            stmt.setString(2, isbn);
+            rs = stmt.executeQuery();
             int detailID = -1;
             if (rs.next()) {
                 detailID = rs.getInt("detail_id");
@@ -2293,8 +2296,10 @@ public class MainGUI extends JFrame {
             
             // update TransactionDetail
             if (msg.equals("")) {
-                sql = "update transactiondetail set return_date='" + Main.fakeTime.formatDate() + "' where detail_id=" + detailID + ";";
-                affectedRow = stmt.executeUpdate(sql);
+                stmt = Main.conn.prepareStatement("update transactiondetail set return_date = ? where detail_id = ?");
+                stmt.setString(1, Main.fakeTime.formatDate());
+                stmt.setInt(2, detailID);
+                affectedRow = stmt.executeUpdate();
                 if (affectedRow == 0) {
                     needRollBack = true;
                     msg += "\n無法更新還書資料，請再試一次。";
@@ -2353,18 +2358,17 @@ public class MainGUI extends JFrame {
             return;
         }
         
-        Statement stmt = null;
-        String sql, title = null, publisher = null, author = null;
+        PreparedStatement stmt = null;
+        String title = null, publisher = null, author = null;
         int edition = -1, quantity = -1;
         double cost = -1;
         ArrayList<String> tempAuthors = new ArrayList<>();
         ResultSet rs = null;
         try {
-            stmt = Main.conn.createStatement();
-            
             // check if isbn exists in database
-            sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from bookinfo BI left join bookauthor BA on BI.isbn = BA.isbn where BI.isbn = ?");
+            stmt.setString(1, isbn);
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 title = rs.getString("title");
                 publisher = rs.getString("publisher");
@@ -2435,20 +2439,18 @@ public class MainGUI extends JFrame {
         Book book;
         
         int canBorrowNum = -1, maxBorrowNum = -1, maxDaysBorrow = 0;
-        Statement stmt = null;
-        String sql;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = Main.conn.createStatement();
-            
             // check if isbn exists in database
             for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
                 book = Main.borrowPageBooks.get(i);
                 if (!book.getNeedToCheck()) {
                     continue;
                 }
-                sql = "select ISBN from bookinfo where ISBN='" + book.getISBN() + "'";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select ISBN from bookinfo where ISBN = ?");
+                stmt.setString(1, book.getISBN());
+                rs = stmt.executeQuery();
                 book.setNeedToCheck(rs.next());
                 if (!book.getNeedToCheck()) {
                     // ISBN valid but not exists
@@ -2461,8 +2463,9 @@ public class MainGUI extends JFrame {
             
             // check if customer exists and get the
             // max books borrow
-            sql = "select UT.max_books_borrow, UT.max_days_borrow from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where hkid='" + hkid + "';";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select UT.max_books_borrow, UT.max_days_borrow from userinfo UI inner join usertype UT on UI.type_id = UT.type_id where hkid = ?");
+            stmt.setString(1, hkid);
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 maxBorrowNum = rs.getInt("UT.max_books_borrow");
                 maxDaysBorrow = rs.getInt("UT.max_days_borrow");
@@ -2484,9 +2487,9 @@ public class MainGUI extends JFrame {
         // check if user have enough quota to borrow these books
         if (maxBorrowNum != -1) {
             try{
-                stmt = Main.conn.createStatement();
-                sql = "select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id=TD.transaction_id where hkid='" + hkid + "' and return_date is NULL";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id = TD.transaction_id where hkid = ? and return_date is NULL");
+                stmt.setString(1, hkid);
+                rs = stmt.executeQuery();
                 while (rs.next()) {
                     canBorrowNum = maxBorrowNum - rs.getInt("total");
                 }
@@ -2528,7 +2531,6 @@ public class MainGUI extends JFrame {
                 boolean needRollBack = false;
                 int affectedRow;
                 Main.conn.setAutoCommit(false);
-                stmt = Main.conn.createStatement();
                 savePoint = Main.conn.setSavepoint();
                 
                 // remove quantity of each book
@@ -2537,8 +2539,9 @@ public class MainGUI extends JFrame {
                     if (!book.getNeedToCheck()) {
                         continue;
                     }
-                    sql = "update bookinfo set quantity = quantity-1 where isbn = '" + book.getISBN() + "' and quantity > 0;";
-                    affectedRow = stmt.executeUpdate(sql);
+                    stmt = Main.conn.prepareStatement("update bookinfo set quantity = quantity-1 where isbn = ? and quantity > 0");
+                    stmt.setString(1, book.getISBN());
+                    affectedRow = stmt.executeUpdate();
                     if (affectedRow == 0) {
                         // quantity is 0
                         needRollBack = true;
@@ -2547,8 +2550,11 @@ public class MainGUI extends JFrame {
                 }
                 
                 // insert to table Transaction
-                sql = "insert into transaction (HKID, borrow_date, paid) values ('" + hkid + "', '" + Main.fakeTime.formatDate() + "', false);";
-                affectedRow = stmt.executeUpdate(sql);
+                stmt = Main.conn.prepareStatement("insert into transaction (HKID, borrow_date, paid) values (?, ?, ?)");
+                stmt.setString(1, hkid);
+                stmt.setString(2, Main.fakeTime.formatDate());
+                stmt.setBoolean(3, false);
+                affectedRow = stmt.executeUpdate();
                 if (affectedRow == 0) {
                     // cannot insert to table Transaction
                     needRollBack = true;
@@ -2557,8 +2563,8 @@ public class MainGUI extends JFrame {
                 
                 // retrieve transaction_id
                 int transaction_id = -1;
-                sql = "select LAST_INSERT_ID() ID;";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select LAST_INSERT_ID() ID");
+                rs = stmt.executeQuery();
                 while (rs.next()) {
                     transaction_id = rs.getInt("ID");
                 }
@@ -2575,8 +2581,11 @@ public class MainGUI extends JFrame {
                         if (!book.getNeedToCheck()) {
                             continue;
                         }
-                        sql = "insert into transactiondetail (transaction_id, ISBN, due_date) VALUES (" + transaction_id + ", '" + book.getISBN() + "', '" + dueDateStr + "');";
-                        affectedRow = stmt.executeUpdate(sql);
+                        stmt = Main.conn.prepareStatement("insert into transactiondetail (transaction_id, ISBN, due_date) VALUES (?, ?, ?)");
+                        stmt.setInt(1, transaction_id);
+                        stmt.setString(2, book.getISBN());
+                        stmt.setString(3, dueDateStr);
+                        affectedRow = stmt.executeUpdate();
                         if (affectedRow == 0) {
                             // cannot insert TransactionDetail
                             needRollBack = true;
@@ -2643,11 +2652,11 @@ public class MainGUI extends JFrame {
         tableModel.setRowCount(0);
         
         String hkid = searchCustomerPageHKIDInput.getText().trim().toUpperCase();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join bookinfo BI on TD.ISBN=BI.ISBN right join userinfo UI on T.HKID=UI.HKID where UI.HKID = '" + hkid + "' order by T.transaction_id desc, TD.return_date desc;";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id inner join bookinfo BI on TD.ISBN = BI.ISBN right join userinfo UI on T.HKID = UI.HKID where UI.HKID = ? order by T.transaction_id desc, TD.return_date desc");
+            stmt.setString(1, hkid);
+            ResultSet rs = stmt.executeQuery();
             String isbn = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
             while (rs.next()) {
@@ -2690,11 +2699,11 @@ public class MainGUI extends JFrame {
         tableModel.setRowCount(0);
         
         String isbn = searchBookPageISBNInput.getText().trim().toUpperCase();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID right join bookinfo BI on TD.ISBN=BI.ISBN where BI.ISBN = '" + isbn + "' order by T.transaction_id desc, TD.return_date desc;";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id inner join userinfo UI on T.HKID = UI.HKID right join bookinfo BI on TD.ISBN = BI.ISBN where BI.ISBN = ? order by T.transaction_id desc, TD.return_date desc");
+            stmt.setString(1, isbn);
+            ResultSet rs = stmt.executeQuery();
             String hkid = null, name = null, title = null, borrowDate = null, dueDate = null, returnDate = null;
             java.sql.Date tempReturnDate;
             while (rs.next()) {
@@ -2737,11 +2746,11 @@ public class MainGUI extends JFrame {
             return false;
         }
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from userinfo UI inner join usertype UT on UI.type_id=UT.type_id where UI.hkid='" + hkid + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from userinfo UI inner join usertype UT on UI.type_id = UT.type_id where UI.hkid = ?");
+            stmt.setString(1, hkid);
+            ResultSet rs = stmt.executeQuery();
             String name = null, type = null, email = null, phone = null, gender = null, address = null;
             double debtEachDay = 0;
             while (rs.next()) {
@@ -2766,8 +2775,9 @@ public class MainGUI extends JFrame {
             // calculate and show the money should pay
             double debt = 0;
             java.sql.Date dueDate = null, returnDate = null;
-            sql = "select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where T.HKID='" + hkid + "' and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid;";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id = TD.transaction_id where T.HKID = ? and (TD.return_date is NULL or TD.return_date > TD.due_date) and NOT T.paid");
+            stmt.setString(1, hkid);
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 dueDate = rs.getDate("TD.due_date");
                 returnDate = rs.getDate("TD.return_date");
@@ -2813,12 +2823,12 @@ public class MainGUI extends JFrame {
             return false;
         }
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ArrayList<String> authors = new ArrayList<>();
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select * from bookinfo BI left join bookauthor BA on BI.isbn=BA.isbn where BI.isbn='" + isbn + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select * from bookinfo BI left join bookauthor BA on BI.isbn = BA.isbn where BI.isbn = ?");
+            stmt.setString(1, isbn);
+            ResultSet rs = stmt.executeQuery();
             String title = null, publisher = null, author = null;
             int edition = 0, quantity = 0;
             double cost = 0;
@@ -2908,21 +2918,16 @@ public class MainGUI extends JFrame {
         // valid data
         String gender = (m ? "M" : "F");
         
-        email = (email.equals("") ? "NULL" : "'" + email + "'");
-        phone = (phone.equals("") ? "NULL" : "'" + phone + "'");
         
-        
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Savepoint savePoint = null;
         ResultSet rs;
-        String sql;
         boolean HKIDExist;
         try{
-            stmt = Main.conn.createStatement();
-            
             // find type_id
-            sql = "select type_id from usertype where type_name='" + typeName + "'";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select type_id from usertype where type_name = ?");
+            stmt.setString(1, typeName);
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 typeID = rs.getInt("type_id");
             }
@@ -2938,19 +2943,49 @@ public class MainGUI extends JFrame {
             savePoint = Main.conn.setSavepoint();
             
             // check if HKID already exists in table
-            sql = "select hkid from userinfo where hkid='" + hkid + "'";
-            rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select hkid from userinfo where hkid = ?");
+            stmt.setString(1, hkid);
+            rs = stmt.executeQuery();
             HKIDExist = rs.next();
-            
+            stmt.close();
             if (HKIDExist) {
                 // existing customer
-                sql = "update userinfo set type_id=" + typeID + ", name='" + name + "', email=" + email + ", phone=" + phone + ", gender='" + gender + "', address='" + address + "' where hkid='" + hkid + "'";
-                stmt.executeUpdate(sql);
+                stmt = Main.conn.prepareStatement("update userinfo set type_id = ?, name = ?, email = ?, phone = ?, gender = ?, address = ? where hkid = ?");
+                stmt.setInt(1, typeID);
+                stmt.setString(2, name);
+                if (email.equals("")) {
+                    stmt.setNull(3, java.sql.Types.NULL);
+                } else {
+                    stmt.setString(3, email);
+                }
+                if (phone.equals("")) {
+                    stmt.setNull(4, java.sql.Types.NULL);
+                } else {
+                    stmt.setString(4, phone);
+                }
+                stmt.setString(5, gender);
+                stmt.setString(6, address);
+                stmt.setString(7, hkid);
             } else {
                 // new customer
-                sql = "insert into userinfo values ('" + hkid + "', " + typeID + ", '" + name + "', " + email + ", " + phone + ", '" + gender + "', '" + address + "')";
-                stmt.executeUpdate(sql);
+                stmt = Main.conn.prepareStatement("insert into userinfo values (?, ?, ?, ?, ?, ?, ?)");
+                stmt.setString(1, hkid);
+                stmt.setInt(2, typeID);
+                stmt.setString(3, name);
+                if (email.equals("")) {
+                    stmt.setNull(4, java.sql.Types.NULL);
+                } else {
+                    stmt.setString(4, email);
+                }
+                if (phone.equals("")) {
+                    stmt.setNull(5, java.sql.Types.NULL);
+                } else {
+                    stmt.setString(5, phone);
+                }
+                stmt.setString(6, gender);
+                stmt.setString(7, address);
             }
+            stmt.executeUpdate();
             
             rs.close();
             stmt.close();
@@ -3047,13 +3082,13 @@ public class MainGUI extends JFrame {
             authors[i] = authors[i].trim();
         }
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         boolean ISBNExist = false;
         // check if ISBN already exists in table
         try{
-            stmt = Main.conn.createStatement();
-            String sql = "select isbn from bookinfo where isbn='" + isbn + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select isbn from bookinfo where isbn = ?");
+            stmt.setString(1, isbn);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ISBNExist = true;
             }
@@ -3070,16 +3105,26 @@ public class MainGUI extends JFrame {
         if (ISBNExist) {
             // existing book
             try{
-                stmt = Main.conn.createStatement();
-                String sql = "update bookinfo set title = '" + title + "', publisher = '" + publisher + "', edition = " + edition + ", cost = " + cost + ", quantity = " + quantity + " where isbn = '" + isbn + "'";
-                stmt.executeUpdate(sql);
-                sql = "delete from bookauthor where isbn = '" + isbn + "'";
-                stmt.executeUpdate(sql);
-                for (int i = 0, n = authors.length; i < n; i++) {
-                    sql = "insert into bookauthor values ('" + isbn + "', '" + authors[i] + "')";
-                    stmt.executeUpdate(sql);
-                }
+                stmt = Main.conn.prepareStatement("update bookinfo set title = ?, publisher = ?, edition = ?, cost = ?, quantity = ? where isbn = ?");
+                stmt.setString(1, title);
+                stmt.setString(2, publisher);
+                stmt.setInt(3, edition);
+                stmt.setDouble(4, cost);
+                stmt.setInt(5, quantity);
+                stmt.setString(6, isbn);
+                stmt.executeUpdate();
                 stmt.close();
+                stmt = Main.conn.prepareStatement("delete from bookauthor where isbn = ?");
+                stmt.setString(1, isbn);
+                stmt.executeUpdate();
+                stmt.close();
+                for (int i = 0, n = authors.length; i < n; i++) {
+                    stmt = Main.conn.prepareStatement("insert into bookauthor values (?, ?)");
+                    stmt.setString(1, isbn);
+                    stmt.setString(2, authors[i]);
+                    stmt.executeUpdate();
+                    stmt.close();
+                }
 
                 // clear the input box
                 newBookPageISBNInput.setText("");
@@ -3101,14 +3146,22 @@ public class MainGUI extends JFrame {
         } else {
             // new book
             try{
-                stmt = Main.conn.createStatement();
-                String sql = "insert into bookinfo values ('" + isbn + "', '" + title + "', '" + publisher + "', " + edition + ", " + cost + ", " + quantity + ")";
-                stmt.executeUpdate(sql);
-                for (int i = 0, n = authors.length; i < n; i++) {
-                    sql = "insert into bookauthor values ('" + isbn + "', '" + authors[i] + "')";
-                    stmt.executeUpdate(sql);
-                }
+                stmt = Main.conn.prepareStatement("insert into bookinfo values (?, ?, ?, ?, ?, ?)");
+                stmt.setString(1, isbn);
+                stmt.setString(2, title);
+                stmt.setString(3, publisher);
+                stmt.setInt(4, edition);
+                stmt.setDouble(5, cost);
+                stmt.setInt(6, quantity);
+                stmt.executeUpdate();
                 stmt.close();
+                for (int i = 0, n = authors.length; i < n; i++) {
+                    stmt = Main.conn.prepareStatement("insert into bookauthor values (?, ?)");
+                    stmt.setString(1, isbn);
+                    stmt.setString(2, authors[i]);
+                    stmt.executeUpdate();
+                    stmt.close();
+                }
 
                 // clear the input box
                 newBookPageISBNInput.setText("");
@@ -3183,14 +3236,13 @@ public class MainGUI extends JFrame {
         }
         
         // valid data
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         int typeID = -1;
-        String sql;
         // check if user type exists in table already
         try{
-            stmt = Main.conn.createStatement();
-            sql = "select type_id from usertype where type_name='" + typeName + "';";
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = Main.conn.prepareStatement("select type_id from usertype where type_name = ?");
+            stmt.setString(1, typeName);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 typeID = rs.getInt("type_id");
             }
@@ -3205,15 +3257,23 @@ public class MainGUI extends JFrame {
         }
         
         try{
-            stmt = Main.conn.createStatement();
             if (typeID != -1) {
                 // existing user type
-                sql = "update usertype set type_name='" + typeName + "', max_books_borrow=" + maxBooks + ", max_days_borrow=" + maxDays + ", debt_each_day=" + debt + " where type_id=" + typeID + ";";
+                stmt = Main.conn.prepareStatement("update usertype set type_name = ?, max_books_borrow = ?, max_days_borrow = ?, debt_each_day = ? where type_id = ?");
+                stmt.setString(1, typeName);
+                stmt.setInt(2, maxBooks);
+                stmt.setInt(3, maxDays);
+                stmt.setDouble(4, debt);
+                stmt.setInt(5, typeID);
             } else {
                 // new user type
-                sql = "insert into usertype (type_name, max_books_borrow, max_days_borrow, debt_each_day) values ('" + typeName + "', " + maxBooks + ", " + maxDays + ", " + debt + ");";
+                stmt = Main.conn.prepareStatement("insert into usertype (type_name, max_books_borrow, max_days_borrow, debt_each_day) values (?, ?, ?, ?)");
+                stmt.setString(1, typeName);
+                stmt.setInt(2, maxBooks);
+                stmt.setInt(3, maxDays);
+                stmt.setDouble(4, debt);
             }
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate();
             stmt.close();
             
             // update type choice
@@ -3249,15 +3309,15 @@ public class MainGUI extends JFrame {
         }
         
         
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try {
-            stmt = Main.conn.createStatement();
-            String sql, hkid, name, bookNumStr;
+            String hkid, name, bookNumStr;
             ResultSet rs;
             if (index == 0) {
                 // 所有未還欠書的客戶
-                sql = "select UI.HKID, UI.name, count(*) book_num from userinfo UI inner join transaction T on UI.HKID=T.HKID inner join transactiondetail TD on T.transaction_id=TD.transaction_id where due_date < '" + Main.fakeTime.formatDate() + "' and return_date is NULL group by UI.HKID order by book_num desc;";
-                rs = stmt.executeQuery(sql);
+                stmt = Main.conn.prepareStatement("select UI.HKID, UI.name, count(*) book_num from userinfo UI inner join transaction T on UI.HKID = T.HKID inner join transactiondetail TD on T.transaction_id = TD.transaction_id where due_date < ? and return_date is NULL group by UI.HKID order by book_num desc");
+                stmt.setString(1, Main.fakeTime.formatDate());
+                rs = stmt.executeQuery();
                 while (rs.next()) {
                     hkid = rs.getString("UI.HKID");
                     name = rs.getString("UI.name");
@@ -3265,6 +3325,8 @@ public class MainGUI extends JFrame {
                     
                     reportPageTableModel.addRow(new String[] {hkid, name, bookNumStr});
                 }
+                stmt.close();
+                rs.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
