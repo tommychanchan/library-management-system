@@ -2487,6 +2487,10 @@ public class MainGUI extends JFrame {
         String msg = "";
         Book book;
         
+        for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
+            Main.borrowPageBooks.get(i).setNeedToCheck(true);
+        }
+        
         int canBorrowNum = -1, maxBorrowNum = -1, maxDaysBorrow = 0;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -2532,14 +2536,14 @@ public class MainGUI extends JFrame {
                 }
             }catch(SQLException se2){}
         }
-        
         // check if user have enough quota to borrow these books
         if (maxBorrowNum != -1) {
             try{
                 stmt = Main.conn.prepareStatement("select count(detail_id) total from transaction T left join transactiondetail TD on T.transaction_id = TD.transaction_id where hkid = ? and return_date is NULL");
                 stmt.setString(1, hkid);
                 rs = stmt.executeQuery();
-                while (rs.next()) {
+                if (rs.next()) {
+                    System.out.println("debug: total:" + rs.getInt("total"));
                     canBorrowNum = maxBorrowNum - rs.getInt("total");
                 }
                 rs.close();
@@ -2559,6 +2563,8 @@ public class MainGUI extends JFrame {
                     canBorrowNum--;
                 }
             }
+            System.out.println("debug: maxBorrowNum: " + maxBorrowNum);
+            System.out.println("debug: canBorrowNum: " + canBorrowNum);
 
             if (canBorrowNum < 0) {
                 // not enough quota
@@ -2570,7 +2576,8 @@ public class MainGUI extends JFrame {
         }
         
         
-        
+        System.out.println("debug:msg:"+msg);
+        System.out.println("debug:msg.equals(\"\"):"+msg.equals(""));
         if (msg.equals("")) {
             // so far no any problem
             // now use transaction to remove quantity and
@@ -2582,15 +2589,18 @@ public class MainGUI extends JFrame {
                 Main.conn.setAutoCommit(false);
                 savePoint = Main.conn.setSavepoint();
                 
+                System.out.println("debug: Main.borrowPageBooks.size(): " + Main.borrowPageBooks.size());
                 // remove quantity of each book
                 for (int i = 0, n = Main.borrowPageBooks.size(); i < n; i++) {
                     book = Main.borrowPageBooks.get(i);
+                    System.out.println("debug:Book" + i + ":" + book.getNeedToCheck());
                     if (!book.getNeedToCheck()) {
                         continue;
                     }
                     stmt = Main.conn.prepareStatement("update bookinfo set quantity = quantity-1 where isbn = ? and quantity > 0");
                     stmt.setString(1, book.getISBN());
                     affectedRow = stmt.executeUpdate();
+                    System.out.println("debug:affectedrow:" + affectedRow);
                     if (affectedRow == 0) {
                         // quantity is 0
                         needRollBack = true;
