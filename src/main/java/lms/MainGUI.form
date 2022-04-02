@@ -81,7 +81,10 @@
                       <Component id="allBooksRefreshBt" min="-2" pref="73" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="allBooksExportBt" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="allBooksSearchInput" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="allBooksSearchBt" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="1000" max="32767" attributes="0"/>
               </Group>
@@ -92,9 +95,11 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="allBooksRefreshBt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="allBooksExportBt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="allBooksSearchInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="allBooksSearchBt" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="552" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="547" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -141,6 +146,19 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JTextField" name="allBooksSearchInput">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="allBooksSearchInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="allBooksSearchBt">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x641c;&#x5c0b;&#x66f8;&#x540d;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="allBooksSearchBtActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="searchBookTab">

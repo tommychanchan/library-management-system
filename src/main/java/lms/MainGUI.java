@@ -169,6 +169,8 @@ public class MainGUI extends JFrame {
         allBooksExportBt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         allBooksTable = new javax.swing.JTable();
+        allBooksSearchInput = new javax.swing.JTextField();
+        allBooksSearchBt = new javax.swing.JButton();
         searchBookTab = new javax.swing.JPanel();
         searchBookPage = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -348,6 +350,19 @@ public class MainGUI extends JFrame {
         });
         jScrollPane1.setViewportView(allBooksTable);
 
+        allBooksSearchInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                allBooksSearchInputKeyPressed(evt);
+            }
+        });
+
+        allBooksSearchBt.setText("搜尋書名");
+        allBooksSearchBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allBooksSearchBtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout allBooksTabLayout = new javax.swing.GroupLayout(allBooksTab);
         allBooksTab.setLayout(allBooksTabLayout);
         allBooksTabLayout.setHorizontalGroup(
@@ -356,7 +371,10 @@ public class MainGUI extends JFrame {
                 .addComponent(allBooksRefreshBt, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(allBooksExportBt)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(allBooksSearchInput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(allBooksSearchBt))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         allBooksTabLayout.setVerticalGroup(
@@ -364,9 +382,11 @@ public class MainGUI extends JFrame {
             .addGroup(allBooksTabLayout.createSequentialGroup()
                 .addGroup(allBooksTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(allBooksRefreshBt)
-                    .addComponent(allBooksExportBt))
+                    .addComponent(allBooksExportBt)
+                    .addComponent(allBooksSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(allBooksSearchBt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
         );
 
         pageTab.addTab("所有圖書", allBooksTab);
@@ -2083,6 +2103,20 @@ public class MainGUI extends JFrame {
             updateBorrowPageTable();
         }
     }//GEN-LAST:event_borrowPageTableMousePressed
+
+    private void allBooksSearchBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allBooksSearchBtActionPerformed
+        allBooksSearch();
+    }//GEN-LAST:event_allBooksSearchBtActionPerformed
+
+    private void allBooksSearchInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_allBooksSearchInputKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
+            allBooksSearch();
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            allBooksRefresh();
+        }
+    }//GEN-LAST:event_allBooksSearchInputKeyPressed
     
     public void init() {
         // remove useless label text
@@ -2228,6 +2262,11 @@ public class MainGUI extends JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) allBooksTable.getModel();
         tableModel.setRowCount(0);
         
+        // clear search input
+        allBooksSearchInput.setText("");
+        
+        allBooksExportBt.setEnabled(true);
+        
         PreparedStatement stmt = null;
         ArrayList<Book> books = new ArrayList<>();
         Hashtable<String, ArrayList<String>> tempAuthors = new Hashtable<>();
@@ -2277,6 +2316,8 @@ public class MainGUI extends JFrame {
                 if (stmt != null) stmt.close();
             }catch(SQLException se2){}
         }
+        
+        allBooksSearchInput.requestFocus();
     }
     
     private void changeFakeTime() {
@@ -3365,6 +3406,77 @@ public class MainGUI extends JFrame {
         borrowPageHKIDInput.requestFocus();
     }
     
+    private void allBooksSearch() {
+        String toSearch = allBooksSearchInput.getText().trim().toLowerCase();
+        if (toSearch.equals("")) {
+            allBooksExportBt.setEnabled(true);
+            allBooksRefresh();
+            return;
+        }
+        
+        // format toSearch
+        toSearch = "%" + toSearch.replaceAll("\\%", "\\\\%").replaceAll("\\*", "%") + "%";
+        
+        // clear table
+        DefaultTableModel tableModel = (DefaultTableModel) allBooksTable.getModel();
+        tableModel.setRowCount(0);
+        
+        allBooksExportBt.setEnabled(false);
+        
+        PreparedStatement stmt = null;
+        ArrayList<Book> books = new ArrayList<>();
+        Hashtable<String, ArrayList<String>> tempAuthors = new Hashtable<>();
+        try{
+            stmt = Main.conn.prepareStatement("select * from bookinfo BI left join bookauthor BA on BI.isbn = BA.isbn where lower(title) like lower(?) order by BI.title");
+            stmt.setString(1, toSearch);
+            ResultSet rs = stmt.executeQuery();
+            String isbn, title, publisher, author;
+            int edition, quantity;
+            double cost;
+            while (rs.next()) {
+                isbn = rs.getString("BI.ISBN");
+                title = rs.getString("title");
+                publisher = rs.getString("publisher");
+                author = rs.getString("author");
+                if (rs.wasNull()) {
+                    // no author in this row
+                    author = null;
+                }
+                edition = rs.getInt("edition");
+                cost = rs.getDouble("cost");
+                quantity = rs.getInt("quantity");
+                if (tempAuthors.containsKey(isbn)) {
+                    // old record, only author is new
+                    if (author != null) {
+                        tempAuthors.get(isbn).add(author);
+                    }
+                } else {
+                    // new record
+                    tempAuthors.put(isbn, new ArrayList<>());
+                    if (author != null) {
+                        tempAuthors.get(isbn).add(author);
+                    }
+                    books.add(new Book(isbn, title, publisher, edition, cost, quantity, tempAuthors.get(isbn)));
+                }
+            }
+            rs.close();
+            stmt.close();
+            
+            // add rows to table
+            for (int i = 0, n = books.size(); i < n; i++) {
+                tableModel.addRow(books.get(i).getRow());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (stmt != null) stmt.close();
+            }catch(SQLException se2){}
+        }
+        
+        allBooksSearchInput.requestFocus();
+    }
+    
     private void reportPageTableUpdate(int index) {
         // clear columns for reportPageTable
         DefaultTableModel reportPageTableModel = (DefaultTableModel) reportPageTable.getModel();
@@ -3423,6 +3535,8 @@ public class MainGUI extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBooksExportBt;
     private javax.swing.JButton allBooksRefreshBt;
+    private javax.swing.JButton allBooksSearchBt;
+    private javax.swing.JTextField allBooksSearchInput;
     private javax.swing.JPanel allBooksTab;
     private javax.swing.JTable allBooksTable;
     private javax.swing.JButton allCustomersExportBt;
