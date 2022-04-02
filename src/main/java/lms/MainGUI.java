@@ -298,7 +298,6 @@ public class MainGUI extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Main.PROGRAM_NAME);
-        setMaximumSize(new java.awt.Dimension(1000, 650));
         setName("mainFrame"); // NOI18N
         setResizable(false);
 
@@ -1543,12 +1542,23 @@ public class MainGUI extends JFrame {
 
     private void newBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newBookPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             String isbn = newBookPageISBNInput.getText().trim().toUpperCase();
             if (Utils.isValidISBN(isbn)) {
                 newBookPageTitleInput.requestFocus();
             } else if (!isbn.equals("")) {
                 JOptionPane.showMessageDialog(null, "無效的ISBN。");
             }
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            newBookPageISBNInput.setText("");
+            newBookPageTitleInput.setText("");
+            newBookPageAuthorInput.setText("");
+            newBookPagePublisherInput.setModel(new DefaultComboBoxModel<>(Utils.publisherChoices()));
+            newBookPagePublisherInput.getEditor().setItem("");
+            newBookPageEditionInput.setText("");
+            newBookPageCostInput.setText("");
+            newBookPageQuantityInput.setText("");
         }
     }//GEN-LAST:event_newBookPageISBNInputKeyPressed
 
@@ -1602,7 +1612,17 @@ public class MainGUI extends JFrame {
 
     private void searchBookPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBookPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             searchBookPageSearch();
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            searchBookPageISBNInput.setText("");
+            searchBookPageTitleLabel.setText("");
+            searchBookPageAuthorLabel.setText("");
+            searchBookPagePublisherLabel.setText("");
+            searchBookPageEditionLabel.setText("");
+            searchBookPageCostLabel.setText("");
+            searchBookPageQuantityLabel.setText("");
         }
     }//GEN-LAST:event_searchBookPageISBNInputKeyPressed
 
@@ -1622,12 +1642,23 @@ public class MainGUI extends JFrame {
 
     private void newCustomerPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newCustomerPageHKIDInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             String hkid = newCustomerPageHKIDInput.getText().trim().toUpperCase();
             if (Utils.isValidHKID(hkid)) {
                 newCustomerPageNameInput.requestFocus();
             } else if (!hkid.equals("")) {
                 JOptionPane.showMessageDialog(null, "無效的HKID。");
             }
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            newCustomerPageHKIDInput.setText("");
+            newCustomerPageNameInput.setText("");
+            newCustomerPageEmailInput.setText("");
+            newCustomerPagePhoneInput.setText("");
+            newCustomerPageGenderBtGp.clearSelection();
+            newCustomerPageAddressInput.setText("");
+            newCustomerPageUserTypeInput.setModel(new DefaultComboBoxModel<>(Utils.userTypeChoices()));
+            newCustomerPageHKIDInput.requestFocus();
         }
     }//GEN-LAST:event_newCustomerPageHKIDInputKeyPressed
 
@@ -1668,7 +1699,18 @@ public class MainGUI extends JFrame {
 
     private void searchCustomerPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCustomerPageHKIDInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             searchCustomerPageSearch();
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            searchCustomerPageHKIDInput.setText("");
+            searchCustomerPageNameLabel.setText("");
+            searchCustomerPageEmailLabel.setText("");
+            searchCustomerPagePhoneLabel.setText("");
+            searchCustomerPageGenderLabel.setText("");
+            searchCustomerPageAddressLabel.setText("");
+            searchCustomerPageMoneyLabel.setText("");
+            searchCustomerPageTypeLabel.setText("");
         }
     }//GEN-LAST:event_searchCustomerPageHKIDInputKeyPressed
 
@@ -1865,6 +1907,7 @@ public class MainGUI extends JFrame {
 
     private void returnPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnPageHKIDInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             String hkid = returnPageHKIDInput.getText().trim().toUpperCase();
             if (Utils.isValidHKID(hkid)) {
                 returnPageISBNInput.requestFocus();
@@ -1880,6 +1923,7 @@ public class MainGUI extends JFrame {
 
     private void returnPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_returnPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             returnPageReturn();
         } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
             // Esc
@@ -1987,6 +2031,8 @@ public class MainGUI extends JFrame {
                 card.show(searchCustomerTab, "searchCustomerPage");
                 searchCustomerPageSearch();
                 pageTab.setSelectedComponent(searchCustomerTab);
+            } else if (index == 1) {
+                
             }
         }
     }//GEN-LAST:event_reportPageTableMousePressed
@@ -1997,28 +2043,31 @@ public class MainGUI extends JFrame {
 
     private void borrowPageISBNInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageISBNInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             borrowPageAdd();
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            borrowPageISBNInput.setText("");
         }
     }//GEN-LAST:event_borrowPageISBNInputKeyPressed
 
     private void borrowPageHKIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowPageHKIDInputKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            // Enter
             String hkid = borrowPageHKIDInput.getText().trim().toUpperCase();
             if (Utils.isValidHKID(hkid)) {
                 borrowPageISBNInput.requestFocus();
             } else if (!hkid.equals("")) {
                 JOptionPane.showMessageDialog(null, "無效的HKID。");
             }
+        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            // Esc
+            resetBorrowPage();
         }
     }//GEN-LAST:event_borrowPageHKIDInputKeyPressed
 
     private void borrowPageResetBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageResetBtActionPerformed
-        borrowPageHKIDInput.setText("");
-        borrowPageISBNInput.setText("");
-
-        // clear all books
-        Main.borrowPageBooks.clear();
-        updateBorrowPageTable();
+        resetBorrowPage();
     }//GEN-LAST:event_borrowPageResetBtActionPerformed
 
     private void borrowPageAddBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowPageAddBtActionPerformed
@@ -3295,6 +3344,17 @@ public class MainGUI extends JFrame {
         }
     }
     
+    private void resetBorrowPage() {
+        borrowPageHKIDInput.setText("");
+        borrowPageISBNInput.setText("");
+
+        // clear all books
+        Main.borrowPageBooks.clear();
+        updateBorrowPageTable();
+        
+        borrowPageHKIDInput.requestFocus();
+    }
+    
     private void reportPageTableUpdate(int index) {
         // clear columns for reportPageTable
         DefaultTableModel reportPageTableModel = (DefaultTableModel) reportPageTable.getModel();
@@ -3311,7 +3371,7 @@ public class MainGUI extends JFrame {
         
         PreparedStatement stmt = null;
         try {
-            String hkid, name, bookNumStr;
+            String hkid, name, bookNumStr, isbn;
             ResultSet rs;
             if (index == 0) {
                 // 所有未還欠書的客戶
@@ -3324,6 +3384,19 @@ public class MainGUI extends JFrame {
                     bookNumStr = Integer.toString(rs.getInt("book_num"));
                     
                     reportPageTableModel.addRow(new String[] {hkid, name, bookNumStr});
+                }
+                stmt.close();
+                rs.close();
+            } else if (index == 1) {
+                //TODO
+                stmt = Main.conn.prepareStatement("select * from bookinfo");
+                //stmt.setString(1, "sth");
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    //hkid = rs.getString("HKID");
+                    //name = rs.getString("name");
+                    isbn = rs.getString("isbn");
+                    reportPageTableModel.addRow(new String[] {isbn, "columne 2", "3", "four", "", "6"});
                 }
                 stmt.close();
                 rs.close();
