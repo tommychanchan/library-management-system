@@ -84,20 +84,20 @@ CREATE TABLE transactiondetail (
 
 
 -- Initial data: BookInfo
-INSERT INTO bookinfo VALUES ('9789865024338', 'A Tour of C++ 中文版', '碁峰資訊股份有限公司', 2, 160, 3);
-INSERT INTO bookinfo VALUES ('9789863475705', 'Java SE 8與Android 5.x程式設計範例教本（附Java和Android範例專案/附光碟）', '碁峰資訊股份有限公司', 1, 180, 2);
+INSERT INTO bookinfo VALUES ('9789865024338', 'A Tour of C++ 中文版', '碁峰資訊股份有限公司', 2, 160, 5);
+INSERT INTO bookinfo VALUES ('9789863475705', 'Java SE 8與Android 5.x程式設計範例教本（附Java和Android範例專案/附光碟）', '碁峰資訊股份有限公司', 1, 180, 3);
 INSERT INTO bookinfo VALUES ('9789888242931', 'HKDSE CHEMISTRY A Modern View 4A', 'Aristo Educational Press Ltd.', 2, 258.5, 1);
-INSERT INTO bookinfo VALUES ('9789888540129', 'HKDSE CHEMISTRY A Modern View 5 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 4);
-INSERT INTO bookinfo VALUES ('9789888540143', 'HKDSE CHEMISTRY A Modern View 7 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 5);
-INSERT INTO bookinfo VALUES ('9780195489576', '牛津進階英漢雙解詞典 Oxford Intermediate Learner\'s English-Chinese Dictionary', 'Oxford University Press', 4, 268, 3);
-INSERT INTO bookinfo VALUES ('9789622880184', '承教小記', '華漢文化事業公司', 1, 42, 4);
-INSERT INTO bookinfo VALUES ('9781401398033', 'Five People You Meet in Heaven (US)', 'Warner Book Incorporation', 1, 144, 3);
-INSERT INTO bookinfo VALUES ('962070133X', '商務新詞典(縮印本)', '商務印書館(香港)有限公司', 1, 112, 2);
-INSERT INTO bookinfo VALUES ('9789882054226', 'Handy Guide for HKDSE English (Papers 1, 2, 3 & 4)', 'Pilot Publishing Co. Ltd.', 1, 113, 2);
-INSERT INTO bookinfo VALUES ('9789882119437', '目送', '天地圖書有限公司', 1, 128, 5);
-INSERT INTO bookinfo VALUES ('9789620703973', 'The Little Prince 小王子', '商務印書館(香港)有限公司', 1, 78, 2);
+INSERT INTO bookinfo VALUES ('9789888540129', 'HKDSE CHEMISTRY A Modern View 5 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 7);
+INSERT INTO bookinfo VALUES ('9789888540143', 'HKDSE CHEMISTRY A Modern View 7 (Reprinted with minor amendments 2019)', 'Aristo Educational Press Ltd.', 2, 258.5, 8);
+INSERT INTO bookinfo VALUES ('9780195489576', '牛津進階英漢雙解詞典 Oxford Intermediate Learner\'s English-Chinese Dictionary', 'Oxford University Press', 4, 268, 10);
+INSERT INTO bookinfo VALUES ('9789622880184', '承教小記', '華漢文化事業公司', 1, 42, 9);
+INSERT INTO bookinfo VALUES ('9781401398033', 'Five People You Meet in Heaven (US)', 'Warner Book Incorporation', 1, 144, 6);
+INSERT INTO bookinfo VALUES ('962070133X', '商務新詞典(縮印本)', '商務印書館(香港)有限公司', 1, 112, 3);
+INSERT INTO bookinfo VALUES ('9789882054226', 'Handy Guide for HKDSE English (Papers 1, 2, 3 & 4)', 'Pilot Publishing Co. Ltd.', 1, 113, 3);
+INSERT INTO bookinfo VALUES ('9789882119437', '目送', '天地圖書有限公司', 1, 128, 8);
+INSERT INTO bookinfo VALUES ('9789620703973', 'The Little Prince 小王子', '商務印書館(香港)有限公司', 1, 78, 4);
 INSERT INTO bookinfo VALUES ('9789888467464', 'HKDSE Exam Series Mathematics (Extended Part) Mock Exam Papers M2 (18/19)', 'Pan Lloyds Publishers Ltd.', 1, 100, 0);
-INSERT INTO bookinfo VALUES ('9789882364523', 'New Horizon Liberal Studies Energy Technology and the Environment', '香港教育圖書有限公司', 3, 271, 1);
+INSERT INTO bookinfo VALUES ('9789882364523', 'New Horizon Liberal Studies Energy Technology and the Environment', '香港教育圖書有限公司', 3, 271, 0);
 INSERT INTO bookinfo VALUES ('9789881250919', '透視文言文 練習', 'HK Joint-Us Press', 1, 106, 23);
 INSERT INTO bookinfo VALUES ('9789882398085', 'Junior Secondary Mathematics in Action 2A (Modular)', 'Pearson Education Limited', 1, 248, 12);
 INSERT INTO bookinfo VALUES ('9789627452485', 'Integrated Music 1', 'Hong Kong Music', 2, 194, 20);
@@ -161,6 +161,7 @@ INSERT INTO userinfo VALUES ('P2233790', 1, '陳一心', NULL, '36288588', 'F', 
 INSERT INTO userinfo VALUES ('G8333881', 2, 'Ryan', NULL, '23456789', 'M', '香港九龍紅磡育才道11號');
 INSERT INTO userinfo VALUES ('XA1234568', 1, 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
 INSERT INTO userinfo VALUES ('C1413161', 1, '獨孤允行', NULL, NULL, 'M', '新界屯門蝴蝶邨蝶影樓');
+INSERT INTO userinfo VALUES ('S4686359', 3, '黃子華', NULL, NULL, 'M', '裕華國貨斜對面');
 
 -- Initial data: Transaction
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-07', true);
@@ -185,6 +186,28 @@ INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('E3620003', '2022-02-2
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('Y1481892', '2022-03-01', false);
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-05', false);
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-03-06', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-03-08', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('Y1481892', '2022-03-09', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('E3620003', '2022-03-10', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-15', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-03-17', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-03-17', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('P2233790', '2022-03-20', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-03-25', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-03-29', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-03-31', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('S4686359', '2022-04-01', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('E3620003', '2022-04-06', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('Y1481892', '2022-04-10', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('P2233790', '2022-04-12', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('G8333881', '2022-04-15', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-04-17', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('C1413161', '2022-04-18', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-04-19', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('E3620003', '2022-04-20', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('N1016774', '2022-04-22', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('S4686359', '2022-04-22', false);
+INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('XA1234568', '2022-04-23', false);
 
 -- Initial data: TransactionDetail
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (1, '9789622880184', '2022-03-04', '2022-02-18');
@@ -228,3 +251,34 @@ INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALU
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (22, '9789627452492', '2022-03-20');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (22, '9789882398085', '2022-03-20', '2022-03-08');
 INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (22, '962070133X', '2022-03-20', '2022-03-08');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (23, '9781401398033', '2022-03-22', '2022-03-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (23, '9789882364523', '2022-03-22', '2022-03-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (23, '9789882054226', '2022-03-22', '2022-03-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (24, '9789882398085', '2022-03-23', '2022-03-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (25, '962070133X', '2022-03-24', '2022-03-23');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (25, '9789882119437', '2022-03-24', '2022-03-19');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (26, '9780195489576', '2022-04-05', '2022-04-06');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (26, '962070133X', '2022-04-05', '2022-04-06');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (27, '9781401398033', '2022-04-07', '2022-04-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (28, '9781401398033', '2022-03-31', '2022-04-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (28, '9789882054226', '2022-03-31', '2022-04-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (29, '9789882054226', '2022-04-03', '2022-04-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (29, '962070133X', '2022-04-03', '2022-04-03');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (30, '9789882364523', '2022-04-15', '2022-04-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (31, '9780195489576', '2022-04-26', '2022-04-15');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (32, '9789888540129', '2022-04-14', '2022-04-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (33, '9780195489576', '2022-04-29', '2022-04-24');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (33, '9789620703973', '2022-04-29', '2022-04-24');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (34, '9789865024338', '2022-04-20', '2022-04-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (34, '9789863475705', '2022-04-20', '2022-04-15');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (35, '9780195489576', '2022-04-24', '2022-04-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (36, '9780195489576', '2022-04-26');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (37, '9789627452485', '2022-05-06', '2022-04-23');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date, return_date) VALUES (37, '9789627452492', '2022-05-06', '2022-04-23');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (38, '9789863475705', '2022-05-01');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (39, '9780195489576', '2022-05-02');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (40, '9789863475705', '2022-05-17');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (41, '9789863475705', '2022-05-04');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (42, '9789881250919', '2022-05-13');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (43, '9789622880184', '2022-05-20');
+INSERT INTO transactiondetail (transaction_id, ISBN, due_date) VALUES (44, '9789622880184', '2022-05-07');
