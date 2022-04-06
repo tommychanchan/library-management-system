@@ -3155,12 +3155,22 @@ public class MainGUI extends JFrame {
             JOptionPane.showMessageDialog(null, "版本必須是整數。");
             return;
         }
+        edition = Integer.parseInt(newBookPageEditionInput.getText().trim());
+        if (edition < 0) {
+            JOptionPane.showMessageDialog(null, "版本不能是負數。");
+            return;
+        }
         if (newBookPageCostInput.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "請輸入成本價。");
             return;
         }
         if (!Utils.isDouble(newBookPageCostInput.getText().trim())) {
             JOptionPane.showMessageDialog(null, "成本價必須是數字。");
+            return;
+        }
+        cost = Double.parseDouble(newBookPageCostInput.getText().trim());
+        if (cost < 0) {
+            JOptionPane.showMessageDialog(null, "成本價不能是負數。");
             return;
         }
         if (newBookPageQuantityInput.getText().trim().equals("")) {
@@ -3171,12 +3181,14 @@ public class MainGUI extends JFrame {
             JOptionPane.showMessageDialog(null, "存貨數量必須是整數。");
             return;
         }
+        quantity = Integer.parseInt(newBookPageQuantityInput.getText().trim());
+        if (quantity < 0) {
+            JOptionPane.showMessageDialog(null, "存貨數量不能是負數。");
+            return;
+        }
+        
         
         // valid data
-        edition = Integer.parseInt(newBookPageEditionInput.getText().trim());
-        cost = Double.parseDouble(newBookPageCostInput.getText().trim());
-        quantity = Integer.parseInt(newBookPageQuantityInput.getText().trim());
-        
         String[] authors = (authorStr.equals("") ? new String[] {} : authorStr.split(",|，"));
         for (int i = 0, n = authors.length; i < n; i++) {
             authors[i] = authors[i].trim();
