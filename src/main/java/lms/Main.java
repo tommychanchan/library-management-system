@@ -16,8 +16,8 @@ public class Main {
         new Report("所有未還欠書的客戶", "all_owing_customers", new String[] {
             "HKID", "姓名", "欠書數量"
         }),
-        new Report("sth", "csv_name", new String[] {
-            "Column 1", "Column 2", "3", "4", "5", "6" //TODO
+        new Report("全部借書記錄", "all_borrow", new String[] {
+            "HKID", "ISBN", "借書日期", "到期日", "還書日期"
         })
     };
     public static ArrayList<Book> borrowPageBooks = new ArrayList<>();

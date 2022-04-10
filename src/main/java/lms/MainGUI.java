@@ -1435,8 +1435,7 @@ public class MainGUI extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(reportPageExportBt)
                 .addGap(18, 18, 18)
-                .addComponent(reportPageInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(reportPageInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         reportTabLayout.setVerticalGroup(
@@ -2052,7 +2051,14 @@ public class MainGUI extends JFrame {
                 searchCustomerPageSearch();
                 pageTab.setSelectedComponent(searchCustomerTab);
             } else if (index == 1) {
-                
+                // 全部借書記錄
+                String hkid = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "HKID")).toString();
+                // change page to searchCustomerPage and show search result of hkid
+                searchCustomerPageHKIDInput.setText(hkid);
+                CardLayout card = (CardLayout)searchCustomerTab.getLayout();
+                card.show(searchCustomerTab, "searchCustomerPage");
+                searchCustomerPageSearch();
+                pageTab.setSelectedComponent(searchCustomerTab);
             }
         }
     }//GEN-LAST:event_reportPageTableMousePressed
@@ -3498,6 +3504,7 @@ public class MainGUI extends JFrame {
         PreparedStatement stmt = null;
         try {
             String hkid, name, bookNumStr, isbn;
+            java.sql.Date borrowDate, dueDate, returnDate;
             ResultSet rs;
             if (index == 0) {
                 // 所有未還欠書的客戶
@@ -3514,15 +3521,19 @@ public class MainGUI extends JFrame {
                 stmt.close();
                 rs.close();
             } else if (index == 1) {
-                //TODO
-                stmt = Main.conn.prepareStatement("select * from bookinfo");
-                //stmt.setString(1, "sth");
+                // 全部借書記錄
+                stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID order by TD.detail_id desc");
                 rs = stmt.executeQuery();
                 while (rs.next()) {
-                    //hkid = rs.getString("HKID");
-                    //name = rs.getString("name");
-                    isbn = rs.getString("isbn");
-                    reportPageTableModel.addRow(new String[] {isbn, "columne 2", "3", "four", "", "6"});
+                    hkid = rs.getString("UI.HKID");
+                    isbn = rs.getString("TD.ISBN");
+                    borrowDate = rs.getDate("T.borrow_date");
+                    dueDate = rs.getDate("TD.due_date");
+                    returnDate = rs.getDate("TD.return_date");
+                    if (rs.wasNull()) {
+                        returnDate = null;
+                    }
+                    reportPageTableModel.addRow(new String[] {hkid, isbn, Utils.toString(borrowDate), Utils.toString(dueDate), (returnDate == null ? "尚未還書" : Utils.toString(returnDate))});
                 }
                 stmt.close();
                 rs.close();
