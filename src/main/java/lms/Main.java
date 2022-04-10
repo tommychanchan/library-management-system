@@ -18,6 +18,9 @@ public class Main {
         }),
         new Report("全部借書記錄", "all_borrow", new String[] {
             "HKID", "ISBN", "借書日期", "到期日", "還書日期"
+        }),
+        new Report("客戶遲還書機率", "customer_late_probability", new String[] {
+            "HKID", "借書數量", "遲還書數量", "遲還書機率"
         })
     };
     public static ArrayList<Book> borrowPageBooks = new ArrayList<>();
