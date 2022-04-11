@@ -13,14 +13,17 @@ public class Main {
     public static FakeTime fakeTime;
     public static final String REPORT_FOLDER = "reports";
     public static final Report[] REPORT_DATA = {
-        new Report("所有未還欠書的客戶", "all_owing_customers", new String[] {
+        new Report("所有未還欠書的客戶", "all_owing_book_customers", new String[] {
             "HKID", "姓名", "欠書數量"
         }),
-        new Report("全部借書記錄", "all_borrow", new String[] {
+        new Report("全部借書記錄", "all_borrow_record", new String[] {
             "HKID", "ISBN", "借書日期", "到期日", "還書日期"
         }),
         new Report("客戶遲還書機率", "customer_late_probability", new String[] {
-            "HKID", "借書數量", "遲還書數量", "遲還書機率"
+            "HKID", "姓名", "借書數量", "遲還書數量", "遲還書機率"
+        }),
+        new Report("客戶類型遲還書機率", "customer_type_late_probability", new String[] {
+            "客戶類型", "人數", "借書數量", "遲還書數量", "遲還書機率"
         })
     };
     public static ArrayList<Book> borrowPageBooks = new ArrayList<>();

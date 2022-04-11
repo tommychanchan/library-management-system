@@ -3512,10 +3512,10 @@ public class MainGUI extends JFrame {
         
         PreparedStatement stmt = null;
         try {
-            String hkid, name, bookNumStr, isbn;
+            String hkid, name, bookNumStr, isbn, typeName;
             java.sql.Date borrowDate, dueDate, returnDate;
-            ResultSet rs;
-            int total;
+            ResultSet rs = null;
+            int total, late, num;
             if (index == 0) {
                 // 所有未還欠書的客戶
                 stmt = Main.conn.prepareStatement("select UI.HKID, UI.name, count(*) book_num from userinfo UI inner join transaction T on UI.HKID = T.HKID inner join transactiondetail TD on T.transaction_id = TD.transaction_id where due_date < ? and return_date is NULL group by UI.HKID order by book_num desc");
@@ -3528,8 +3528,6 @@ public class MainGUI extends JFrame {
                     
                     reportPageTableModel.addRow(new String[] {hkid, name, bookNumStr});
                 }
-                stmt.close();
-                rs.close();
             } else if (index == 1) {
                 // 全部借書記錄
                 stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID order by TD.detail_id desc");
@@ -3545,26 +3543,46 @@ public class MainGUI extends JFrame {
                     }
                     reportPageTableModel.addRow(new String[] {hkid, isbn, Utils.toString(borrowDate), Utils.toString(dueDate), (returnDate == null ? "尚未還書" : Utils.toString(returnDate))});
                 }
-                stmt.close();
-                rs.close();
             } else if (index == 2) {
                 // 客戶遲還書機率
                 double percentage;
-                int late;
-                stmt = Main.conn.prepareStatement("select HKID, total, late, (late/total) percentage from (select * from (select UI.HKID, count(TD.due_date) total from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id) TD on UI.HKID=TD.HKID group by UI.HKID) TD1 inner join (select UI.HKID TD2HKID, count(TD.due_date) late from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.HKID) TD2 on TD1.HKID=TD2.TD2HKID) BIG order by percentage desc");
+                stmt = Main.conn.prepareStatement("select HKID, name, total, late, (late/total) percentage from (select * from (select UI.HKID, UI.name, count(TD.due_date) total from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id) TD on UI.HKID=TD.HKID group by UI.HKID) TD1 inner join (select UI.HKID TD2HKID, count(TD.due_date) late from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.HKID) TD2 on TD1.HKID=TD2.TD2HKID) BIG order by percentage desc");
                 stmt.setDate(1, Main.fakeTime.getDate());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     hkid = rs.getString("HKID");
+                    name = rs.getString("name");
                     total = rs.getInt("total");
                     late = rs.getInt("late");
                     percentage = rs.getDouble("percentage");
                     if (rs.wasNull()) {
                         percentage = -1;
                     }
-                    reportPageTableModel.addRow(new String[] {hkid, Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%")});
+                    reportPageTableModel.addRow(new String[] {hkid, name, Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%")});
                 }
+            } else if (index == 3) {
+                // 客戶類型遲還書機率
+                double percentage;
+                stmt = Main.conn.prepareStatement("select type_name, num, total, late, (late/total) percentage from (select * from (select UTI1.type_id UTI1_type_id, UTI1.type_name, count(TD.detail_id) total from (select UT.type_id, UT.type_name, UI.HKID from usertype UT left join userinfo UI on UT.type_id=UI.type_id) UTI1 inner join transaction T on T.HKID=UTI1.HKID inner join transactiondetail TD on T.transaction_id=TD.transaction_id group by UTI1.type_id) UTI1 left join (select UI.type_id UTI2_type_id, count(TD.due_date) late from userinfo UI inner join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.type_id) UTI2 on UTI1.UTI1_type_id=UTI2.UTI2_type_id right join (select UI.type_id UI_type_id, count(UI.type_id) num from userinfo UI group by UI.type_id) UI on UTI1.UTI1_type_id=UI.UI_type_id) BIG order by percentage desc");
+                stmt.setDate(1, Main.fakeTime.getDate());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    typeName = rs.getString("type_name");
+                    num = rs.getInt("num");
+                    total = rs.getInt("total");
+                    late = rs.getInt("late");
+                    percentage = rs.getDouble("percentage");
+                    if (rs.wasNull()) {
+                        percentage = -1;
+                    }
+                    reportPageTableModel.addRow(new String[] {typeName, Integer.toString(num), Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%")});
+                }
+            }
+            
+            if (stmt != null) {
                 stmt.close();
+            }
+            if (rs != null) {
                 rs.close();
             }
         } catch (Exception e) {
