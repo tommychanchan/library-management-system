@@ -3545,9 +3545,12 @@ public class MainGUI extends JFrame {
                 }
             } else if (index == 2) {
                 // 客戶遲還書機率
-                double percentage;
-                stmt = Main.conn.prepareStatement("select HKID, name, total, late, (late/total) percentage from (select * from (select UI.HKID, UI.name, count(TD.due_date) total from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id) TD on UI.HKID=TD.HKID group by UI.HKID) TD1 inner join (select UI.HKID TD2HKID, count(TD.due_date) late from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.HKID) TD2 on TD1.HKID=TD2.TD2HKID) BIG order by percentage desc");
-                stmt.setDate(1, Main.fakeTime.getDate());
+                double percentage, averageLate;
+                stmt = Main.conn.prepareStatement("select HKID, name, total, late, (late/total) percentage, average_late from (select * from (select UI.HKID, UI.name, count(TD.due_date) total from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id) TD on UI.HKID=TD.HKID group by UI.HKID) TD1 inner join (select UI.HKID TD2HKID, count(TD.due_date) late from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.HKID) TD2 on TD1.HKID=TD2.TD2HKID left join (select T.HKID TD3HKID, avg(DATEDIFF(if (TD.return_date is NULL, ?, TD.return_date), TD.due_date)) average_late from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date<TD.return_date) or (TD.return_date is NULL and TD.due_date < ?) group by T.HKID) TD3 on TD2.TD2HKID=TD3.TD3HKID) BIG order by average_late desc, percentage desc");
+                java.sql.Date tempDate = Main.fakeTime.getDate();
+                stmt.setDate(1, tempDate);
+                stmt.setDate(2, tempDate);
+                stmt.setDate(3, tempDate);
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     hkid = rs.getString("HKID");
@@ -3558,7 +3561,11 @@ public class MainGUI extends JFrame {
                     if (rs.wasNull()) {
                         percentage = -1;
                     }
-                    reportPageTableModel.addRow(new String[] {hkid, name, Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%")});
+                    averageLate = rs.getDouble("average_late");
+                    if (rs.wasNull()) {
+                        averageLate = 0;
+                    }
+                    reportPageTableModel.addRow(new String[] {hkid, name, Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%"), String.format("%.1f", averageLate)});
                 }
             } else if (index == 3) {
                 // 客戶類型遲還書機率

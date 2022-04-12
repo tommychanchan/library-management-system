@@ -20,7 +20,7 @@ public class Main {
             "HKID", "ISBN", "借書日期", "到期日", "還書日期"
         }),
         new Report("客戶遲還書機率", "customer_late_probability", new String[] {
-            "HKID", "姓名", "借書數量", "遲還書數量", "遲還書機率"
+            "HKID", "姓名", "借書數量", "遲還書數量", "遲還書機率", "平均遲還日數"
         }),
         new Report("客戶類型遲還書機率", "customer_type_late_probability", new String[] {
             "客戶類型", "人數", "借書數量", "遲還書數量", "遲還書機率"
