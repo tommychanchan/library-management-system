@@ -1521,11 +1521,13 @@ public class MainGUI extends JFrame {
             e.printStackTrace();
         }
         
-        Main.mainGUI.setVisible(false);
+        // reset date
+        Main.fakeTime.resetFakeTime();
         
         // clear preSettingGUI's input box (username, password)
         Main.preSettingGUI.resetInputBox();
         
+        Main.mainGUI.setVisible(false);
         Main.preSettingGUI.setVisible(true);
     }//GEN-LAST:event_logoutBtActionPerformed
 

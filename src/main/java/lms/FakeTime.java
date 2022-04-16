@@ -11,6 +11,10 @@ public class FakeTime {
         fakeDatetime = null;
     }
     
+    public void resetFakeTime() {
+        fakeDatetime = null;
+    }
+    
     public java.sql.Date getDate() {
         return java.sql.Date.valueOf(formatDate());
     }
