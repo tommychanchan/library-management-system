@@ -2053,7 +2053,7 @@ public class MainGUI extends JFrame {
                 searchCustomerPageSearch();
                 pageTab.setSelectedComponent(searchCustomerTab);
             } else if (index == 1) {
-                // 全部借書記錄
+                // 所有未還罰款的客戶
                 String hkid = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "HKID")).toString();
                 // change page to searchCustomerPage and show search result of hkid
                 searchCustomerPageHKIDInput.setText(hkid);
@@ -2062,6 +2062,15 @@ public class MainGUI extends JFrame {
                 searchCustomerPageSearch();
                 pageTab.setSelectedComponent(searchCustomerTab);
             } else if (index == 2) {
+                // 全部借書記錄
+                String hkid = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "HKID")).toString();
+                // change page to searchCustomerPage and show search result of hkid
+                searchCustomerPageHKIDInput.setText(hkid);
+                CardLayout card = (CardLayout)searchCustomerTab.getLayout();
+                card.show(searchCustomerTab, "searchCustomerPage");
+                searchCustomerPageSearch();
+                pageTab.setSelectedComponent(searchCustomerTab);
+            } else if (index == 3) {
                 // 客戶遲還書機率
                 String hkid = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "HKID")).toString();
                 // change page to searchCustomerPage and show search result of hkid
@@ -3518,10 +3527,11 @@ public class MainGUI extends JFrame {
             java.sql.Date borrowDate, dueDate, returnDate;
             ResultSet rs = null;
             int total, late, num;
+            double debt;
             if (index == 0) {
                 // 所有未還欠書的客戶
                 stmt = Main.conn.prepareStatement("select UI.HKID, UI.name, count(*) book_num from userinfo UI inner join transaction T on UI.HKID = T.HKID inner join transactiondetail TD on T.transaction_id = TD.transaction_id where due_date < ? and return_date is NULL group by UI.HKID order by book_num desc");
-                stmt.setString(1, Main.fakeTime.formatDate());
+                stmt.setDate(1, Main.fakeTime.getDate());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     hkid = rs.getString("UI.HKID");
@@ -3531,6 +3541,20 @@ public class MainGUI extends JFrame {
                     reportPageTableModel.addRow(new String[] {hkid, name, bookNumStr});
                 }
             } else if (index == 1) {
+                // 所有未還罰款的客戶
+                stmt = Main.conn.prepareStatement("SELECT UI.HKID, UI.name, SUM(DATEDIFF(if (TD.return_date is NULL, ?, TD.return_date), TD.due_date) * UT.debt_each_day) AS total_late_pay FROM transaction T INNER JOIN transactiondetail TD on T.transaction_id = TD.transaction_id INNER JOIN userinfo UI on T.HKID = UI.HKID INNER JOIN usertype UT on UI.type_id = UT.type_id WHERE ((TD.return_date is NULL and TD.due_date < ?) or TD.return_date > TD.due_date) AND NOT T.paid GROUP BY UI.HKID ORDER BY total_late_pay DESC");
+                java.sql.Date tempDate = Main.fakeTime.getDate();
+                stmt.setDate(1, tempDate);
+                stmt.setDate(2, tempDate);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    hkid = rs.getString("UI.HKID");
+                    name = rs.getString("UI.name");
+                    debt = rs.getDouble("total_late_pay");
+                    
+                    reportPageTableModel.addRow(new String[] {hkid, name, String.format("%.1f", debt)});
+                }
+            } else if (index == 2) {
                 // 全部借書記錄
                 stmt = Main.conn.prepareStatement("select * from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID order by TD.detail_id desc");
                 rs = stmt.executeQuery();
@@ -3545,7 +3569,7 @@ public class MainGUI extends JFrame {
                     }
                     reportPageTableModel.addRow(new String[] {hkid, isbn, Utils.toString(borrowDate), Utils.toString(dueDate), (returnDate == null ? "尚未還書" : Utils.toString(returnDate))});
                 }
-            } else if (index == 2) {
+            } else if (index == 3) {
                 // 客戶遲還書機率
                 double percentage, averageLate;
                 stmt = Main.conn.prepareStatement("select HKID, name, total, late, (late/total) percentage, average_late from (select * from (select UI.HKID, UI.name, count(TD.due_date) total from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id) TD on UI.HKID=TD.HKID group by UI.HKID) TD1 inner join (select UI.HKID TD2HKID, count(TD.due_date) late from userinfo UI left join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.HKID) TD2 on TD1.HKID=TD2.TD2HKID left join (select T.HKID TD3HKID, avg(DATEDIFF(if (TD.return_date is NULL, ?, TD.return_date), TD.due_date)) average_late from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date<TD.return_date) or (TD.return_date is NULL and TD.due_date < ?) group by T.HKID) TD3 on TD2.TD2HKID=TD3.TD3HKID) BIG order by average_late desc, percentage desc");
@@ -3569,7 +3593,7 @@ public class MainGUI extends JFrame {
                     }
                     reportPageTableModel.addRow(new String[] {hkid, name, Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%"), String.format("%.1f", averageLate)});
                 }
-            } else if (index == 3) {
+            } else if (index == 4) {
                 // 客戶類型遲還書機率
                 double percentage;
                 stmt = Main.conn.prepareStatement("select type_name, num, total, late, (late/total) percentage from (select * from (select UTI1.type_id UTI1_type_id, UTI1.type_name, count(TD.detail_id) total from (select UT.type_id, UT.type_name, UI.HKID from usertype UT left join userinfo UI on UT.type_id=UI.type_id) UTI1 inner join transaction T on T.HKID=UTI1.HKID inner join transactiondetail TD on T.transaction_id=TD.transaction_id group by UTI1.type_id) UTI1 left join (select UI.type_id UTI2_type_id, count(TD.due_date) late from userinfo UI inner join (select T.HKID, TD.due_date from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id where (TD.due_date < TD.return_date) or (TD.return_date is NULL and TD.due_date < ?)) TD on UI.HKID=TD.HKID group by UI.type_id) UTI2 on UTI1.UTI1_type_id=UTI2.UTI2_type_id right join (select UI.type_id UI_type_id, count(UI.type_id) num from userinfo UI group by UI.type_id) UI on UTI1.UTI1_type_id=UI.UI_type_id) BIG order by percentage desc");

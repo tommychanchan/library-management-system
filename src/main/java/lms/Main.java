@@ -16,6 +16,9 @@ public class Main {
         new Report("所有未還欠書的客戶", "all_owing_book_customers", new String[] {
             "HKID", "姓名", "欠書數量"
         }),
+        new Report("所有未還罰款的客戶", "all_outstanding_fines_customers", new String[] {
+            "HKID", "姓名", "未還罰款"
+        }),
         new Report("全部借書記錄", "all_borrow_record", new String[] {
             "HKID", "ISBN", "借書日期", "到期日", "還書日期"
         }),
