@@ -2079,6 +2079,27 @@ public class MainGUI extends JFrame {
                 card.show(searchCustomerTab, "searchCustomerPage");
                 searchCustomerPageSearch();
                 pageTab.setSelectedComponent(searchCustomerTab);
+            } else if (index == 4) {
+                // 客戶類型遲還書機率
+                // do nothing
+            } else if (index == 5) {
+                // 最受歡迎圖書
+                String isbn = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "ISBN")).toString();
+                // change page to searchBookPage and show search result of isbn
+                searchBookPageISBNInput.setText(isbn);
+                CardLayout card = (CardLayout)searchBookTab.getLayout();
+                card.show(searchBookTab, "searchBookPage");
+                searchBookPageSearch();
+                pageTab.setSelectedComponent(searchBookTab);
+            } else if (index == 6) {
+                // 最受歡迎圖書（30日内）
+                String isbn = table.getValueAt(row, Utils.tableColumnNameToIndex(table, "ISBN")).toString();
+                // change page to searchBookPage and show search result of isbn
+                searchBookPageISBNInput.setText(isbn);
+                CardLayout card = (CardLayout)searchBookTab.getLayout();
+                card.show(searchBookTab, "searchBookPage");
+                searchBookPageSearch();
+                pageTab.setSelectedComponent(searchBookTab);
             }
         }
     }//GEN-LAST:event_reportPageTableMousePressed
@@ -3523,7 +3544,7 @@ public class MainGUI extends JFrame {
         
         PreparedStatement stmt = null;
         try {
-            String hkid, name, bookNumStr, isbn, typeName;
+            String hkid, name, bookNumStr, isbn, title, typeName;
             java.sql.Date borrowDate, dueDate, returnDate;
             ResultSet rs = null;
             int total, late, num;
@@ -3609,6 +3630,29 @@ public class MainGUI extends JFrame {
                         percentage = -1;
                     }
                     reportPageTableModel.addRow(new String[] {typeName, Integer.toString(num), Integer.toString(total), Integer.toString(late), (percentage == -1 ? "N/A" : Integer.toString((int)(percentage*100))+"%")});
+                }
+            } else if (index == 5) {
+                // 最受歡迎圖書
+                stmt = Main.conn.prepareStatement("select BI.ISBN, BI.title, count(TD.ISBN) as Total from bookinfo BI left join transactiondetail TD on BI.ISBN=TD.ISBN group by ISBN order by Total DESC, BI.title");
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    isbn = rs.getString("BI.ISBN");
+                    title = rs.getString("BI.title");
+                    total = rs.getInt("Total");
+                    
+                    reportPageTableModel.addRow(new String[] {isbn, title, Integer.toString(total)});
+                }
+            } else if (index == 6) {
+                // 最受歡迎圖書（30日内）
+                stmt = Main.conn.prepareStatement("select BI.ISBN, BI.title, count(TD.ISBN) as Total from bookinfo BI left join (select TD.ISBN from transaction T left join transactiondetail TD on T.transaction_id=TD.transaction_id where T.borrow_date > ?) TD on BI.ISBN=TD.ISBN group by ISBN order by Total DESC, BI.title");
+                stmt.setDate(1, Utils.addDays(Main.fakeTime.getDate(), -30));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    isbn = rs.getString("BI.ISBN");
+                    title = rs.getString("BI.title");
+                    total = rs.getInt("Total");
+                    
+                    reportPageTableModel.addRow(new String[] {isbn, title, Integer.toString(total)});
                 }
             }
             

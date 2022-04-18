@@ -27,6 +27,12 @@ public class Main {
         }),
         new Report("客戶類型遲還書機率", "customer_type_late_probability", new String[] {
             "客戶類型", "人數", "借書數量", "遲還書數量", "遲還書機率"
+        }),
+        new Report("最受歡迎圖書", "popular_books", new String[] {
+            "ISBN", "書名", "借出數量"
+        }),
+        new Report("最受歡迎圖書（30日内）", "popular_books_30days", new String[] {
+            "ISBN", "書名", "30日内借出數量"
         })
     };
     public static ArrayList<Book> borrowPageBooks = new ArrayList<>();
