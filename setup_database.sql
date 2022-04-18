@@ -162,7 +162,7 @@ INSERT INTO userinfo VALUES ('G8333881', 2, 'Ryan', NULL, '23456789', 'M', '香�
 INSERT INTO userinfo VALUES ('XA1234568', 1, 'Chris Wong', 'chriswong@yahoo.com.hk', '36288588', 'M', '九龍新蒲崗爵祿街17號');
 INSERT INTO userinfo VALUES ('C1413161', 1, '獨孤允行', NULL, NULL, 'M', '新界屯門蝴蝶邨蝶影樓');
 INSERT INTO userinfo VALUES ('S4686359', 3, '黃子華', NULL, NULL, 'M', '裕華國貨斜對面');
-INSERT INTO userinfo VALUES ('B1710171', 2, '王傑', NULL, '33445566', 'M', '家，太遠了');
+INSERT INTO userinfo VALUES ('B1710171', 2, '王傑', NULL, '33445566', 'M', '冰冷長街');
 
 -- Initial data: Transaction
 INSERT INTO transaction (HKID, borrow_date, paid) VALUES ('A1234563', '2022-02-07', true);
