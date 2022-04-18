@@ -1551,7 +1551,9 @@ public class MainGUI extends JFrame {
     }//GEN-LAST:event_allBooksTableMousePressed
 
     private void pageTabStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pageTabStateChanged
-        if (pageTab.getSelectedComponent() == newBookTab) {
+        if (pageTab.getSelectedComponent() == allBooksTab) {
+            allBooksSearchInput.requestFocus();
+        } else if (pageTab.getSelectedComponent() == newBookTab) {
             newBookPageISBNInput.requestFocus();
         } else if (pageTab.getSelectedComponent() == borrowTab) {
             borrowPageHKIDInput.requestFocus();
