@@ -2102,6 +2102,9 @@ public class MainGUI extends JFrame {
                 card.show(searchBookTab, "searchBookPage");
                 searchBookPageSearch();
                 pageTab.setSelectedComponent(searchBookTab);
+            } else if (index == 7) {
+                // 出版社的書的數量
+                // do nothing
             }
         }
     }//GEN-LAST:event_reportPageTableMousePressed
@@ -3546,7 +3549,7 @@ public class MainGUI extends JFrame {
         
         PreparedStatement stmt = null;
         try {
-            String hkid, name, bookNumStr, isbn, title, typeName;
+            String hkid, name, bookNumStr, isbn, title, publisher, typeName;
             java.sql.Date borrowDate, dueDate, returnDate;
             ResultSet rs = null;
             int total, late, num;
@@ -3635,14 +3638,23 @@ public class MainGUI extends JFrame {
                 }
             } else if (index == 5) {
                 // 最受歡迎圖書
-                stmt = Main.conn.prepareStatement("select BI.ISBN, BI.title, count(TD.ISBN) as Total from bookinfo BI left join transactiondetail TD on BI.ISBN=TD.ISBN group by ISBN order by Total DESC, BI.title");
+                int male, female;
+                stmt = Main.conn.prepareStatement("select BI.ISBN, BI.title, M.total_male, F.total_female, count(TD.ISBN) as Total from bookinfo BI left join transactiondetail TD on BI.ISBN=TD.ISBN left join (select TD.ISBN, count(TD.ISBN) total_male from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID where UI.gender='M' group by TD.ISBN) M on TD.ISBN=M.ISBN left join (select TD.ISBN, count(TD.ISBN) total_female from transaction T inner join transactiondetail TD on T.transaction_id=TD.transaction_id inner join userinfo UI on T.HKID=UI.HKID where UI.gender='F' group by TD.ISBN) F on TD.ISBN=F.ISBN group by ISBN order by Total DESC, total_male desc, total_female desc, BI.title");
                 rs = stmt.executeQuery();
                 while (rs.next()) {
-                    isbn = rs.getString("BI.ISBN");
-                    title = rs.getString("BI.title");
+                    isbn = rs.getString("ISBN");
+                    title = rs.getString("title");
+                    male = rs.getInt("total_male");
+                    if (rs.wasNull()) {
+                        male = 0;
+                    }
+                    female = rs.getInt("total_female");
+                    if (rs.wasNull()) {
+                        female = 0;
+                    }
                     total = rs.getInt("Total");
                     
-                    reportPageTableModel.addRow(new String[] {isbn, title, Integer.toString(total)});
+                    reportPageTableModel.addRow(new String[] {isbn, title, Integer.toString(male), Integer.toString(female), Integer.toString(total)});
                 }
             } else if (index == 6) {
                 // 最受歡迎圖書（30日内）
@@ -3655,6 +3667,16 @@ public class MainGUI extends JFrame {
                     total = rs.getInt("Total");
                     
                     reportPageTableModel.addRow(new String[] {isbn, title, Integer.toString(total)});
+                }
+            } else if (index == 7) {
+                // 出版社的書的數量
+                stmt = Main.conn.prepareStatement("select publisher, count(*) total from bookinfo group by publisher order by total desc");
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    publisher = rs.getString("publisher");
+                    total = rs.getInt("total");
+                    
+                    reportPageTableModel.addRow(new String[] {publisher, Integer.toString(total)});
                 }
             }
             

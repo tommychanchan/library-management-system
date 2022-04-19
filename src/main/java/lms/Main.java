@@ -29,10 +29,13 @@ public class Main {
             "客戶類型", "人數", "借書數量", "遲還書數量", "遲還書機率"
         }),
         new Report("最受歡迎圖書", "popular_books", new String[] {
-            "ISBN", "書名", "借出數量"
+            "ISBN", "書名", "借出數量（男）", "借出數量（女）", "借出數量合計"
         }),
         new Report("最受歡迎圖書（30日内）", "popular_books_30days", new String[] {
             "ISBN", "書名", "30日内借出數量"
+        }),
+        new Report("出版社的書的數量", "publisher_number_of_books", new String[] {
+            "出版社", "書的數量"
         })
     };
     public static ArrayList<Book> borrowPageBooks = new ArrayList<>();
